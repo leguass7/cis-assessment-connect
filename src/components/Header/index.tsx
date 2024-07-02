@@ -8,7 +8,7 @@ type Props = {};
 const Header: React.FC<Props> = () => {
   return (
     <Container maxW="container.xl">
-      <Box display={{ base: "flex", md: "block" }} padding={8}>
+      <Box display={{ base: "flex", md: "block" }} justifyContent={{ base: "center", md: "none" }} padding={8}>
         <Flex justify={"center"} alignItems="center">
           <Image src={logoCis.src} alt="Logo" width={250} />
           <Spacer />
