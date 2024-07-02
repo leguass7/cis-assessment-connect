@@ -70,11 +70,6 @@ export const FormLogin = () => {
         >
           Entrar
         </Button>
-        <Box textAlign="center">
-          <Link color="#212ffc" onClick={() => router.push("/forgot-password")}>
-            Esqueci minha senha
-          </Link>
-        </Box>
       </Stack>
     </form>
   );

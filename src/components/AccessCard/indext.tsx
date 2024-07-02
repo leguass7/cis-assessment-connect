@@ -21,13 +21,13 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
   return (
     <Box
       onClick={handleClick}
-      border={"solid 1px #eaeaea"}
+      border={"solid 2px #eaeaea"}
       position={"relative"}
       overflow={"hidden"}
       w={300}
       h={200}
       maxW={500}
-      bg="white"
+      bg="#fffefb"
       p={6}
       borderRadius="xl"
       shadow="xl"
@@ -36,7 +36,7 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
       transition="all 0.2s"
     >
       <Box position={"absolute"} right={-4} top={0}>
-        <Icon size={210} color="#a5a5a5ae" />
+        <Icon size={222} color="#c7c7c5" />
       </Box>
       <Text textColor={"#3b3b3b"} fontSize="3xl" as="b">
         {title}
