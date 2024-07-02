@@ -22,7 +22,17 @@ const Oauth: React.FC<Props> = () => {
             <Image src={astronauta.src} alt="Logo" width={400} />
           </Box>
         ) : (
-          <FormOauth />
+          <Box flexDirection={"column"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+            <Box>
+              <Text lineHeight={1.1} fontSize="5xl" fontWeight="bold">
+                Você pode se autenticar por outros meios.
+              </Text>
+              <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
+            </Box>
+            <Box mt={20} borderRadius={"xl"} padding={8} width={"100%"} border={"solid 1px #eaeaea"} bgColor={"#ffff"}>
+              <FormOauth />
+            </Box>
+          </Box>
         )}
       </Container>
     </PublicLayout>
