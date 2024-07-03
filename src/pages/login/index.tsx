@@ -1,30 +1,43 @@
-import { Box, Container, Divider, Image, Text } from "@chakra-ui/react";
-import React from "react";
-import { FormLogin } from "~/components/Forms/FormLogin";
+import { Box, Container, Skeleton, Stack } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { PublicLayout } from "~/components/PublicLayout";
-import astronalta from "../../../public/imgs/astro-cis.png";
+import { FormLogin } from "~/components/Forms/FormLogin";
+import { FeedbackReponseAvatar } from "~/components/FeedbackReponseAvatar";
 
 type Props = {};
 
 const Login: React.FC<Props> = () => {
-  const logged = true;
+  const [login, setLogin] = useState<boolean | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setLogin(true);
+    } catch (error) {
+      setLogin(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFormSubmit = async () => {
+    await handleLogin();
+  };
+
   return (
     <PublicLayout>
       <Container mt={10}>
-        {logged ? (
-          <Box width={"100%"}>
-            <Box display="flex" flexDirection="column">
-              <Text lineHeight={1.2} textColor={"green.400"} fontSize="6xl" as="b">
-                Parabéns!
-              </Text>
-              <Text lineHeight={1.2} textColor={"#3b3b3b"} fontSize="4xl" as="b">
-                Você foi autenticado com sucesso.
-              </Text>
-            </Box>
-            <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
-            <Image src={astronalta.src} alt="Logo" width={400} />
-          </Box>
-        ) : (
+        {loading ? (
+          <Stack spacing={4} mt={10}>
+            <Skeleton height="50px" borderRadius="lg" />
+            <Skeleton height="26px" width="80%" borderRadius="lg" />
+            <Skeleton height="26px" width="60%" borderRadius="lg" />
+            <Skeleton height="200px" width="70%" borderRadius="lg" />
+          </Stack>
+        ) : login === undefined ? (
           <Box
             mt={12}
             p={{ base: 2, md: 8 }}
@@ -33,8 +46,10 @@ const Login: React.FC<Props> = () => {
             boxShadow={{ base: 0, md: "lg" }}
             bg={{ base: "transparent", md: "white" }}
           >
-            <FormLogin />
+            <FormLogin onLogin={handleFormSubmit} />
           </Box>
+        ) : (
+          <FeedbackReponseAvatar status={login} />
         )}
       </Container>
     </PublicLayout>

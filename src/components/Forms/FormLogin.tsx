@@ -1,25 +1,18 @@
-import { Box, Button, FormControl, FormLabel, Input, Link, Stack, Toast, useToast } from "@chakra-ui/react";
-import router, { useRouter } from "next/router";
+import { Button, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import React from "react";
 
-export const FormLogin = () => {
-  const handleLogin = (event: React.FormEvent) => {
-    const router = useRouter();
-    const toast = useToast();
+type FormLoginProps = {
+  onLogin: () => void;
+};
 
+export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    Toast({
-      title: "Login bem-sucedido.",
-      description: "Você entrou com sucesso!",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    router.push("/dashboard");
+    onLogin();
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleSubmit}>
       <Stack spacing={4}>
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
