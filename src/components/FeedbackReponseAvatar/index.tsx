@@ -14,10 +14,11 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => (
         {status ? "Parabéns!" : "Ops!"}
       </Text>
       <Text lineHeight={1.2} textColor={"#3b3b3b"} fontSize="4xl" as="b">
-        {status ? "Você foi autenticado com sucesso." : "Ocorreu um erro ao autenticar."}
+        {status ? "Você foi autenticado com sucesso." : "Infelismente não foi autorizado."}
       </Text>
     </Box>
     <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
     <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
   </Box>
 );
+

@@ -15,7 +15,7 @@ const Login: React.FC<Props> = () => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      setLogin(true);
+      setLogin(false);
     } catch (error) {
       setLogin(false);
     } finally {
@@ -57,3 +57,4 @@ const Login: React.FC<Props> = () => {
 };
 
 export default Login;
+
