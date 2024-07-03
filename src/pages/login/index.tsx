@@ -7,15 +7,20 @@ import astronalta from "../../../public/imgs/astro-cis.png";
 type Props = {};
 
 const Login: React.FC<Props> = () => {
-  const logged = false;
+  const logged = true;
   return (
     <PublicLayout>
       <Container mt={10}>
         {logged ? (
           <Box width={"100%"}>
-            <Text lineHeight={1.2} textColor={"#3b3b3b"} fontSize="5xl" as="b">
-              Usuário autenticado com sucesso.
-            </Text>
+            <Box display="flex" flexDirection="column">
+              <Text lineHeight={1.2} textColor={"green.400"} fontSize="6xl" as="b">
+                Parabéns!
+              </Text>
+              <Text lineHeight={1.2} textColor={"#3b3b3b"} fontSize="4xl" as="b">
+                Você foi autenticado com sucesso.
+              </Text>
+            </Box>
             <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
             <Image src={astronalta.src} alt="Logo" width={400} />
           </Box>

@@ -29,7 +29,15 @@ const Oauth: React.FC<Props> = () => {
               </Text>
               <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
             </Box>
-            <Box mt={20} borderRadius={"xl"} padding={8} width={"100%"} border={"solid 1px #eaeaea"} bgColor={"#ffff"}>
+            <Box
+              boxShadow="lg"
+              mt={20}
+              borderRadius={"xl"}
+              padding={8}
+              width={"100%"}
+              border={"solid 1px #eaeaea"}
+              bgColor={"#ffff"}
+            >
               <FormOauth />
             </Box>
           </Box>
