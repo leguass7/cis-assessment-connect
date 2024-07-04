@@ -10,12 +10,16 @@ const Header: React.FC<Props> = () => {
 
   return (
     <Container maxW="container.xl">
-      <Box display={{ base: "flex", md: "block" }} justifyContent={{ base: "center", md: "none" }} padding={8}>
-        <Flex justify={"center"} alignItems="center">
+      <Box display="flex" paddingY={4}>
+        <Flex
+          width={"100%"}
+          justifyContent={{ base: "center", md: "space-between" }}
+          gap={{ base: 4, md: 0 }}
+          alignItems="center"
+        >
           <Link color="#212ffc" href={"/"}>
             <Image src={logoCis.src} alt="Logo" width={250} _hover={{ cursor: "pointer" }} />
           </Link>
-          <Spacer />
           <IconButton
             aria-label="Toggle dark mode"
             icon={colorMode === "light" ? <FaMoon /> : <FaSun />}
@@ -28,4 +32,3 @@ const Header: React.FC<Props> = () => {
 };
 
 export default Header;
-

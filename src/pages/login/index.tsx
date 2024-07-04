@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { PublicLayout } from "~/components/PublicLayout";
 import { FormLogin } from "~/components/Forms/FormLogin";
 import { FeedbackReponseAvatar } from "~/components/FeedbackReponseAvatar";
+import { SkeletonLoader } from "~/components/SkeletonLoader";
 
 type Props = {};
 
@@ -10,55 +11,17 @@ const Login: React.FC<Props> = () => {
   const [login, setLogin] = useState<boolean | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    setLoading(true);
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      setLogin(true);
-    } catch (error) {
-      setLogin(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleFormSubmit = async () => {
-    await handleLogin();
+  const handlerLoad = (load: boolean) => {
+    setLoading(load);
   };
 
   const boxBg = useColorModeValue("white", "gray.800");
-  const skeletonColorStart = useColorModeValue("gray.200", "gray.600");
-  const skeletonColorEnd = useColorModeValue("gray.300", "gray.700");
 
   return (
     <PublicLayout>
       <Container mt={10}>
         {loading ? (
-          <Stack spacing={4} mt={10}>
-            <Skeleton height="50px" borderRadius="lg" startColor={skeletonColorStart} endColor={skeletonColorEnd} />
-            <Skeleton
-              height="26px"
-              width="80%"
-              borderRadius="lg"
-              startColor={skeletonColorStart}
-              endColor={skeletonColorEnd}
-            />
-            <Skeleton
-              height="26px"
-              width="60%"
-              borderRadius="lg"
-              startColor={skeletonColorStart}
-              endColor={skeletonColorEnd}
-            />
-            <Skeleton
-              height="200px"
-              width="70%"
-              borderRadius="lg"
-              startColor={skeletonColorStart}
-              endColor={skeletonColorEnd}
-            />
-          </Stack>
+          <SkeletonLoader />
         ) : login === undefined ? (
           <Box
             mt={12}
@@ -68,7 +31,7 @@ const Login: React.FC<Props> = () => {
             boxShadow={{ base: 0, md: "lg" }}
             bg={{ base: "transparent", md: boxBg }}
           >
-            <FormLogin onLogin={handleFormSubmit} />
+            <FormLogin onChange={handlerLoad} />
           </Box>
         ) : (
           <FeedbackReponseAvatar status={login} />
@@ -79,4 +42,3 @@ const Login: React.FC<Props> = () => {
 };
 
 export default Login;
-

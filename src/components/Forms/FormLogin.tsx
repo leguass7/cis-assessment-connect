@@ -1,14 +1,32 @@
 import { Button, FormControl, FormLabel, Input, Stack, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
+import { authAutentication } from "~/services/authLogin";
 
 type FormLoginProps = {
-  onLogin: () => void;
+  onChange: (load: boolean) => void;
 };
 
-export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
-  const handleSubmit = (event: React.FormEvent) => {
+export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
+  const [load, setLoad] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handlerChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handlerChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onLogin();
+    setLoad(true);
+    const response = await authAutentication(email, password);
+    setLoad(false);
+
+    if (response.success) {
+      console.log("Login efetuado com sucesso");
+    }
   };
 
   const formBg = useColorModeValue("gray.50", "gray.700");
@@ -25,6 +43,8 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <Input
+            value={email}
+            onChange={handlerChangeEmail}
             type="email"
             placeholder="Digite seu email"
             borderRadius="lg"
@@ -43,6 +63,8 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
         <FormControl id="password" isRequired>
           <FormLabel>Senha</FormLabel>
           <Input
+            value={password}
+            onChange={handlerChangePassword}
             type="password"
             placeholder="Digite sua senha"
             borderRadius="lg"
@@ -75,4 +97,3 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
     </form>
   );
 };
-

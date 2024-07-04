@@ -11,7 +11,7 @@ type Props = {
 export const PublicLayout: React.FC<Props> = ({ children }) => {
   const backgroundImage = useColorModeValue(bgDefault.src, bgDark.src);
   const textColor = useColorModeValue("black", "white");
-  const sizeBg = useColorModeValue("120%", "80%");
+  const sizeBg = useColorModeValue("120%", "100%");
 
   return (
     <Box
@@ -29,4 +29,3 @@ export const PublicLayout: React.FC<Props> = ({ children }) => {
     </Box>
   );
 };
-
