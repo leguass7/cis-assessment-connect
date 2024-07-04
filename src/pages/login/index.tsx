@@ -1,5 +1,6 @@
 import { Container } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { CodeHighlight } from "~/components/CodeHighlight";
 import { FormLogin } from "~/components/Forms/FormLogin";
 import { PublicLayout } from "~/components/PublicLayout";
 import { SkeletonLoader } from "~/components/SkeletonLoader";
@@ -16,6 +17,7 @@ const Login: React.FC<Props> = () => {
   return (
     <PublicLayout>
       <Container mt={10}>{loading ? <SkeletonLoader /> : <FormLogin onChange={handlerLoad} />}</Container>
+      <CodeHighlight />
     </PublicLayout>
   );
 };
