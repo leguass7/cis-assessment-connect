@@ -27,4 +27,3 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
     </Box>
   );
 };
-

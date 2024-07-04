@@ -1,7 +1,7 @@
 import { baseUrl } from "~/config";
 
 export async function authAutentication(email: string, password: string) {
-  const response = await fetch(baseUrl, {
+  const response = await fetch(`${baseUrl}/auth`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export async function authAutentication(email: string, password: string) {
       password,
     }),
   });
-  console.log(baseUrl);
+
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
