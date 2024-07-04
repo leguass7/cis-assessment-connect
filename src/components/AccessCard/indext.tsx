@@ -1,7 +1,7 @@
 // components/CardBox.tsx
 
 import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { useRouter } from "next/router";
 
@@ -13,6 +13,9 @@ interface CardBoxProps {
 
 export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) => {
   const router = useRouter();
+  const bgColor = useColorModeValue("white", "#242424");
+  const borderColor = useColorModeValue("#eaeaea", "#353535");
+  const teextColor = useColorModeValue("#3b3b3b", "white");
 
   const handleClick = () => {
     router.push(path);
@@ -21,13 +24,13 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
   return (
     <Box
       onClick={handleClick}
-      border={"solid 2px #eaeaea"}
+      border={"solid 2px " + borderColor}
       position={"relative"}
       overflow={"hidden"}
       w={300}
       h={200}
       maxW={500}
-      bg="#fffefb"
+      bg={bgColor}
       p={6}
       borderRadius="xl"
       shadow="xl"
@@ -36,11 +39,12 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
       transition="all 0.2s"
     >
       <Box position={"absolute"} right={-4} top={0}>
-        <Icon size={222} color="#c7c7c5" />
+        <Icon size={222} color="#a8a8a6" />
       </Box>
-      <Text textColor={"#3b3b3b"} fontSize="3xl" as="b">
+      <Text textColor={teextColor} fontSize="3xl" as="b">
         {title}
       </Text>
     </Box>
   );
 };
+

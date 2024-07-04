@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Stack, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 
 type FormLoginProps = {
@@ -11,6 +11,14 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
     onLogin();
   };
 
+  const formBg = useColorModeValue("gray.50", "gray.700");
+  const formHoverBg = useColorModeValue("gray.100", "gray.600");
+  const formFocusBg = useColorModeValue("white", "gray.600");
+  const placeholderColor = useColorModeValue("gray.400", "gray.300");
+  const buttonBg = useColorModeValue("#212ffc", "#4d59fa");
+  const buttonHoverBg = useColorModeValue("#4d59fa", "#212ffc");
+  const buttonTextColor = useColorModeValue("white", "white");
+
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={4}>
@@ -20,15 +28,15 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
             type="email"
             placeholder="Digite seu email"
             borderRadius="lg"
-            bg="gray.50"
-            _placeholder={{ color: "gray.400" }}
+            bg={formBg}
+            _placeholder={{ color: placeholderColor }}
             _focus={{
-              borderColor: "#212ffc",
-              boxShadow: "0 0 0 1px #212ffc",
-              backgroundColor: "white",
+              borderColor: buttonBg,
+              boxShadow: `0 0 0 1px ${buttonBg}`,
+              backgroundColor: formFocusBg,
             }}
             _hover={{
-              backgroundColor: "gray.100",
+              backgroundColor: formHoverBg,
             }}
           />
         </FormControl>
@@ -38,26 +46,26 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
             type="password"
             placeholder="Digite sua senha"
             borderRadius="lg"
-            bg="gray.50"
-            _placeholder={{ color: "gray.400" }}
+            bg={formBg}
+            _placeholder={{ color: placeholderColor }}
             _focus={{
-              borderColor: "#212ffc",
-              boxShadow: "0 0 0 1px #212ffc",
-              backgroundColor: "white",
+              borderColor: buttonBg,
+              boxShadow: `0 0 0 1px ${buttonBg}`,
+              backgroundColor: formFocusBg,
             }}
             _hover={{
-              backgroundColor: "gray.100",
+              backgroundColor: formHoverBg,
             }}
           />
         </FormControl>
         <Button
           mt={4}
           _hover={{
-            bgColor: "#4d59fa",
+            bg: buttonHoverBg,
           }}
           type="submit"
-          textColor="white"
-          bgColor="#212ffc"
+          color={buttonTextColor}
+          bg={buttonBg}
           size="md"
           fontSize="md"
         >
@@ -67,3 +75,4 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onLogin }) => {
     </form>
   );
 };
+

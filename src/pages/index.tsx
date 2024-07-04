@@ -1,6 +1,4 @@
-// pages/index.tsx
-
-import { Box, Container, Text, SimpleGrid, Divider } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FaUserAstronaut } from "react-icons/fa";
 import { TbApiApp } from "react-icons/tb";
@@ -11,6 +9,7 @@ interface Props {}
 
 const Home: React.FC<Props> = () => {
   const router = useRouter();
+  const textColor = useColorModeValue("#313131", "white");
 
   const handleBoxClick = (path: string) => {
     router.push(path);
@@ -20,7 +19,7 @@ const Home: React.FC<Props> = () => {
     <PublicLayout>
       <Box mt={10}>
         <Box my={"50px"}>
-          <Text as="b" fontSize="5xl" color="#313131">
+          <Text as="b" fontSize="5xl" color={textColor}>
             Autenticação
           </Text>
           <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
@@ -35,3 +34,4 @@ const Home: React.FC<Props> = () => {
 };
 
 export default Home;
+
