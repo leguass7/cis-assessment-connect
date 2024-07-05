@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
+import okaidia from "react-syntax-highlighter/dist/cjs/styles/prism/okaidia";
 
 export const CodeHighlight = () => {
   const codeString = `
