@@ -44,7 +44,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "package.json"
+    "package.json",
+    "src/hooks/aosAnimatetsx"
   ],
   "exclude": [
     "node_modules"

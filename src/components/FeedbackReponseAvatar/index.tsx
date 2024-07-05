@@ -15,20 +15,24 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const errorColor = useColorModeValue("red.400", "red.300");
 
   return (
-    <Box width={"100%"}>
-      <Box display="flex" flexDirection="column">
-        <Text lineHeight={1.2} textColor={status ? successColor : errorColor} fontSize="6xl" as="b">
-          {status ? "Parabéns!" : "Ops!"}
-        </Text>
-        <Text lineHeight={1.2} textColor={mainTextColor} fontSize="4xl" as="b">
-          {status ? "Você foi autenticado com sucesso." : "Infelizmente não foi autorizado."}
-        </Text>
+    <>
+      <Box data-aos="zoom-in" width={"100%"}>
+        <Box display="flex" flexDirection="column">
+          <Text lineHeight={1.2} textColor={status ? successColor : errorColor} fontSize="6xl" as="b">
+            {status ? "Parabéns!" : "Ops!"}
+          </Text>
+          <Text lineHeight={1.2} textColor={mainTextColor} fontSize="4xl" as="b">
+            {status ? "Você foi autenticado com sucesso." : "Infelizmente não foi autorizado."}
+          </Text>
+        </Box>
+        <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
+        <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
       </Box>
-      <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
+      <Box data-aos="fade-up" borderRadius="2xl">
       <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
       <Box marginY={4} bgColor="#282923" padding={1} borderRadius="2xl">
         <CodeHighlight codeString={status ? codeStringGet : codeStringError} />
       </Box>
-    </Box>
+    </>
   );
 };
