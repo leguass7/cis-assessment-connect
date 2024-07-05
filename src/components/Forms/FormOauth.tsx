@@ -3,6 +3,7 @@ import { FaGoogle, FaLinkedin } from "react-icons/fa";
 import { useSession, signIn } from "next-auth/react";
 import iconWhite from "../../../public/logo/icon-white.png";
 import iconBlue from "../../../public/logo/favicon.svg";
+import { useAOSAnimation } from "~/hooks/aosAnimate";
 
 export const FormOauth = () => {
   const { data: session } = useSession();
@@ -17,6 +18,8 @@ export const FormOauth = () => {
   const handleSignIn = () => {
     signIn();
   };
+
+  useAOSAnimation();
 
   return (
     <Stack spacing={6}>
