@@ -13,8 +13,7 @@ interface CardBoxProps {
 
 export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) => {
   const router = useRouter();
-  const bgColor = useColorModeValue("white", "#242424");
-  const borderColor = useColorModeValue("#eaeaea", "#353535");
+  const bgColor = useColorModeValue("#f1f1f1;", "#242424");
   const teextColor = useColorModeValue("#3b3b3b", "white");
 
   const handleClick = () => {
@@ -24,7 +23,6 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
   return (
     <Box
       onClick={handleClick}
-      border={"solid 2px " + borderColor}
       position={"relative"}
       overflow={"hidden"}
       w={300}
@@ -32,8 +30,8 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
       maxW={500}
       bg={bgColor}
       p={6}
-      borderRadius="xl"
-      shadow="xl"
+      borderRadius="3xl"
+      shadow="2xl"
       textAlign="start"
       _hover={{ boxShadow: "2xl", transform: "scale(1.01)", cursor: "pointer" }}
       transition="all 0.2s"
@@ -47,4 +45,3 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
     </Box>
   );
 };
-
