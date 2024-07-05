@@ -29,6 +29,8 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
         <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
       </Box>
       <Box data-aos="fade-up" borderRadius="2xl">
+      <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
+      <Box marginY={4} bgColor="#282923" padding={1} borderRadius="2xl">
         <CodeHighlight codeString={status ? codeStringGet : codeStringError} />
       </Box>
     </>
