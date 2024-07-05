@@ -1,6 +1,17 @@
-import { Box, Button, FormControl, FormLabel, Input, Stack, useColorModeValue } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  useColorModeValue,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { FaUserAstronaut, FaLock } from "react-icons/fa";
 import { authAutentication } from "~/services/authLogin";
 
 type FormLoginProps = {
@@ -8,22 +19,24 @@ type FormLoginProps = {
 };
 
 export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
-  const [load, setLoad] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [authResponse, setAuthResponse] = React.useState({} as any);
+  const [load, setLoad] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authResponse, setAuthResponse] = useState<any>({});
   const { push } = useRouter();
 
-  const handlerChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-  const handlerChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoad(true);
+
     const response = await authAutentication(email, password);
 
     setLoad(false);
@@ -59,46 +72,56 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
       bg={{ base: "transparent", md: boxBg }}
     >
       <form onSubmit={handleSubmit}>
-        <Stack spacing={4}>
+        <Stack spacing={6}>
           <FormControl id="email" isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input
-              value={email}
-              onChange={handlerChangeEmail}
-              type="email"
-              placeholder="Digite seu email"
-              borderRadius="lg"
-              bg={formBg}
-              _placeholder={{ color: placeholderColor }}
-              _focus={{
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-                backgroundColor: formFocusBg,
-              }}
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-            />
+            <FormLabel color={"#4b4b4b"}>Email</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <FaUserAstronaut fontSize={22} color="#aaa7a7" />
+              </InputLeftElement>
+              <Input
+                value={email}
+                onChange={handleEmailChange}
+                type="email"
+                placeholder="Digite seu email"
+                borderRadius="lg"
+                bg={formBg}
+                _placeholder={{ color: placeholderColor }}
+                _focus={{
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                  backgroundColor: formFocusBg,
+                }}
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+              />
+            </InputGroup>
           </FormControl>
           <FormControl id="password" isRequired>
-            <FormLabel>Senha</FormLabel>
-            <Input
-              value={password}
-              onChange={handlerChangePassword}
-              type="password"
-              placeholder="Digite sua senha"
-              borderRadius="lg"
-              bg={formBg}
-              _placeholder={{ color: placeholderColor }}
-              _focus={{
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-                backgroundColor: formFocusBg,
-              }}
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-            />
+            <FormLabel color={"#4b4b4b"}>Senha</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <FaLock color="#aaa7a7" />
+              </InputLeftElement>
+              <Input
+                value={password}
+                onChange={handlePasswordChange}
+                type="password"
+                placeholder="Digite sua senha"
+                borderRadius="lg"
+                bg={formBg}
+                _placeholder={{ color: placeholderColor }}
+                _focus={{
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                  backgroundColor: formFocusBg,
+                }}
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+              />
+            </InputGroup>
           </FormControl>
           <Button
             mt={4}

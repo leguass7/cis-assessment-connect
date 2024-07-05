@@ -18,7 +18,7 @@ const Home: React.FC<Props> = () => {
   return (
     <PublicLayout>
       <Box mt={10}>
-        <Box my={"50px"}>
+        <Box my={"70px"}>
           <Text as="b" fontSize="5xl" color={textColor}>
             Autenticação
           </Text>
@@ -34,4 +34,3 @@ const Home: React.FC<Props> = () => {
 };
 
 export default Home;
-
