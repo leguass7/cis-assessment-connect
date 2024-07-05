@@ -15,19 +15,19 @@ const Home: React.FC<Props> = () => {
   return (
     <PublicLayout>
       <Box mt={10}>
-        <Box my={"70px"}>
+        <Box data-aos="fade-down" my={"70px"}>
           <Text as="b" fontSize="5xl" color={textColor}>
             Autenticação
           </Text>
           <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
         </Box>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={20} justifyContent="center" flexWrap={"wrap"}>
-          <div data-aos="fade-right">
+          <Box data-aos="fade-right">
             <AccessCard title="Login" path="/login" icon={FaUserAstronaut} />
-          </div>
-          <div data-aos="fade-left">
+          </Box>
+          <Box data-aos="fade-left">
             <AccessCard title="Oauth" path="/oauth" icon={TbApiApp} />
-          </div>
+          </Box>
         </SimpleGrid>
       </Box>
     </PublicLayout>
