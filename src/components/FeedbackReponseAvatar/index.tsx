@@ -2,6 +2,8 @@ import { Box, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import avatarSuccess from "../../../public/imgs/astro-cis.png";
 import avatarError from "../../../public/imgs/astro404.png";
+import { codeStringError, codeStringGet } from "../CodeHighlight/constants";
+import { CodeHighlight } from "../CodeHighlight";
 
 type Props = {
   status?: boolean;
@@ -24,6 +26,9 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
       </Box>
       <Box width={70} height={1.5} bg={"#fa5b52"} borderRadius="2xl"></Box>
       <Image src={status ? avatarSuccess.src : avatarError.src} alt="Logo" width={450} />
+      <Box marginY={12} bgColor="#282923" padding={1} borderRadius="2xl">
+        <CodeHighlight codeString={status ? codeStringGet : codeStringError} />
+      </Box>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Card, Container, Divider, Image, Text } from "@chakra-ui/react";
+import { Box, Card, Container, Divider, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { FormLogin } from "~/components/Forms/FormLogin";
 import { PublicLayout } from "~/components/PublicLayout";
@@ -9,6 +9,8 @@ import { FormOauth } from "~/components/Forms/FormOauth";
 type Props = {};
 
 const Oauth: React.FC<Props> = () => {
+  const bgColor = useColorModeValue("#ffff", "gray.800");
+  const border = useColorModeValue("#eeeeee", "#363434");
   const logged = false;
   return (
     <PublicLayout>
@@ -35,8 +37,8 @@ const Oauth: React.FC<Props> = () => {
               borderRadius={"xl"}
               padding={8}
               width={"100%"}
-              border={"solid 1px #eaeaea"}
-              bgColor={"#ffff"}
+              border={"solid 1px" + border}
+              bgColor={bgColor}
             >
               <FormOauth />
             </Box>

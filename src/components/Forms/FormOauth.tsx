@@ -1,34 +1,46 @@
-import { Box, Button, Stack, useToast } from "@chakra-ui/react";
+import { Button, Stack, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { FaGoogle, FaLinkedin } from "react-icons/fa";
-import router, { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import iconWhite from "../../../public/logo/icon-white.png";
 import iconBlue from "../../../public/logo/favicon.svg";
 
 export const FormOauth = () => {
   const { data: session } = useSession();
-  const [hover, setHover] = useState(false);
+  const { colorMode } = useColorMode();
+  const cisBackground = useColorModeValue("#212ffc", "#ffff");
+  const cisHoverBackground = useColorModeValue("#ffff", "#212ffc");
+  const cisTextColor = useColorModeValue("#ffff", "#212ffc");
+  const cisHoverTextColor = useColorModeValue("#212ffc", "#ffff");
+  const cisIcon = useColorModeValue(iconWhite.src, iconBlue.src);
+  const cisHoverIcon = useColorModeValue(iconBlue.src, iconWhite.src);
+
+  const handleSignIn = () => {
+    signIn();
+  };
 
   return (
     <Stack spacing={6}>
       {!session && (
-        <Button leftIcon={<FaGoogle />} colorScheme="red" variant="solid" onClick={() => signIn()}>
-          Entrar com Google
+        <Button size="lg" leftIcon={<FaGoogle />} colorScheme="red" variant="solid" onClick={handleSignIn}>
+          Google
         </Button>
       )}
-      <Button leftIcon={<FaLinkedin />} colorScheme="linkedin" variant="solid">
-        Entrar com LinkedIn
+      <Button size="lg" leftIcon={<FaLinkedin />} colorScheme="linkedin" variant="solid">
+        LinkedIn
       </Button>
       <Button
-        background={hover ? "#ffff" : "#212ffc"}
-        color={hover ? "#212ffc" : "#ffff"}
-        border={hover ? "1px solid #212ffc" : "none"}
-        leftIcon={<img src={hover ? iconBlue.src : iconWhite.src} alt="Logo" width={16} />}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
+        size="lg"
+        background={colorMode === "dark" ? cisBackground : cisHoverBackground}
+        color={colorMode === "dark" ? cisTextColor : cisHoverTextColor}
+        border={colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none"}
+        leftIcon={<img src={colorMode === "dark" ? cisIcon : cisHoverIcon} alt="Logo" width={16} />}
+        _hover={{
+          background: colorMode === "dark" ? cisHoverBackground : cisBackground,
+          color: colorMode === "dark" ? cisHoverTextColor : cisTextColor,
+          border: colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none",
+        }}
       >
-        Entrar com CisAssessment
+        CisAssessment
       </Button>
     </Stack>
   );
