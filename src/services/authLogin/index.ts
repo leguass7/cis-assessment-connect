@@ -1,13 +1,44 @@
 import axios from "axios";
 import { baseUrl } from "~/config";
 
-export function authAutentication(email: string, password: string) {
-  return axios
-    .post(`${baseUrl}/auth`, {
-      email,
-      password,
-    })
-    .then((response) => response.data);
+const payloadByGrantType: GrantTypePayloads = {
+  password: {
+    grantType: "password",
+    username: "",
+    password: "",
+    responseType: "refreshToken",
+  },
+  refreshToken: {
+    grantType: "refreshToken",
+    refreshToken: "",
+  },
+  clientCredentials: {
+    grantType: "clientCredentials",
+    clientId: "",
+    clientSecret: "",
+    responseType: "refreshToken",
+  },
+};
+
+export function authAutentication(
+  email: string | null,
+  password: string | null,
+  grantType: GrantType,
+  extraFields: any = {},
+) {
+  const payload = { ...payloadByGrantType[grantType], ...extraFields };
+
+  if (grantType === "password") {
+    payload.username = email;
+    payload.password = password;
+  }
+
+  if (grantType === "clientCredentials") {
+    payload.clientId = extraFields.clientId;
+    payload.clientSecret = extraFields.clientSecret;
+  }
+
+  return axios.post(`${baseUrl}/oauth/authorize`, payload).then((response) => response.data);
 }
 
 // export function authRefreshToken(clientId: string, refreshToken: string) {

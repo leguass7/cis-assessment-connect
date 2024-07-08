@@ -1,7 +1,7 @@
 import { Box, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import avatarSuccess from "~/public/imgs/astro-cis.png";
-import avatarError from "~/public/imgs/astro404.png";
+import avatarSuccess from "../../../public/imgs/astro-cis.png";
+import avatarError from "../../../public/imgs/astro401.png";
 import { codeStringError, codeStringGet } from "../CodeHighlight/constants";
 import { CodeHighlight } from "~/components/CodeHighlight";
 

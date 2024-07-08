@@ -1,53 +1,16 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  useColorModeValue,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Input, InputGroup, Stack, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FaUserAstronaut, FaLock } from "react-icons/fa";
-import { authAutentication } from "~/services/authLogin";
+import React, { useEffect, useState } from "react";
 
-type FormLoginProps = {
-  onChange: (load: boolean) => void;
+type Props = {
+  onChange?: (load: boolean) => void;
 };
 
-export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
+export const FormClientCredentials: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [authResponse, setAuthResponse] = useState<any>({});
+  const [clientId, setClientId] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
   const { push } = useRouter();
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoad(true);
-
-    const response = await authAutentication(email, password);
-
-    setLoad(false);
-
-    if (response.success) {
-      setAuthResponse(response);
-      push(`/login/${"success"}`);
-    } else {
-      push(`/login/${"error"}`);
-    }
-  };
 
   const formBg = useColorModeValue("gray.50", "gray.700");
   const formHoverBg = useColorModeValue("gray.100", "gray.600");
@@ -57,6 +20,26 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
   const buttonHoverBg = useColorModeValue("#4d59fa", "#212ffc");
   const buttonTextColor = useColorModeValue("white", "white");
   const boxBg = useColorModeValue("white", "gray.800");
+  const textLabelColor = useColorModeValue("gray.600", "gray.300");
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoad(true);
+
+    // try {
+    //   const response = await getClientCredentials();
+    //   setLoad(false);
+    //   if (response.success) {
+    //     setClientId(response.client_id);
+    //     setClientSecret(response.client_secret);
+    //   } else {
+    //     alert("Erro ao obter credenciais do cliente");
+    //   }
+    // } catch (error) {
+    //   setLoad(false);
+    //   console.error("Erro ao obter credenciais do cliente:", error);
+    // }
+  };
 
   useEffect(() => {
     if (onChange) onChange(load);
@@ -64,7 +47,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
 
   return (
     <Box
-      mt={12}
+      marginY={4}
       p={{ base: 2, md: 8 }}
       borderWidth={{ base: 0, md: 1 }}
       borderRadius={{ base: 0, md: "xl" }}
@@ -73,17 +56,12 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
     >
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
-          <FormControl id="email" isRequired>
-            <FormLabel color={"#4b4b4b"}>Email</FormLabel>
+          <FormControl id="clientId" isReadOnly>
+            <FormLabel color={textLabelColor}>Client ID</FormLabel>
             <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <FaUserAstronaut fontSize={22} color="#aaa7a7" />
-              </InputLeftElement>
               <Input
-                value={email}
-                onChange={handleEmailChange}
-                type="email"
-                placeholder="Digite seu email"
+                value={clientId}
+                placeholder="Clique para obter o Client ID"
                 borderRadius="lg"
                 bg={formBg}
                 _placeholder={{ color: placeholderColor }}
@@ -98,17 +76,12 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl id="password" isRequired>
-            <FormLabel color={"#4b4b4b"}>Senha</FormLabel>
+          <FormControl id="clientSecret" isReadOnly>
+            <FormLabel color={textLabelColor}>Client Secret</FormLabel>
             <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <FaLock color="#aaa7a7" />
-              </InputLeftElement>
               <Input
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                placeholder="Digite sua senha"
+                value={clientSecret}
+                placeholder="Clique para obter o Client Secret"
                 borderRadius="lg"
                 bg={formBg}
                 _placeholder={{ color: placeholderColor }}
@@ -123,7 +96,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
               />
             </InputGroup>
           </FormControl>
-          <Button
+          {/* <Button
             mt={4}
             _hover={{
               bg: buttonHoverBg,
@@ -133,9 +106,10 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
             bg={buttonBg}
             size="md"
             fontSize="md"
+            isLoading={load}
           >
-            Entrar
-          </Button>
+            Obter Credenciais
+          </Button> */}
         </Stack>
       </form>
     </Box>

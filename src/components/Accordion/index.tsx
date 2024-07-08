@@ -45,7 +45,7 @@ export const AccordionComponent: React.FC = () => {
             </Box>
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel backgroundColor={panelColor} pb={4}>
+          <AccordionPanel backgroundColor={panelColor} pb={2}>
             <Flex justifyContent="center" flexDirection="column" alignItems="center">
               <CodeHighlight codeString={passwordGrantPayload} />
             </Flex>
