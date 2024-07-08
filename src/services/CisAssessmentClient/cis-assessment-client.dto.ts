@@ -1,6 +1,7 @@
 export type ClientOptions = {
-  clientId: string;
+  clientId?: string;
   development?: boolean;
+  baseURL?: string;
 };
 
 export type ResponseCisAssessment<Payload = Record<string, any>> = Payload & {
@@ -17,7 +18,8 @@ export type Authorization = {
 export type CisAssessmentGrantType = "client_credentials" | "refresh_token";
 
 export type RequestAuthorization = {
-  clientId: string;
+  clientSecret: any;
+  clientId?: string;
   username: string;
   password: string;
   grantType: CisAssessmentGrantType;

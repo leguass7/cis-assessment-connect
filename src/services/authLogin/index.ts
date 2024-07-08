@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "~/config";
+import { GrantType, GrantTypePayloads } from "../CisAssessmentClient/cis-assessment-auth.dto";
 
 const payloadByGrantType: GrantTypePayloads = {
   password: {

@@ -13,6 +13,8 @@ import {
 import { useRouter } from "next/router";
 import { FaUserAstronaut, FaLock } from "react-icons/fa";
 import { authAutentication } from "~/services/authLogin";
+import { CisAssessmentClient } from "~/services/CisAssessmentClient";
+import { useApiResponse } from "~/providers/ResponseApiProvider";
 
 type Props = {
   onChange: (load: boolean) => void;
@@ -22,7 +24,8 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [, setAuthResponse] = useState<any>({});
+  const [authResponse, setAuthResponse] = useState<any>({});
+  const { setApiResponse } = useApiResponse();
   const { push } = useRouter();
 
   const formBg = useColorModeValue("gray.50", "gray.700");
@@ -43,30 +46,29 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handlerChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handlerChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const client = new CisAssessmentClient({ development: true });
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoad(true);
+    const response = await client.authenticate(email, password, "password");
 
-    if (!email || !password) {
-      alert("Por favor, preencha todos os campos.");
-      setLoad(false);
-      return;
+    setLoad(false);
+
+    if (response?.success) {
+      setAuthResponse(response);
+      setApiResponse(response);
+      push(`/login/${"success"}`);
+    } else {
+      push(`/login/${"error"}`);
     }
-
-    authAutentication(email, password, "password")
-      .then((response) => {
-        setLoad(false);
-        if (response.success) {
-          setAuthResponse(response);
-          console.log(`success`);
-        } else {
-          console.log(`error`);
-        }
-      })
-      .catch((error) => {
-        setLoad(false);
-        console.error("Erro ao autenticar:", error);
-      });
   };
 
   useEffect(() => {
