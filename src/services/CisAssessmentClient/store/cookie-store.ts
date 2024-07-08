@@ -1,5 +1,5 @@
-import { Authorization } from "../cis-assessment-client.dto";
-import { SetStoreParams, StoreInterface } from "./store.interface";
+import { Authorization } from "~/services/CisAssessmentClient/cis-assessment-client.dto";
+import { SetStoreParams, StoreInterface } from "~/services/CisAssessmentClient/store/store.interface";
 
 import Cookies from "js-cookie";
 

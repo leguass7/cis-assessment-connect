@@ -39,3 +39,47 @@ export const codeStringError = `
 	"success":false
 }
 `;
+
+export const passwordGrantPayload = `
+{
+  "grantType": "password",
+  "username": "string",
+  "password": "string",
+  "responseType": "refreshToken"  
+}
+`;
+
+export const refreshTokenGrantPayload = `
+{
+  "grantType": "refreshToken",
+  "refreshToken": "string"  
+}
+`;
+
+export const refreshTokenResponse = `
+{
+  "accessToken": "string",
+  "accessTokenExpirationDate": Date,
+  "refreshToken": "string",
+  "refreshTokenExpirationDate": Date,
+  "success": boolean
+}
+`;
+
+export const noResponseTypeResponse = `
+{
+  "accessToken": "string",
+  "accessTokenExpirationDate": Date,
+  "success": boolean
+}
+`;
+
+export const RequestAuthorization = `
+
+{
+	"grantType": "clientCredentials",
+	"clientId": "DEV_IDHmMsg1_CEvHnGb4VjNDvrg",
+	"clientSecret": "DEV_IDe1b1d9e887c241ed9863198cc92b22c9",
+	"responseType": "refreshToken"
+}
+`;

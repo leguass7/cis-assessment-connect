@@ -1,5 +1,5 @@
-import type { Authorization } from "../cis-assessment-client.dto";
-import type { SetStoreParams, StoreInterface } from "./store.interface";
+import type { Authorization } from "~/services/CisAssessmentClient/cis-assessment-client.dto";
+import type { SetStoreParams, StoreInterface } from "~/services/CisAssessmentClient/store/store.interface";
 
 export class MemoryStore implements StoreInterface {
   private authorization?: Authorization | null = null;
