@@ -1,19 +1,13 @@
+import axios from "axios";
 import { baseUrl } from "~/config";
 
-export async function authAutentication(email: string, password: string) {
-  const response = await fetch(`${baseUrl}/auth`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+export function authAutentication(email: string, password: string) {
+  return axios
+    .post(`${baseUrl}/auth`, {
       email,
       password,
-    }),
-  });
-
-  const data = await response.json();
-  return data;
+    })
+    .then((response) => response.data);
 }
 
 // export function authRefreshToken(clientId: string, refreshToken: string) {

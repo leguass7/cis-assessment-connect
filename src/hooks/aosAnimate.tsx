@@ -1,13 +1,13 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 type Callback = (...args: any[]) => Promise<any> | any | void;
 
 export function useOnceCall(cb: Callback, condition = true) {
-  const isCalledRef = React.useRef(false);
+  const isCalledRef = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (condition && !isCalledRef.current) {
       isCalledRef.current = true;
       cb();
@@ -28,4 +28,6 @@ export const useAOSAnimation = (options = {}) => {
   }, [options]);
 
   useOnceCall(initializeAOS);
+
+  return { aos: initializeAOS };
 };

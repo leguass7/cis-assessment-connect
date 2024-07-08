@@ -1,5 +1,4 @@
 import { Box, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
-import "aos/dist/aos.css";
 import { FaUserAstronaut } from "react-icons/fa";
 import { TbApiApp } from "react-icons/tb";
 import { AccessCard } from "~/components/AccessCard/indext";
@@ -10,12 +9,12 @@ interface Props {}
 
 const Home: React.FC<Props> = () => {
   const textColor = useColorModeValue("#313131", "white");
-
   useAOSAnimation();
+
   return (
     <PublicLayout>
       <Box mt={10}>
-        <Box data-aos="fade-down" my={"70px"}>
+        <Box my={"70px"}>
           <Text as="b" fontSize="5xl" color={textColor}>
             Autenticação
           </Text>

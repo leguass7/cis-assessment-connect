@@ -32,13 +32,18 @@ export const AccessCard: React.FC<CardBoxProps> = ({ title, path, icon: Icon }) 
       shadow="2xl"
       textAlign="start"
       bgGradient={useColorModeValue("linear(to-r, #e6e6e6, #ffffff)", "linear(to-r, #333333, #242424)")}
-      _hover={{ boxShadow: "2xl", transform: "scale(1.1)", cursor: "pointer" }}
-      transition="all 0.2s"
+      _hover={{ boxShadow: "2xl", transform: "scale(1.05)", cursor: "pointer" }}
+      transition="transform 0.3s ease-out"
     >
-      <Box position="absolute" right={-4} top={0} _hover={{ transform: "scale(1.2)", transition: "transform 0.4s" }}>
+      <Box
+        position="absolute"
+        right={-4}
+        top={0}
+        _hover={{ transform: "scale(1.2)", transition: "transform 0.4s ease-out" }}
+      >
         <Icon size={210} color="#a8a8a6" />
       </Box>
-      <Text textColor={textColor} fontSize="3xl" as="b">
+      <Text color={textColor} fontSize="3xl" fontWeight="bold">
         {title}
       </Text>
     </Box>

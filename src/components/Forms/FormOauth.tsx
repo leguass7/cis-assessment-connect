@@ -6,6 +6,7 @@ import iconBlue from "../../../public/logo/favicon.svg";
 import { useAOSAnimation } from "~/hooks/aosAnimate";
 
 export const FormOauth = () => {
+  useAOSAnimation();
   const { data: session } = useSession();
   const { colorMode } = useColorMode();
   const cisBackground = useColorModeValue("#212ffc", "#ffff");
@@ -18,8 +19,6 @@ export const FormOauth = () => {
   const handleSignIn = () => {
     signIn();
   };
-
-  useAOSAnimation();
 
   return (
     <Stack spacing={6}>
