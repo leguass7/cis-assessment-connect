@@ -1,5 +1,5 @@
 export function isDefined(v: any): boolean {
-  return !!(v !== null && typeof v !== 'undefined')
+  return !!(v !== null && typeof v !== 'undefined');
 }
 
 export function isObject(value: any): boolean {
@@ -19,13 +19,13 @@ export function isObjectEmpty(obj: object = {}): boolean {
 }
 
 export function emptyObjectArrayValidate(arr?: any[]) {
-  if (!arr) return false
-  return arr.filter(env => Object.keys(env).length).length
+  if (!arr) return false;
+  return arr.filter(env => Object.keys(env).length).length;
 }
 
 export function discObjectValuesValidate<T extends object>(object: T): boolean {
-  if (!object) return false
-  return Object.values(object)?.some(value => value >= 1)
+  if (!object) return false;
+  return Object.values(object)?.some(value => value >= 1);
 }
 
 export function deleteProps(objeto, props) {

@@ -1,36 +1,43 @@
-import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
-import { ReactElement } from "react";
-import iconBlue from "../../../public/logo/favicon.svg";
-import iconWhite from "../../../public/logo/icon-white.png";
+import type { ReactElement } from 'react';
+import { useState } from 'react';
+
+import { Button, useColorModeValue } from '@chakra-ui/react';
+
+import iconBlue from '../../../public/logo/favicon.svg';
+import iconWhite from '../../../public/logo/icon-white.png';
 
 interface Props {
   click: () => void;
   title?: string;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  width?: string | number;
 }
 
-export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment" }: Props): ReactElement => {
-  const { colorMode } = useColorMode();
-  const cisBackground = useColorModeValue("#212ffc", "#ffff");
-  const cisHoverBackground = useColorModeValue("#ffff", "#212ffc");
-  const cisTextColor = useColorModeValue("#ffff", "#212ffc");
-  const cisHoverTextColor = useColorModeValue("#212ffc", "#ffff");
-  const cisIcon = useColorModeValue(iconWhite.src, iconBlue.src);
-  const cisHoverIcon = useColorModeValue(iconBlue.src, iconWhite.src);
+export const AssessmentBtn = ({ click, size = 'lg', title = 'CisAssessment', width = 'none' }: Props): ReactElement => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const bgColor = useColorModeValue('#212ffc', '#ffff');
+  const textColor = useColorModeValue('#ffff', '#212ffc');
+  const hoverBgColor = useColorModeValue('#ffff', '#212ffc');
+  const hoverTextColor = useColorModeValue('#212ffc', '#ffff');
+  const iconColor = useColorModeValue(iconWhite.src, iconBlue.src);
+  const hoverIconColor = useColorModeValue(iconBlue.src, iconWhite.src);
 
   return (
     <Button
-      onClick={click}
       size={size}
-      background={colorMode === "dark" ? cisBackground : cisHoverBackground}
-      color={colorMode === "dark" ? cisTextColor : cisHoverTextColor}
-      border={colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none"}
-      leftIcon={<img src={colorMode === "dark" ? cisIcon : cisHoverIcon} alt="Logo" width={16} />}
+      width={width}
+      onClick={click}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      color={isHovered ? hoverTextColor : textColor}
+      background={isHovered ? hoverBgColor : bgColor}
+      border={isHovered ? `1px solid ${hoverTextColor}` : `1px solid transparent`}
+      leftIcon={<img alt="Logo" width={16} src={isHovered ? hoverIconColor : iconColor} />}
       _hover={{
-        background: colorMode === "dark" ? cisHoverBackground : cisBackground,
-        color: colorMode === "dark" ? cisHoverTextColor : cisTextColor,
-        border: colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none",
+        background: hoverBgColor,
+        border: `1px solid ${hoverTextColor}`,
+        color: hoverTextColor,
       }}
     >
       {title}

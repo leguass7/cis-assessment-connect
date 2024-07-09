@@ -1,4 +1,4 @@
-import type { Authorization } from '~/services/CisAssessmentClient/cis-assessment-client.dto'
+import type { Authorization } from '~/services/CisAssessmentClient/cis-assessment-client.dto';
 
 export type TransformAuthorization = (authorization?: Authorization | null) => Authorization
 export type SetStoreParams = Authorization | TransformAuthorization
