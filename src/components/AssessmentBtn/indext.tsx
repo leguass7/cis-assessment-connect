@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
 
-import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Button, useColorModeValue } from "@chakra-ui/react";
 
 import iconBlue from "../../../public/logo/favicon.svg";
 import iconWhite from "../../../public/logo/icon-white.png";
@@ -14,7 +14,6 @@ interface Props {
 }
 
 export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment", width = "none" }: Props): ReactElement => {
-  const { colorMode } = useColorMode();
   const [isHovered, setIsHovered] = useState(false);
 
   const bgColor = useColorModeValue("#212ffc", "#ffff");
