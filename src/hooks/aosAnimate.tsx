@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -17,7 +17,7 @@ export function useOnceCall(cb: Callback, condition = true) {
 }
 
 export const useAOSAnimation = (options = {}) => {
-  const initializeAOS = useCallback(() => {
+  const initializeAOS = React.useCallback(() => {
     AOS.init({
       delay: 100,
       duration: 600,
