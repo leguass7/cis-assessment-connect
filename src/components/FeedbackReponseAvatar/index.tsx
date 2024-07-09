@@ -23,9 +23,10 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const mainTextColor = useColorModeValue('#3b3b3b', 'gray.200');
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
-  const responseToken = apiResponse?.refreshToken;
+  const responseTokenRefresh = apiResponse?.refreshToken;
+  const responseTokenAccess = apiResponse?.accessToken;
 
-  const { onCopy } = useClipboard(responseToken || '');
+  const { onCopy } = useClipboard(responseTokenRefresh || '');
 
   const handleCopyClick = () => {
     onCopy();
@@ -51,14 +52,44 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
           </Text>
         </Box>
         <Box width={70} height={1.5} bg={'#fa5b52'} borderRadius="2xl"></Box>
-        <Image alt="Logo" width={450} src={status ? avatarSuccess.src : avatarError.src} />
+        <Image alt="Logo" width={400} src={status ? avatarSuccess.src : avatarError.src} />
       </Box>
 
       {!!status ? (
         <>
+          {/* {responseTokenAccess && (
+            <>
+              <Box>
+                <Text as="b" color={mainTextColor}>
+                  {'Access Token'}
+                </Text>
+              </Box>
+              <Flex marginBottom={4} gap={2} align="center" justify="center">
+                <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
+                  <Text color={'#e0d56d'}>{limitString(responseTokenAccess, 44)}</Text>
+                </Box>
+                <Tooltip label="Copiado!" isOpen={showTooltip}>
+                  <IconButton
+                    size="md"
+                    color={'white'}
+                    icon={<FaCopy />}
+                    aria-label="Copiar"
+                    backgroundColor="#212ffc"
+                    onClick={handleCopyClick}
+                    _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+                  />
+                </Tooltip>
+              </Flex>
+            </>
+          )} */}
+          <Box>
+            <Text as="b" color={mainTextColor}>
+              {'Refresh Token'}
+            </Text>
+          </Box>
           <Flex gap={2} align="center" justify="center">
             <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-              <Text color={'#e0d56d'}>{limitString(responseToken, 44)}</Text>
+              <Text color={'#e0d56d'}>{limitString(responseTokenRefresh, 44)}</Text>
             </Box>
             <Tooltip label="Copiado!" isOpen={showTooltip}>
               <IconButton
