@@ -18,12 +18,12 @@ export type ClientCredentialsGrantPayload = {
 };
 
 export type GrantTypePayloads = {
-  password: PasswordGrantPayload
-  refreshToken: RefreshTokenGrantPayload
-  clientCredentials: ClientCredentialsGrantPayload
-}
+  password: PasswordGrantPayload;
+  refreshToken: RefreshTokenGrantPayload;
+  clientCredentials: ClientCredentialsGrantPayload;
+};
 
-export type GrantType = keyof GrantTypePayloads
+export type GrantType = keyof GrantTypePayloads;
 
 export const payloadByGrantType: GrantTypePayloads = {
   clientCredentials: {

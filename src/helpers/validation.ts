@@ -10,12 +10,12 @@ export function isObject(value: any): boolean {
     !(value instanceof Error) &&
     !(value instanceof Date) &&
     !Array.isArray(value)
-  )
+  );
 }
 
 export function isObjectEmpty(obj: object = {}): boolean {
-  if (!obj) return true
-  return !Object.keys(obj)?.length
+  if (!obj) return true;
+  return !Object.keys(obj)?.length;
 }
 
 export function emptyObjectArrayValidate(arr?: any[]) {
@@ -31,8 +31,8 @@ export function discObjectValuesValidate<T extends object>(object: T): boolean {
 export function deleteProps(objeto, props) {
   props?.forEach(propriedade => {
     if (objeto.hasOwnProperty(propriedade)) {
-      delete objeto[propriedade]
+      delete objeto[propriedade];
     }
-  })
-  return objeto
+  });
+  return objeto;
 }

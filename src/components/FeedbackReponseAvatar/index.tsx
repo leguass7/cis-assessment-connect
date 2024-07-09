@@ -4,6 +4,8 @@ import { FaCopy } from 'react-icons/fa';
 import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
+// import { CisAssessmentClient } from '~/services/CisAssessmentClient';
+
 import { useApiResponse } from '~/providers/ResponseApiProvider';
 
 import avatarSuccess from '../../../public/imgs/astro-cis.png';
@@ -24,7 +26,17 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
   const responseTokenRefresh = apiResponse?.refreshToken;
-  const responseTokenAccess = apiResponse?.accessToken;
+  // const responseTokenAccess = apiResponse?.accessToken;
+
+  // const client = new CisAssessmentClient({ development: true });
+
+  // const getRefreshToken = async () => {
+  //   const store = await client.getStore();
+  //   const refreshToken = store?.refreshToken || '';
+  //   return refreshToken;
+  // };
+
+  // const refreshToken = client.getStore()?.then(store => store?.refreshToken || '');
 
   const { onCopy } = useClipboard(responseTokenRefresh || '');
 

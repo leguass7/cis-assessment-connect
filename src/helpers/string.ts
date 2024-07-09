@@ -8,8 +8,8 @@ export function normalizeImageSrc(src = '', defaultImage?: string): string {
   return src.startsWith('http') ? src : `${getBaseURL()}${src}`;
 }
 
-export function querystring(_str?: Record<string, any>): string
-export function querystring(_str?: string): Record<string, string>
+export function querystring(_str?: Record<string, any>): string;
+export function querystring(_str?: string): Record<string, string>;
 export function querystring(_str?: any): any {
   if (typeof _str === 'string') {
     const keys = `${_str}`.split('&'); // ['key=value']
@@ -38,7 +38,7 @@ export function toBool(value: string | number): boolean {
   const found = valids.find(f => f.includes(value)) || undefined;
   if (typeof value === 'number' && value <= 0) return false;
 
-  return ((isDefined(found) && found[0]) as boolean) || undefined
+  return ((isDefined(found) && found[0]) as boolean) || undefined;
 }
 
 export function stringToColor(str = '') {
@@ -47,17 +47,17 @@ export function stringToColor(str = '') {
   let i: number;
 
   for (i = 0; i < str?.length; i += 1) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
 
   let color = '#';
 
   for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff
-    color += `00${value.toString(16)}`.slice(-2)
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
   }
 
-  return color
+  return color;
 }
 
 export function stringAvatar(name = '') {
@@ -81,9 +81,9 @@ export function toMask(mask: string, number: string, replace = 'X') {
   const s = `${number}`;
   let r = '';
   for (let im = 0, is = 0; im < mask.length && is < s.length; im++) {
-    r += mask.charAt(im) === replace ? s.charAt(is++) : mask.charAt(im)
+    r += mask.charAt(im) === replace ? s.charAt(is++) : mask.charAt(im);
   }
-  return r
+  return r;
 }
 
 export function extension(fileName: string): string {
@@ -106,40 +106,40 @@ export function firstLetter(str: string): string {
     const secondLetter = arrayName?.[1]?.charAt(0)?.toUpperCase() || ' ';
     return `${firstLetter}${secondLetter}`.trim();
   }
-  return firstLetter.trim()
+  return firstLetter.trim();
 }
 
 export function limitString(string = '', limit = 0): string {
   if (string == null || !limit) {
     return string || '';
   }
-  const result = string.substring(0, limit)
+  const result = string.substring(0, limit);
   if (result.length >= limit) {
-    return `${result.slice(0, result.length - 3)}...`
+    return `${result.slice(0, result.length - 3)}...`;
   }
-  return result
+  return result;
 }
 
 export function chunkString(str: string, size: number) {
-  const numChunks = Math.ceil(str.length / size)
-  const chunks = new Array(numChunks)
+  const numChunks = Math.ceil(str.length / size);
+  const chunks = new Array(numChunks);
 
   for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-    chunks[i] = str.substr(o, size)
+    chunks[i] = str.substr(o, size);
   }
 
-  return chunks
+  return chunks;
 }
 
 export function addPrefixToCamelCase(prefix: string, variable: string): string {
-  const words = variable.split(/(?=[A-Z])/) // Divide a string em palavras com base nas letras maiúsculas
+  const words = variable.split(/(?=[A-Z])/); // Divide a string em palavras com base nas letras maiúsculas
 
   const camelCaseWords = words.map((word, index) => {
     if (index === 0) {
-      return `${prefix}${word.charAt(0).toUpperCase()}${word.slice(1)}`
+      return `${prefix}${word.charAt(0).toUpperCase()}${word.slice(1)}`;
     }
-    return word.charAt(0).toUpperCase() + word.slice(1)
-  })
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
 
   const result = camelCaseWords.join('');
   return result;
@@ -151,13 +151,13 @@ export function americanFormatValue(value: number) {
     let power = 0;
 
     while (value >= 1000 && power < powers.length - 1) {
-      value /= 1000
-      power++
+      value /= 1000;
+      power++;
     }
 
-    return value.toFixed(1) + powers[power]
+    return value.toFixed(1) + powers[power];
   } else {
-    return value
+    return value;
   }
 }
 
@@ -179,5 +179,5 @@ export function formatPhoneNumber(value = '') {
         ? cleaned.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
         : cleaned;
 
-  return formattedNumber
+  return formattedNumber;
 }

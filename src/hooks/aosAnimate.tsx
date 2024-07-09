@@ -3,35 +3,32 @@ import { useCallback, useEffect, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import AOS from 'aos'
-import 'aos/dist/aos.css'
-
-type Callback = (...args: any[]) => Promise<any> | any | void
+type Callback = (...args: any[]) => Promise<any> | any | void;
 
 export function useOnceCall(cb: Callback, condition = true) {
-  const isCalledRef = useRef(false)
+  const isCalledRef = useRef(false);
 
   useEffect(() => {
     if (condition && !isCalledRef.current) {
-      isCalledRef.current = true
-      cb()
+      isCalledRef.current = true;
+      cb();
     }
-  }, [cb, condition])
+  }, [cb, condition]);
 }
 
 export const useAOSAnimation = (options = {}) => {
-  const initializeAOS = React.useCallback(() => {
+  const initializeAOS = useCallback(() => {
     AOS.init({
       delay: 100,
       duration: 600,
       easing: 'ease-in-out',
       offset: 200,
       ...options,
-    })
-    AOS.refresh()
-  }, [options])
+    });
+    AOS.refresh();
+  }, [options]);
 
-  useOnceCall(initializeAOS)
+  useOnceCall(initializeAOS);
 
-  return { aos: initializeAOS }
-}
+  return { aos: initializeAOS };
+};

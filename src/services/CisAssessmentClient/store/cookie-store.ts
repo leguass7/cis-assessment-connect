@@ -4,16 +4,16 @@ import type { Authorization } from '~/services/CisAssessmentClient/cis-assessmen
 import type { SetStoreParams, StoreInterface } from '~/services/CisAssessmentClient/store/store.interface';
 
 export class CookieStore implements StoreInterface {
-  private attributes: Cookies.CookieAttributes = {}
+  private attributes: Cookies.CookieAttributes = {};
 
   private async assign(authorization?: Authorization | null): Promise<Authorization | null> {
-    const oldAuth = (await this.get()) || {}
-    return Object.assign({}, oldAuth || {}, authorization || {}) as Authorization
+    const oldAuth = (await this.get()) || {};
+    return Object.assign({}, oldAuth || {}, authorization || {}) as Authorization;
   }
 
   setAttributes(options: Cookies.CookieAttributes): CookieStore {
-    this.attributes = options
-    return this
+    this.attributes = options;
+    return this;
   }
 
   async set(auth: SetStoreParams): Promise<void> {
@@ -28,7 +28,7 @@ export class CookieStore implements StoreInterface {
       const auth = JSON.parse(data) as Authorization;
       return auth;
     } catch (error) {
-      return null
+      return null;
     }
   }
 

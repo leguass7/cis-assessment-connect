@@ -45,8 +45,12 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     const response = await client.authenticate(email, password, 'password');
 
     setLoad(false);
-
     if (response?.success) {
+      client.setStore({
+        accessToken: response?.accessToken,
+        expiresIn: response?.expiresIn,
+        refreshToken: response?.refreshToken,
+      });
       setApiResponse(response);
       push(`/login/${'success'}`);
     } else {

@@ -8,8 +8,8 @@ import { normalizeToken } from './cis-assessment-client.helper';
 import { MemoryStore } from './store/memory.store';
 import type { SetStoreParams, StoreInterface } from './store/store.interface';
 export class CisAssessmentClient {
-  public axios: AxiosInstance
-  private baseURL: string
+  public axios: AxiosInstance;
+  private baseURL: string;
 
   constructor(
     private readonly options: ClientOptions,
@@ -41,49 +41,49 @@ export class CisAssessmentClient {
 
         if (config && axiosError?.response) {
           if (status === 401 /* && message === "token_expired" */) {
-            const accessToken = await this.refreshToken(config)
+            const accessToken = await this.refreshToken(config);
             if (accessToken) {
-              config.headers.Authorization = normalizeToken(accessToken)
+              config.headers.Authorization = normalizeToken(accessToken);
               try {
-                return axios(config)
+                return axios(config);
               } catch (error) {
-                this.clearStore()
+                this.clearStore();
               }
             }
           }
 
-          return Promise.resolve(resolve)
+          return Promise.resolve(resolve);
         }
 
-        return Promise.resolve(resolve)
+        return Promise.resolve(resolve);
       },
-    )
+    );
   }
 
   private async getAccessToken(): Promise<string | null> {
-    const accessToken = (await this?.store?.get?.())?.accessToken || null
-    return accessToken
+    const accessToken = (await this?.store?.get?.())?.accessToken || null;
+    return accessToken;
   }
 
   public async getStore(): Promise<Authorization | null> {
-    return (await this?.store?.get?.()) || null
+    return (await this?.store?.get?.()) || null;
   }
 
   public async setStore(params: SetStoreParams): Promise<void> {
-    this?.store?.set?.(params)
+    this?.store?.set?.(params);
   }
 
   public async clearStore(): Promise<void> {
-    this?.store?.clear?.()
+    this?.store?.clear?.();
   }
 
   private async refreshToken(config: InternalAxiosRequestConfig<any>): Promise<string | null> {
     const retryHeader = config.headers['Retry'];
     if (!retryHeader) {
-      const authorization = await this?.store?.get()
+      const authorization = await this?.store?.get();
 
       if (authorization?.refreshToken) {
-        const newAuthorization = await this.requestRefreshToken(authorization?.refreshToken)
+        const newAuthorization = await this.requestRefreshToken(authorization?.refreshToken);
         if (newAuthorization?.accessToken) {
           const { accessToken, expiresIn, refreshToken } = newAuthorization;
           this?.store?.set({ accessToken, expiresIn, refreshToken });
@@ -91,7 +91,7 @@ export class CisAssessmentClient {
         }
       }
     }
-    return null
+    return null;
   }
 
   async requestRefreshToken(refreshToken: string): Promise<ResponseCisAssessment<Authorization>> {
@@ -108,14 +108,14 @@ export class CisAssessmentClient {
       return response?.data as ResponseCisAssessment<Authorization>;
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
-        const data = axiosError?.response?.data || {}
+        const data = axiosError?.response?.data || {};
         return {
           ...data,
           message: data?.message || 'timeout',
           success: false,
         } as ResponseCisAssessment<Authorization>;
       }
-      return result as ResponseCisAssessment<Authorization>
+      return result as ResponseCisAssessment<Authorization>;
     }
   }
 
@@ -124,7 +124,7 @@ export class CisAssessmentClient {
       clientId: this.options?.clientId,
       ...payloadByGrantType[grantType],
       ...extraFields,
-    }
+    };
 
     if (grantType === 'password') {
       payload.username = email;
