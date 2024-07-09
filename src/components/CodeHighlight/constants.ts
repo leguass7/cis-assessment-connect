@@ -9,7 +9,7 @@ export const codeStringPost = `
     email: "string",
     password: "string",
     }),
-`;
+`
 
 export const codeStringGet = `
 
@@ -30,7 +30,7 @@ export const codeStringGet = `
 			name: "string"
 	}
 
-`;
+`
 
 export const codeStringError = `
 {
@@ -38,7 +38,7 @@ export const codeStringError = `
 	"status":400,
 	"success":false
 }
-`;
+`
 
 export const passwordGrantPayload = `
 {
@@ -47,14 +47,14 @@ export const passwordGrantPayload = `
   "password": "string",
   "responseType": "refreshToken"  
 }
-`;
+`
 
 export const refreshTokenGrantPayload = `
 {
   "grantType": "refreshToken",
   "refreshToken": "string"  
 }
-`;
+`
 
 export const refreshTokenResponse = `
 {
@@ -64,7 +64,7 @@ export const refreshTokenResponse = `
   "refreshTokenExpirationDate": Date,
   "success": boolean
 }
-`;
+`
 
 export const noResponseTypeResponse = `
 {
@@ -72,7 +72,7 @@ export const noResponseTypeResponse = `
   "accessTokenExpirationDate": Date,
   "success": boolean
 }
-`;
+`
 
 export const RequestAuthorization = `
 
@@ -82,4 +82,4 @@ export const RequestAuthorization = `
 	"clientSecret": "string",
 	"responseType": "refreshToken"
 }
-`;
+`
