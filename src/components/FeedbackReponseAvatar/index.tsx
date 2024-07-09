@@ -25,7 +25,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const errorColor = useColorModeValue("red.400", "red.300");
   const responseToken = apiResponse?.refreshToken;
 
-  const { hasCopied, onCopy } = useClipboard(responseToken || "");
+  const { onCopy } = useClipboard(responseToken || "");
 
   const handleCopyClick = () => {
     onCopy();
@@ -72,8 +72,8 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
               />
             </Tooltip>
           </Flex>
-          <Box marginY={4} background={"pink"}>
-            <AssessmentBtn width={"full"} click={hanldeClickRefreshAccess} title="Autenticar por RefreshToken" />
+          <Box marginY={4}>
+            <AssessmentBtn width={"full"} click={hanldeClickRefreshAccess} title="Autenticação por RefreshToken" />
           </Box>
         </>
       ) : null}

@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { useState } from "react";
 
 import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
 
@@ -14,26 +15,30 @@ interface Props {
 
 export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment", width = "none" }: Props): ReactElement => {
   const { colorMode } = useColorMode();
-  const cisBackground = useColorModeValue("#212ffc", "#ffff");
-  const cisHoverBackground = useColorModeValue("#ffff", "#212ffc");
-  const cisTextColor = useColorModeValue("#ffff", "#212ffc");
-  const cisHoverTextColor = useColorModeValue("#212ffc", "#ffff");
-  const cisIcon = useColorModeValue(iconWhite.src, iconBlue.src);
-  const cisHoverIcon = useColorModeValue(iconBlue.src, iconWhite.src);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const bgColor = useColorModeValue("#212ffc", "#ffff");
+  const textColor = useColorModeValue("#ffff", "#212ffc");
+  const hoverBgColor = useColorModeValue("#ffff", "#212ffc");
+  const hoverTextColor = useColorModeValue("#212ffc", "#ffff");
+  const iconColor = useColorModeValue(iconWhite.src, iconBlue.src);
+  const hoverIconColor = useColorModeValue(iconBlue.src, iconWhite.src);
 
   return (
     <Button
       size={size}
       width={width}
       onClick={click}
-      color={colorMode === "dark" ? cisTextColor : cisHoverTextColor}
-      background={colorMode === "dark" ? cisBackground : cisHoverBackground}
-      border={colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none"}
-      leftIcon={<img alt="Logo" width={16} src={colorMode === "dark" ? cisIcon : cisHoverIcon} />}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      color={isHovered ? hoverTextColor : textColor}
+      background={isHovered ? hoverBgColor : bgColor}
+      border={isHovered ? `1px solid ${hoverTextColor}` : `1px solid transparent`}
+      leftIcon={<img alt="Logo" width={16} src={isHovered ? hoverIconColor : iconColor} />}
       _hover={{
-        background: colorMode === "dark" ? cisHoverBackground : cisBackground,
-        border: colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none",
-        color: colorMode === "dark" ? cisHoverTextColor : cisTextColor,
+        background: hoverBgColor,
+        border: `1px solid ${hoverTextColor}`,
+        color: hoverTextColor,
       }}
     >
       {title}
