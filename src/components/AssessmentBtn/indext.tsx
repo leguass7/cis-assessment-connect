@@ -1,25 +1,25 @@
-import type { ReactElement } from "react";
-import { useState } from "react";
+import type { ReactElement } from 'react';
+import { useState } from 'react';
 
-import { Button, useColorModeValue } from "@chakra-ui/react";
+import { Button, useColorModeValue } from '@chakra-ui/react';
 
-import iconBlue from "../../../public/logo/favicon.svg";
-import iconWhite from "../../../public/logo/icon-white.png";
+import iconBlue from '../../../public/logo/favicon.svg';
+import iconWhite from '../../../public/logo/icon-white.png';
 
 interface Props {
   click: () => void;
   title?: string;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   width?: string | number;
 }
 
-export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment", width = "none" }: Props): ReactElement => {
+export const AssessmentBtn = ({ click, size = 'lg', title = 'CisAssessment', width = 'none' }: Props): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const bgColor = useColorModeValue("#212ffc", "#ffff");
-  const textColor = useColorModeValue("#ffff", "#212ffc");
-  const hoverBgColor = useColorModeValue("#ffff", "#212ffc");
-  const hoverTextColor = useColorModeValue("#212ffc", "#ffff");
+  const bgColor = useColorModeValue('#212ffc', '#ffff');
+  const textColor = useColorModeValue('#ffff', '#212ffc');
+  const hoverBgColor = useColorModeValue('#ffff', '#212ffc');
+  const hoverTextColor = useColorModeValue('#212ffc', '#ffff');
   const iconColor = useColorModeValue(iconWhite.src, iconBlue.src);
   const hoverIconColor = useColorModeValue(iconBlue.src, iconWhite.src);
 

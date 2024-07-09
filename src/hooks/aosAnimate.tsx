@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';
 
-import AOS from "aos";
-import "aos/dist/aos.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 type Callback = (...args: any[]) => Promise<any> | any | void;
 
@@ -21,7 +21,7 @@ export const useAOSAnimation = (options = {}) => {
     AOS.init({
       delay: 100,
       duration: 600,
-      easing: "ease-in-out",
+      easing: 'ease-in-out',
       offset: 200,
       ...options,
     });

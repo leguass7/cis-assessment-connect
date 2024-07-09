@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { Box, Container, useColorModeValue } from "@chakra-ui/react";
+import { Box, Container, useColorModeValue } from '@chakra-ui/react';
 
-import Header from "~/components/Header";
+import Header from '~/components/Header';
 
-import bgDark from "../../../public/imgs/bg-dark.png";
-import bgDefault from "../../../public/imgs/bg-default.png";
+import bgDark from '../../../public/imgs/bg-dark.png';
+import bgDefault from '../../../public/imgs/bg-default.png';
 
 type Props = {
   children?: React.ReactNode;
@@ -13,8 +13,8 @@ type Props = {
 
 export const PublicLayout: React.FC<Props> = ({ children }) => {
   const backgroundImage = useColorModeValue(bgDefault.src, bgDark.src);
-  const textColor = useColorModeValue("black", "white");
-  const sizeBg = useColorModeValue("120%", "100%");
+  const textColor = useColorModeValue('black', 'white');
+  const sizeBg = useColorModeValue('120%', '100%');
 
   return (
     <Box

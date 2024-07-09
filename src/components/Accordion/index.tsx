@@ -1,30 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 
-import { CodeHighlight } from "~/components/CodeHighlight";
-import {
-  noResponseTypeResponse,
-  passwordGrantPayload,
-  refreshTokenGrantPayload,
-  refreshTokenResponse,
-} from "~/components/CodeHighlight/constants";
+import { CodeHighlight } from '~/components/CodeHighlight';
+import { noResponseTypeResponse, passwordGrantPayload, refreshTokenGrantPayload, refreshTokenResponse } from '~/components/CodeHighlight/constants';
 
 export const AccordionComponent: React.FC = () => {
-  const bgColor = useColorModeValue("white", "#2c2c2c");
-  const borderColor = useColorModeValue("#dbdbdb", "#525252");
-  const panelColor = useColorModeValue("#e9e9e9", "#2c2c2c");
-  const textColor = useColorModeValue("gray.600", "gray.300");
+  const bgColor = useColorModeValue('white', '#2c2c2c');
+  const borderColor = useColorModeValue('#dbdbdb', '#525252');
+  const panelColor = useColorModeValue('#e9e9e9', '#2c2c2c');
+  const textColor = useColorModeValue('gray.600', 'gray.300');
 
   return (
     <Box>

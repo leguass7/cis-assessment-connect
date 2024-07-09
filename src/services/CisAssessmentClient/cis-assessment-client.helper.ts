@@ -1,4 +1,4 @@
-export function normalizeToken(token: string = ""): string | null {
+export function normalizeToken(token: string = ''): string | null {
   if (!token) return null;
-  return token.startsWith("Bearer") ? token : `Bearer ${token}`;
+  return token.startsWith('Bearer') ? token : `Bearer ${token}`;
 }

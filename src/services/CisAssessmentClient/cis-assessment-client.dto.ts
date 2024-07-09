@@ -15,7 +15,7 @@ export type Authorization = {
   expiresIn?: number;
 };
 
-export type CisAssessmentGrantType = "clientCredentials" | "refreshToken";
+export type CisAssessmentGrantType = 'clientCredentials' | 'refreshToken';
 
 export type RequestAuthorization = {
   clientSecret: any;
@@ -25,6 +25,6 @@ export type RequestAuthorization = {
   grantType: CisAssessmentGrantType;
 };
 
-export type RequestRefreshToken = Pick<RequestAuthorization, "clientId" | "grantType"> & {
+export type RequestRefreshToken = Pick<RequestAuthorization, 'clientId' | 'grantType'> & {
   refreshToken: string;
 };

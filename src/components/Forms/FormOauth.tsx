@@ -1,9 +1,9 @@
-import { FaGoogle, FaLinkedin } from "react-icons/fa";
+import { FaGoogle, FaLinkedin } from 'react-icons/fa';
 
-import { Button, Stack } from "@chakra-ui/react";
-import { signIn, useSession } from "next-auth/react";
+import { Button, Stack } from '@chakra-ui/react';
+import { signIn, useSession } from 'next-auth/react';
 
-import { AssessmentBtn } from "../AssessmentBtn/indext";
+import { AssessmentBtn } from '../AssessmentBtn/indext';
 
 export const FormOauth = () => {
   const { data: session } = useSession();

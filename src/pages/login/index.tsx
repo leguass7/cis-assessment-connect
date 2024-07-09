@@ -1,29 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Container,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Container, Text, useColorModeValue } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
-import "aos/dist/aos.css";
+import 'aos/dist/aos.css';
 
-import { useAOSAnimation } from "~/hooks/aosAnimate";
+import { useAOSAnimation } from '~/hooks/aosAnimate';
 
-import { CodeHighlight } from "~/components/CodeHighlight";
-import { codeStringPost, refreshTokenResponse, RequestAuthorization } from "~/components/CodeHighlight/constants";
-import { FormClientCredentials } from "~/components/Forms/FormClientCredential";
-import { FormPassword } from "~/components/Forms/FormPassword";
-import { FormRefreshToken } from "~/components/Forms/FormRefreshToken";
-import { PublicLayout } from "~/components/PublicLayout";
-import { SkeletonLoader } from "~/components/SkeletonLoader";
+import { CodeHighlight } from '~/components/CodeHighlight';
+import { codeStringPost, refreshTokenResponse, RequestAuthorization } from '~/components/CodeHighlight/constants';
+import { FormClientCredentials } from '~/components/Forms/FormClientCredential';
+import { FormPassword } from '~/components/Forms/FormPassword';
+import { FormRefreshToken } from '~/components/Forms/FormRefreshToken';
+import { PublicLayout } from '~/components/PublicLayout';
+import { SkeletonLoader } from '~/components/SkeletonLoader';
 
 type Props = {};
 
@@ -39,10 +29,10 @@ const Login: React.FC<Props> = () => {
 
   useAOSAnimation();
 
-  const bgColor = useColorModeValue("white", "#2c2c2c");
-  const borderColor = useColorModeValue("#dbdbdb", "#525252");
-  const panelColor = useColorModeValue("#f5f6f7", "#2c2c2c");
-  const textColor = useColorModeValue("gray.600", "gray.300");
+  const bgColor = useColorModeValue('white', '#2c2c2c');
+  const borderColor = useColorModeValue('#dbdbdb', '#525252');
+  const panelColor = useColorModeValue('#f5f6f7', '#2c2c2c');
+  const textColor = useColorModeValue('gray.600', 'gray.300');
 
   return (
     <PublicLayout>
@@ -63,11 +53,11 @@ const Login: React.FC<Props> = () => {
                 defaultIndex={accordionIndex}
                 transitionTimingFunction="ease-in-out"
               >
-                <AccordionItem border={"none"} borderBottom={`1px solid ${borderColor}`}>
+                <AccordionItem border={'none'} borderBottom={`1px solid ${borderColor}`}>
                   <AccordionButton padding="20px">
                     <Box flex="1" textAlign="left">
                       <Text as="b" fontSize="lg" color={textColor}>
-                        {"Login"}
+                        {'Login'}
                       </Text>
                     </Box>
                     <AccordionIcon />
@@ -78,11 +68,11 @@ const Login: React.FC<Props> = () => {
                   </AccordionPanel>
                 </AccordionItem>
 
-                <AccordionItem border={"none"} borderBottom={`1px solid ${borderColor}`}>
+                <AccordionItem border={'none'} borderBottom={`1px solid ${borderColor}`}>
                   <AccordionButton padding="20px">
                     <Box flex="1" textAlign="left">
                       <Text as="b" fontSize="lg" color={textColor}>
-                        {"RefreshToken"}
+                        {'RefreshToken'}
                       </Text>
                     </Box>
                     <AccordionIcon />
@@ -93,11 +83,11 @@ const Login: React.FC<Props> = () => {
                   </AccordionPanel>
                 </AccordionItem>
 
-                <AccordionItem border={"none"} borderBottom={`1px solid ${borderColor}`}>
+                <AccordionItem border={'none'} borderBottom={`1px solid ${borderColor}`}>
                   <AccordionButton padding="20px">
                     <Box flex="1" textAlign="left">
                       <Text as="b" fontSize="lg" color={textColor}>
-                        {"Credenciais do Cliente"}
+                        {'Credenciais do Cliente'}
                       </Text>
                     </Box>
                     <AccordionIcon />

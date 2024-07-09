@@ -1,20 +1,20 @@
 export type PasswordGrantPayload = {
-  grantType: "password";
+  grantType: 'password';
   username: string;
   password: string;
-  responseType?: "refreshToken";
+  responseType?: 'refreshToken';
 };
 
 export type RefreshTokenGrantPayload = {
-  grantType: "refreshToken";
+  grantType: 'refreshToken';
   refreshToken: string;
 };
 
 export type ClientCredentialsGrantPayload = {
-  grantType: "clientCredentials";
+  grantType: 'clientCredentials';
   clientId: string;
   clientSecret: string;
-  responseType?: "refreshToken";
+  responseType?: 'refreshToken';
 };
 
 export type GrantTypePayloads = {
@@ -27,17 +27,17 @@ export type GrantType = keyof GrantTypePayloads;
 
 export const payloadByGrantType: GrantTypePayloads = {
   clientCredentials: {
-    clientId: "",
-    clientSecret: "",
-    grantType: "clientCredentials",
+    clientId: '',
+    clientSecret: '',
+    grantType: 'clientCredentials',
   },
   password: {
-    grantType: "password",
-    password: "",
-    username: "",
+    grantType: 'password',
+    password: '',
+    username: '',
   },
   refreshToken: {
-    grantType: "refreshToken",
-    refreshToken: "",
+    grantType: 'refreshToken',
+    refreshToken: '',
   },
 };
