@@ -8,7 +8,7 @@ type Props = {
 
 export const CodeHighlight: React.FC<Props> = ({ codeString }) => {
   return (
-    <Box marginY={12} bgColor={"#282923"} width={480} borderRadius="xl">
+    <Box bgColor={"#282923"} width={"100%"} borderRadius="xl">
       <SyntaxHighlighter style={okaidia} language="javascript">
         {codeString}
       </SyntaxHighlighter>

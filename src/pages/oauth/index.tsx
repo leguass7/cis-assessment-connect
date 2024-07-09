@@ -2,7 +2,7 @@ import { Box, Container, Image, Text, useColorModeValue } from "@chakra-ui/react
 import React from "react";
 import { FormOauth } from "~/components/Forms/FormOauth";
 import { PublicLayout } from "~/components/PublicLayout";
-import astronauta from "~/public/imgs/astro-cis.png";
+import astronauta from "../../../public/imgs/astro-cis.png";
 
 type Props = {};
 

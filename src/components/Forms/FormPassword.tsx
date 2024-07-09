@@ -13,41 +13,20 @@ import {
 import { useRouter } from "next/router";
 import { FaUserAstronaut, FaLock } from "react-icons/fa";
 import { authAutentication } from "~/services/authLogin";
+import { CisAssessmentClient } from "~/services/CisAssessmentClient";
+import { useApiResponse } from "~/providers/ResponseApiProvider";
 
-type FormLoginProps = {
+type Props = {
   onChange: (load: boolean) => void;
 };
 
-export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
+export const FormPassword: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authResponse, setAuthResponse] = useState<any>({});
+  const { setApiResponse } = useApiResponse();
   const { push } = useRouter();
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoad(true);
-
-    const response = await authAutentication(email, password);
-
-    setLoad(false);
-
-    if (response.success) {
-      setAuthResponse(response);
-      push(`/login/${"success"}`);
-    } else {
-      push(`/login/${"error"}`);
-    }
-  };
 
   const formBg = useColorModeValue("gray.50", "gray.700");
   const formHoverBg = useColorModeValue("gray.100", "gray.600");
@@ -57,6 +36,40 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
   const buttonHoverBg = useColorModeValue("#4d59fa", "#212ffc");
   const buttonTextColor = useColorModeValue("white", "white");
   const boxBg = useColorModeValue("white", "gray.800");
+  const textLabelColor = useColorModeValue("gray.600", "gray.300");
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handlerChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handlerChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const client = new CisAssessmentClient({ development: true });
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoad(true);
+    const response = await client.authenticate(email, password, "password");
+
+    setLoad(false);
+
+    if (response?.success) {
+      setAuthResponse(response);
+      setApiResponse(response);
+      push(`/login/${"success"}`);
+    } else {
+      push(`/login/${"error"}`);
+    }
+  };
 
   useEffect(() => {
     if (onChange) onChange(load);
@@ -64,7 +77,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
 
   return (
     <Box
-      mt={12}
+      marginY={4}
       p={{ base: 2, md: 8 }}
       borderWidth={{ base: 0, md: 1 }}
       borderRadius={{ base: 0, md: "xl" }}
@@ -74,7 +87,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <FormControl id="email" isRequired>
-            <FormLabel color={"#4b4b4b"}>Email</FormLabel>
+            <FormLabel color={textLabelColor}>Email</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <FaUserAstronaut fontSize={22} color="#aaa7a7" />
@@ -99,7 +112,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
             </InputGroup>
           </FormControl>
           <FormControl id="password" isRequired>
-            <FormLabel color={"#4b4b4b"}>Senha</FormLabel>
+            <FormLabel color={textLabelColor}>Senha</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <FaLock color="#aaa7a7" />
@@ -133,6 +146,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ onChange }) => {
             bg={buttonBg}
             size="md"
             fontSize="md"
+            isLoading={load}
           >
             Entrar
           </Button>

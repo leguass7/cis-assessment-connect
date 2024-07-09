@@ -9,13 +9,19 @@ import {
 import { normalizeToken } from "./cis-assessment-client.helper";
 import { SetStoreParams, StoreInterface } from "./store/store.interface";
 import { MemoryStore } from "./store/memory.store";
+import { GrantType, payloadByGrantType } from "./cis-assessment-auth.dto";
+import { baseUrl } from "~/config";
 
 export class CisAssessmentClient {
   public axios: AxiosInstance;
   private baseURL: string;
 
-  constructor(private readonly options: ClientOptions, private readonly store?: StoreInterface) {
-    this.baseURL = `https://${!!options?.development ? "preview" : "api"}.cisassessment.app/api/v1`;
+  constructor(
+    private readonly options: ClientOptions,
+    private readonly store?: StoreInterface,
+  ) {
+    this.baseURL =
+      options?.baseURL || `https://${!!options?.development ? "back" : "api"}.aws.cisassessment.com.br/api/v1`;
     if (!store) this.store = new MemoryStore();
     this.axios = axios.create({ baseURL: this.baseURL });
     this.configure();
@@ -56,7 +62,7 @@ export class CisAssessmentClient {
         }
 
         return Promise.resolve(resolve);
-      }
+      },
     );
   }
 
@@ -99,7 +105,7 @@ export class CisAssessmentClient {
     if (!refreshToken) return result as ResponseCisAssessment<Authorization>;
 
     const payload: RequestRefreshToken = {
-      clientId: this.options?.clientId,
+      // clientId: this.options?.clientId,
       grantType: "refresh_token",
     };
 
@@ -121,15 +127,29 @@ export class CisAssessmentClient {
     }
   }
 
-  async requestToken(username: string, password: string): Promise<ResponseCisAssessment<Authorization>> {
+  async authenticate(
+    email: string,
+    password: string,
+    grantType: GrantType,
+    extraFields: any = {},
+  ): Promise<ResponseCisAssessment<Authorization>> {
     const payload: RequestAuthorization = {
       clientId: this.options?.clientId,
-      username,
-      password,
-      grantType: "client_credentials",
+      ...payloadByGrantType[grantType],
+      ...extraFields,
     };
 
-    const response = await this.axios.post(`/oauth`, payload);
+    if (grantType === "password") {
+      payload.username = email;
+      payload.password = password;
+    }
+
+    if (grantType === "clientCredentials") {
+      payload.clientId = extraFields.clientId;
+      payload.clientSecret = extraFields.clientSecret;
+    }
+
+    const response = await this.axios.post(`/oauth/authorize`, payload);
     return response?.data as ResponseCisAssessment<Authorization>;
   }
 }

@@ -78,8 +78,8 @@ export const RequestAuthorization = `
 
 {
 	"grantType": "clientCredentials",
-	"clientId": "DEV_IDHmMsg1_CEvHnGb4VjNDvrg",
-	"clientSecret": "DEV_IDe1b1d9e887c241ed9863198cc92b22c9",
+	"clientId": "string",
+	"clientSecret": "string",
 	"responseType": "refreshToken"
 }
 `;
