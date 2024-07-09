@@ -18,7 +18,7 @@ export type Authorization = {
 export type CisAssessmentGrantType = 'clientCredentials' | 'refreshToken';
 
 export type RequestAuthorization = {
-  clientSecret: any;
+  clientSecret: string;
   clientId?: string;
   username: string;
   password: string;
