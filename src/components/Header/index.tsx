@@ -1,6 +1,6 @@
-import { FaArrowLeft, FaMoon, FaSun, FaUserLock } from "react-icons/fa";
+import { FaArrowLeft, FaMoon, FaSun } from "react-icons/fa";
 
-import { Box, Button, Container, Flex, IconButton, Image, Spacer, useColorMode } from "@chakra-ui/react";
+import { Box, Container, Flex, IconButton, Image, useColorMode } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

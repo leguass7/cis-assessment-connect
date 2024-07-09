@@ -1,18 +1,7 @@
 import React, { useState } from "react";
 import { FaCopy } from "react-icons/fa";
 
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Image,
-  Stack,
-  Text,
-  Tooltip,
-  useClipboard,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import { useApiResponse } from "~/providers/ResponseApiProvider";

@@ -31,7 +31,7 @@ const Login: React.FC<Props> = () => {
   const router = useRouter();
   const queryAccordion = parseInt(router.query.accordion as string) || 0;
   const [loading, setLoading] = useState(false);
-  const [accordionIndex, setAccordionIndex] = useState<number | number[]>(queryAccordion);
+  const [accordionIndex] = useState<number | number[]>(queryAccordion);
 
   const handlerLoad = (load: boolean) => {
     setLoading(load);

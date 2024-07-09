@@ -1,8 +1,11 @@
-import { Box, Container, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
+
+import { Box, Container, useColorModeValue } from "@chakra-ui/react";
+
 import Header from "~/components/Header";
-import bgDefault from "../../../public/imgs/bg-default.png";
+
 import bgDark from "../../../public/imgs/bg-dark.png";
+import bgDefault from "../../../public/imgs/bg-default.png";
 
 type Props = {
   children?: React.ReactNode;
@@ -15,14 +18,14 @@ export const PublicLayout: React.FC<Props> = ({ children }) => {
 
   return (
     <Box
-      backgroundImage={`url(${backgroundImage})`}
-      backgroundSize={sizeBg}
-      backgroundPosition="center"
       width="100%"
       minHeight="100vh"
       color={textColor}
+      backgroundSize={sizeBg}
+      backgroundPosition="center"
+      backgroundImage={`url(${backgroundImage})`}
     >
-      <Container maxW="container.xl" centerContent>
+      <Container centerContent maxW="container.xl">
         <Header />
         {children}
       </Container>

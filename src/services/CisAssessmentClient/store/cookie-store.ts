@@ -1,7 +1,7 @@
-import { Authorization } from "~/services/CisAssessmentClient/cis-assessment-client.dto";
-import { SetStoreParams, StoreInterface } from "~/services/CisAssessmentClient/store/store.interface";
-
 import Cookies from "js-cookie";
+
+import type { Authorization } from "~/services/CisAssessmentClient/cis-assessment-client.dto";
+import type { SetStoreParams, StoreInterface } from "~/services/CisAssessmentClient/store/store.interface";
 
 export class CookieStore implements StoreInterface {
   private attributes: Cookies.CookieAttributes = {};

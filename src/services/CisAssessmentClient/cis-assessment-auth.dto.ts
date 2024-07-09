@@ -26,18 +26,18 @@ export type GrantTypePayloads = {
 export type GrantType = keyof GrantTypePayloads;
 
 export const payloadByGrantType: GrantTypePayloads = {
+  clientCredentials: {
+    clientId: "",
+    clientSecret: "",
+    grantType: "clientCredentials",
+  },
   password: {
     grantType: "password",
-    username: "",
     password: "",
+    username: "",
   },
   refreshToken: {
     grantType: "refreshToken",
     refreshToken: "",
-  },
-  clientCredentials: {
-    grantType: "clientCredentials",
-    clientId: "",
-    clientSecret: "",
   },
 };

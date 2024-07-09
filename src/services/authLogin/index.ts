@@ -1,23 +1,25 @@
 import axios from "axios";
+
 import { baseUrl } from "~/config";
-import { GrantType, GrantTypePayloads } from "../CisAssessmentClient/cis-assessment-auth.dto";
+
+import type { GrantType, GrantTypePayloads } from "../CisAssessmentClient/cis-assessment-auth.dto";
 
 const payloadByGrantType: GrantTypePayloads = {
+  clientCredentials: {
+    clientId: "",
+    clientSecret: "",
+    grantType: "clientCredentials",
+    responseType: "refreshToken",
+  },
   password: {
     grantType: "password",
-    username: "",
     password: "",
     responseType: "refreshToken",
+    username: "",
   },
   refreshToken: {
     grantType: "refreshToken",
     refreshToken: "",
-  },
-  clientCredentials: {
-    grantType: "clientCredentials",
-    clientId: "",
-    clientSecret: "",
-    responseType: "refreshToken",
   },
 };
 

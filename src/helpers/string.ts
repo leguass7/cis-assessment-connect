@@ -1,4 +1,5 @@
 import { getBaseURL } from "~/config";
+
 import { isDefined } from "./validation";
 
 export function normalizeImageSrc(src = "", defaultImage?: string): string {
