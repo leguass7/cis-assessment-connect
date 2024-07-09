@@ -1,9 +1,12 @@
+import React from "react";
+
 import { Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
+
+import { useAOSAnimation } from "~/hooks/aosAnimate";
+
 import { FeedbackReponseAvatar } from "~/components/FeedbackReponseAvatar";
 import { PublicLayout } from "~/components/PublicLayout";
-import { useAOSAnimation } from "~/hooks/aosAnimate";
 
 type Props = {};
 

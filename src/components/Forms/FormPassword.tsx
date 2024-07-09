@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { FaLock, FaUserAstronaut } from "react-icons/fa";
+
 import {
   Box,
   Button,
   FormControl,
   FormLabel,
   Input,
-  Stack,
-  useColorModeValue,
   InputGroup,
   InputLeftElement,
+  Stack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FaUserAstronaut, FaLock } from "react-icons/fa";
-import { authAutentication } from "~/services/authLogin";
+
 import { CisAssessmentClient } from "~/services/CisAssessmentClient";
+
 import { useApiResponse } from "~/providers/ResponseApiProvider";
 
 type Props = {
@@ -24,7 +26,6 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [authResponse, setAuthResponse] = useState<any>({});
   const { setApiResponse } = useApiResponse();
   const { push } = useRouter();
 
@@ -46,13 +47,6 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     setPassword(event.target.value);
   };
 
-  const handlerChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  const handlerChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
   const client = new CisAssessmentClient({ development: true });
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -63,7 +57,6 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     setLoad(false);
 
     if (response?.success) {
-      setAuthResponse(response);
       setApiResponse(response);
       push(`/login/${"success"}`);
     } else {
@@ -73,15 +66,15 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
 
   useEffect(() => {
     if (onChange) onChange(load);
-  }, [load]);
+  }, [load, onChange]);
 
   return (
     <Box
       marginY={4}
       p={{ base: 2, md: 8 }}
       borderWidth={{ base: 0, md: 1 }}
-      borderRadius={{ base: 0, md: "xl" }}
       boxShadow={{ base: 0, md: "lg" }}
+      borderRadius={{ base: 0, md: "xl" }}
       bg={{ base: "transparent", md: boxBg }}
     >
       <form onSubmit={handleSubmit}>
@@ -93,60 +86,60 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
                 <FaUserAstronaut fontSize={22} color="#aaa7a7" />
               </InputLeftElement>
               <Input
-                value={email}
-                onChange={handleEmailChange}
-                type="email"
-                placeholder="Digite seu email"
-                borderRadius="lg"
                 bg={formBg}
+                type="email"
+                value={email}
+                borderRadius="lg"
+                onChange={handleEmailChange}
+                placeholder="Digite seu email"
                 _placeholder={{ color: placeholderColor }}
-                _focus={{
-                  borderColor: buttonBg,
-                  boxShadow: `0 0 0 1px ${buttonBg}`,
-                  backgroundColor: formFocusBg,
-                }}
                 _hover={{
                   backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
                 }}
               />
             </InputGroup>
           </FormControl>
-          <FormControl id="password" isRequired>
+          <FormControl isRequired id="password">
             <FormLabel color={textLabelColor}>Senha</FormLabel>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <FaLock color="#aaa7a7" />
               </InputLeftElement>
               <Input
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-                placeholder="Digite sua senha"
-                borderRadius="lg"
                 bg={formBg}
+                type="password"
+                value={password}
+                borderRadius="lg"
+                placeholder="Digite sua senha"
+                onChange={handlePasswordChange}
                 _placeholder={{ color: placeholderColor }}
-                _focus={{
-                  borderColor: buttonBg,
-                  boxShadow: `0 0 0 1px ${buttonBg}`,
-                  backgroundColor: formFocusBg,
-                }}
                 _hover={{
                   backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
                 }}
               />
             </InputGroup>
           </FormControl>
           <Button
             mt={4}
+            size="md"
+            type="submit"
+            bg={buttonBg}
+            fontSize="md"
+            isLoading={load}
+            color={buttonTextColor}
             _hover={{
               bg: buttonHoverBg,
             }}
-            type="submit"
-            color={buttonTextColor}
-            bg={buttonBg}
-            size="md"
-            fontSize="md"
-            isLoading={load}
           >
             Entrar
           </Button>

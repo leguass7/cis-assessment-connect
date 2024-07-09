@@ -1,6 +1,7 @@
+import type { ReactElement } from "react";
+
 import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
-import { ReactElement } from "react";
+
 import iconBlue from "../../../public/logo/favicon.svg";
 import iconWhite from "../../../public/logo/icon-white.png";
 
@@ -8,9 +9,10 @@ interface Props {
   click: () => void;
   title?: string;
   size?: "sm" | "md" | "lg" | "xl";
+  width?: string | number;
 }
 
-export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment" }: Props): ReactElement => {
+export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment", width = "none" }: Props): ReactElement => {
   const { colorMode } = useColorMode();
   const cisBackground = useColorModeValue("#212ffc", "#ffff");
   const cisHoverBackground = useColorModeValue("#ffff", "#212ffc");
@@ -21,16 +23,17 @@ export const AssessmentBtn = ({ click, size = "lg", title = "CisAssessment" }: P
 
   return (
     <Button
-      onClick={click}
       size={size}
-      background={colorMode === "dark" ? cisBackground : cisHoverBackground}
+      width={width}
+      onClick={click}
       color={colorMode === "dark" ? cisTextColor : cisHoverTextColor}
+      background={colorMode === "dark" ? cisBackground : cisHoverBackground}
       border={colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none"}
-      leftIcon={<img src={colorMode === "dark" ? cisIcon : cisHoverIcon} alt="Logo" width={16} />}
+      leftIcon={<img alt="Logo" width={16} src={colorMode === "dark" ? cisIcon : cisHoverIcon} />}
       _hover={{
         background: colorMode === "dark" ? cisHoverBackground : cisBackground,
-        color: colorMode === "dark" ? cisHoverTextColor : cisTextColor,
         border: colorMode !== "dark" ? `1px solid ${cisHoverTextColor}` : "none",
+        color: colorMode === "dark" ? cisHoverTextColor : cisTextColor,
       }}
     >
       {title}

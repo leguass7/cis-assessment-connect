@@ -1,5 +1,9 @@
-import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosInstance } from "axios";
-import {
+import type { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, type AxiosInstance } from "axios";
+
+import type { GrantType } from "./cis-assessment-auth.dto";
+import { payloadByGrantType } from "./cis-assessment-auth.dto";
+import type {
   Authorization,
   ClientOptions,
   RequestAuthorization,
@@ -7,11 +11,8 @@ import {
   ResponseCisAssessment,
 } from "./cis-assessment-client.dto";
 import { normalizeToken } from "./cis-assessment-client.helper";
-import { SetStoreParams, StoreInterface } from "./store/store.interface";
 import { MemoryStore } from "./store/memory.store";
-import { GrantType, payloadByGrantType } from "./cis-assessment-auth.dto";
-import { baseUrl } from "~/config";
-
+import type { SetStoreParams, StoreInterface } from "./store/store.interface";
 export class CisAssessmentClient {
   public axios: AxiosInstance;
   private baseURL: string;
@@ -43,7 +44,7 @@ export class CisAssessmentClient {
         const data = (axiosError?.response?.data || {}) as ResponseCisAssessment;
         const message = data?.message || "timeout";
 
-        const resolve: ResponseCisAssessment = { ...data, success: false, message };
+        const resolve: ResponseCisAssessment = { ...data, message, success: false };
 
         if (config && axiosError?.response) {
           if (status === 401 /* && message === "token_expired" */) {
@@ -91,8 +92,8 @@ export class CisAssessmentClient {
       if (authorization?.refreshToken) {
         const newAuthorization = await this.requestRefreshToken(authorization?.refreshToken);
         if (newAuthorization?.accessToken) {
-          const { accessToken, refreshToken, expiresIn } = newAuthorization;
-          this?.store?.set({ accessToken, refreshToken, expiresIn });
+          const { accessToken, expiresIn, refreshToken } = newAuthorization;
+          this?.store?.set({ accessToken, expiresIn, refreshToken });
           return accessToken;
         }
       }
@@ -101,26 +102,26 @@ export class CisAssessmentClient {
   }
 
   async requestRefreshToken(refreshToken: string): Promise<ResponseCisAssessment<Authorization>> {
-    const result: ResponseCisAssessment = { success: false, message: "invalid_refresh_token" };
+    const result: ResponseCisAssessment = { message: "invalid_refresh_token", success: false };
     if (!refreshToken) return result as ResponseCisAssessment<Authorization>;
 
     const payload: RequestRefreshToken = {
-      // clientId: this.options?.clientId,
-      grantType: "refresh_token",
+      grantType: "refreshToken",
+      refreshToken,
     };
 
     try {
       const response = await axios
         .create({ baseURL: this.baseURL })
-        .post(`/oauth`, payload, { headers: { Retry: true } });
+        .post(`/oauth/authorize`, payload, { headers: { Retry: true } });
       return response?.data as ResponseCisAssessment<Authorization>;
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
         const data = axiosError?.response?.data || {};
         return {
           ...data,
-          success: false,
           message: data?.message || "timeout",
+          success: false,
         } as ResponseCisAssessment<Authorization>;
       }
       return result as ResponseCisAssessment<Authorization>;
@@ -149,7 +150,7 @@ export class CisAssessmentClient {
       payload.clientSecret = extraFields.clientSecret;
     }
 
-    const response = await this.axios.post(`/oauth/authorize`, payload);
+    const response = await this.axios.post(`/oauth/authorize`, { ...payload, responseType: "refreshToken" });
     return response?.data as ResponseCisAssessment<Authorization>;
   }
 }
