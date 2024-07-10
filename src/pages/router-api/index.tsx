@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Box, Button, Container, Modal, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -6,22 +6,43 @@ import { useRouter } from 'next/router';
 import 'aos/dist/aos.css';
 
 import { useAOSAnimation } from '~/hooks/aosAnimate';
+import { getCredits } from '~/services/credits';
+import { sendInventoryPassport } from '~/services/inventory';
 
-import { PublicLayout } from '~/components/PublicLayout';
 import { FormCreatePassport } from '~/components/Forms/FormCreatePassport';
+import { PublicLayout } from '~/components/PublicLayout';
 
 type Props = {};
 
 const RouterApi: React.FC<Props> = () => {
   const [credits, setCredits] = useState(0);
   const [showFormPassport, setShowFormPassport] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingSend, setLoadingSend] = useState(false);
+  const [loadingCredits, setLoadingCredits] = useState(false);
 
-  const handlerLoad = (load: boolean) => {
-    setLoading(load);
+  const handlerShowCredit = async () => {
+    setLoadingCredits(true);
+    const response = await getCredits();
+    setLoadingCredits(false);
+    if (response?.success) {
+      setCredits(response?.summary?.credits);
+    }
   };
+
   const onClose = () => {
-    console.log('closed');
+    setShowFormPassport(false);
+  };
+
+  const handlerSendPassportInventory = async () => {
+    setLoadingSend(true);
+    const response = await sendInventoryPassport(passportId);
+    setLoadingSend(false);
+    if (response?.success) {
+      console.log('Passport enviado com sucesso');
+      onClose();
+    } else {
+      console.log('Erro ao enviar Passport');
+    }
   };
 
   useAOSAnimation();
@@ -30,14 +51,17 @@ const RouterApi: React.FC<Props> = () => {
     <PublicLayout>
       <Container mt={10} alignItems="center" justifyContent="center">
         <Box>{/* <FormCreatePassport /> */}</Box>
-        <Button>Consultar créditos</Button>
-        {credits > 0 && <Text>total de creditos: {credits}</Text>}
+        <Button onClick={handlerShowCredit}>Consultar créditos</Button>
+        {(credits >= 0 || loadingCredits) && <Text>total de créditos: {credits}</Text>}
 
-        <Button onClick={() => setShowFormPassport(true)}>Enviar Passaport</Button>
-        <Modal isOpen={showFormPassport} onClose={onClose}>
-          <form onSubmit={''}>
+        <Button>Criar Passport</Button>
+
+        <Button onClick={() => setShowFormPassport(true)}>Enviar Passport-Inventario</Button>
+        <Modal onClose={onClose} isOpen={showFormPassport}>
+          <form onSubmit={handlerSendPassportInventory}>
             <input type="text" placeholder="Email" />
             <input type="text" placeholder="Nome" />
+            <input type="text" placeholder="Idioma" />
             <button type="submit">enviar</button>
           </form>
         </Modal>

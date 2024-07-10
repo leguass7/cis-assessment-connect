@@ -1,7 +1,14 @@
-export type LangType = 'pt-br' | 'en' | 'es';
+import type { IResponseApi } from '..';
 
-export type IResponseSendPassport = {
-  success: boolean;
+export type IResponseSendPassport = IResponseApi & {
   passportId: number;
-  message?: string;
+};
+
+export type IInventory = {
+  passportId: number;
+  id: number;
+  name: string;
+  email: string;
+  answered: boolean;
+  pending: boolean;
 };

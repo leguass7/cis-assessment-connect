@@ -1,13 +1,17 @@
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 
-import { IResponseSendPassport, LangType } from '../inventory/inventory.dto';
+import type { IResponseCreditSummary } from '../credits/credits.dto';
+import type { IResponseSendPassport } from '../inventory/inventory.dto';
+import type { ICreatePassport, IResponseCreatePassport, IResponsePassport } from '../passport/passport.dto';
 import type { GrantType } from './cis-assessment-auth.dto';
 import { payloadByGrantType } from './cis-assessment-auth.dto';
 import type { Authorization, ClientOptions, RequestAuthorization, RequestRefreshToken, ResponseCisAssessment } from './cis-assessment-client.dto';
 import { normalizeToken } from './cis-assessment-client.helper';
 import { MemoryStore } from './store/memory.store';
 import type { SetStoreParams, StoreInterface } from './store/store.interface';
+
+import type { LangType } from '..';
 export class CisAssessmentClient {
   public axios: AxiosInstance;
   private baseURL: string;
@@ -141,19 +145,19 @@ export class CisAssessmentClient {
     return response?.data as ResponseCisAssessment<Authorization>;
   }
 
-  async requestCredits(): Promise<ResponseCisAssessment> {
-    const response = await this.axios.get(`/credits`);
-    return response?.data as ResponseCisAssessment;
+  async requestCredits(): Promise<IResponseCreditSummary> {
+    const response = await this.axios.get(`company/credit/summary`);
+    return response?.data;
   }
 
-  async createPassport(): Promise<ResponseCisAssessment> {
-    const response = await this.axios.post(`/passport`);
-    return response?.data as ResponseCisAssessment;
+  async createPassport(payload: Partial<ICreatePassport>): Promise<IResponseCreatePassport> {
+    const response = await this.axios.post(`/company/passport`, payload);
+    return response?.data;
   }
 
-  async getPassport(): Promise<ResponseCisAssessment> {
-    const response = await this.axios.get(`/passport`);
-    return response?.data as ResponseCisAssessment;
+  async requestPassport(passportId: number): Promise<IResponsePassport> {
+    const response = await this.axios.get(`/company/passport/${passportId}`);
+    return response?.data;
   }
 
   async sendInventoryPassport(passportId: number, payload: { name: string; email: string; language: LangType }): Promise<IResponseSendPassport> {
