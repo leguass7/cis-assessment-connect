@@ -64,6 +64,12 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
     fetchStoreData();
   }, [fetchStoreData]);
 
+  const handlerAccessRouter = () => {
+    router.push({
+      pathname: '/router-api',
+    });
+  };
+
   return (
     <>
       <Box width={'100%'} data-aos="zoom-in">
@@ -127,9 +133,17 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
               />
             </Tooltip>
           </Flex>
-          <Box marginY={4}>
-            <AssessmentBtn width={'full'} click={handleClickRefreshAccess} title="Autenticação por RefreshToken" />
-          </Box>
+          <Flex gap={2}>
+            <Box marginY={4}>
+              <AssessmentBtn click={handleClickRefreshAccess} title="Autenticação por RefreshToken" />
+            </Box>
+
+            {accessToken ? (
+              <Box marginY={4}>
+                <AssessmentBtn width={'100%'} click={handlerAccessRouter} title="Rotas API" />
+              </Box>
+            ) : null}
+          </Flex>
         </>
       ) : null}
     </>

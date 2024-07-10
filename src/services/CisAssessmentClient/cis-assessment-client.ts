@@ -139,4 +139,24 @@ export class CisAssessmentClient {
     const response = await this.axios.post(`/oauth/authorize`, { ...payload, responseType: 'refreshToken' });
     return response?.data as ResponseCisAssessment<Authorization>;
   }
+
+  async requestCredits(): Promise<ResponseCisAssessment> {
+    const response = await this.axios.get(`/credits`);
+    return response?.data as ResponseCisAssessment;
+  }
+
+  async createPassport(): Promise<ResponseCisAssessment> {
+    const response = await this.axios.post(`/passport`);
+    return response?.data as ResponseCisAssessment;
+  }
+
+  async getPassport(): Promise<ResponseCisAssessment> {
+    const response = await this.axios.get(`/passport`);
+    return response?.data as ResponseCisAssessment;
+  }
+
+  async sendInventoryPassport(passportId: number, payload: { name: string; email: string; language: string }): Promise<any> {
+    const response = await axios.post(`/company/passport/${passportId}/inventory`, payload);
+    return response?.data as ResponseCisAssessment;
+  }
 }
