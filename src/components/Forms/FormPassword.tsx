@@ -4,9 +4,9 @@ import { FaLock, FaUserAstronaut } from 'react-icons/fa';
 import { Box, Button, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import { CisAssessmentClient } from '~/services/CisAssessmentClient';
+import { authAuthentication, setStore } from '~/services/authLogin';
 
-import { useApiResponse } from '~/providers/ResponseApiProvider';
+import { useApiResponse } from '~/providers/AppProvider';
 
 type Props = {
   onChange: (load: boolean) => void;
@@ -16,8 +16,8 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setApiResponse } = useApiResponse();
   const { push } = useRouter();
+  const { setAuthPassword } = useApiResponse();
 
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
@@ -37,17 +37,18 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     setPassword(event.target.value);
   };
 
-  const client = new CisAssessmentClient({ development: true });
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoad(true);
-    const response = await client.authenticate(email, password, 'password');
-
+    const response = await authAuthentication(email, password, 'password');
     setLoad(false);
 
     if (response?.success) {
-      setApiResponse(response);
+      setAuthPassword(true);
+      await setStore({
+        accessToken: response?.accessToken,
+        refreshToken: response?.refreshToken,
+      });
       push(`/login/${'success'}`);
     } else {
       push(`/login/${'error'}`);

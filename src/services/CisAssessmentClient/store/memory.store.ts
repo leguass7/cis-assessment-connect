@@ -14,7 +14,7 @@ export class MemoryStore implements StoreInterface {
   }
 
   async get(): Promise<Authorization | null> {
-    return null;
+    return this.authorization;
   }
 
   async clear(): Promise<void> {

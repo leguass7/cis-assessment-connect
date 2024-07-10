@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, FormLabel, Input, InputGroup, Stack, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import { CisAssessmentClient } from '~/services/CisAssessmentClient';
+import { authRefreshToken, setStore } from '~/services/authLogin';
 
-import { useApiResponse } from '~/providers/ResponseApiProvider';
+import { useApiResponse } from '~/providers/AppProvider';
 
 type Props = {
   onChange: (load: boolean) => void;
@@ -14,10 +14,8 @@ type Props = {
 export const FormRefreshToken: React.FC<Props> = ({ onChange }) => {
   const [load, setLoad] = useState(false);
   const [refreshToken, setRefreshToken] = useState('');
-  const { apiResponse } = useApiResponse();
+  const { setAuthRefreshToken } = useApiResponse();
   const { push } = useRouter();
-
-  const responseToken = apiResponse?.refreshToken;
 
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
@@ -33,17 +31,19 @@ export const FormRefreshToken: React.FC<Props> = ({ onChange }) => {
     setRefreshToken(event.target.value);
   };
 
-  const client = new CisAssessmentClient({ development: true });
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoad(true);
-    const response = await client.requestRefreshToken(responseToken);
+    const response = await authRefreshToken(refreshToken);
 
     setLoad(false);
 
     if (response?.success) {
-      setRefreshToken(response?.refreshToken);
+      setAuthRefreshToken(true);
+      await setStore({
+        accessToken: response?.accessToken,
+        refreshToken: response?.refreshToken,
+      });
       push(`/login/${'success'}`);
     } else {
       push(`/login/${'error'}`);

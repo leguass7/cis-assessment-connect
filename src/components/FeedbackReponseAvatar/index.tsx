@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
 import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import { useApiResponse } from '~/providers/ResponseApiProvider';
+import { getStore } from '~/services/authLogin';
+
+import { useApiResponse } from '~/providers/AppProvider';
 
 import avatarSuccess from '../../../public/imgs/astro-cis.png';
 import avatarError from '../../../public/imgs/astro401.png';
@@ -16,17 +18,18 @@ type Props = {
 };
 
 export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
-  const { apiResponse } = useApiResponse();
   const [showTooltip, setShowTooltip] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const { authRefreshToken } = useApiResponse();
   const router = useRouter();
 
   const mainTextColor = useColorModeValue('#3b3b3b', 'gray.200');
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
-  const responseTokenRefresh = apiResponse?.refreshToken;
-  const responseTokenAccess = apiResponse?.accessToken;
 
-  const { onCopy } = useClipboard(responseTokenRefresh || '');
+  const { onCopy } = useClipboard(refreshToken || '');
 
   const handleCopyClick = () => {
     onCopy();
@@ -39,6 +42,24 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
       query: { accordion: 1 },
     });
   };
+
+  const fetchStoreData = useCallback(async () => {
+    setLoading(true);
+    const storeData = await getStore();
+    setLoading(false);
+
+    if (storeData) {
+      setRefreshToken(storeData?.refreshToken);
+      setAccessToken(storeData?.accessToken);
+    } else {
+      setRefreshToken('');
+      setAccessToken('');
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStoreData();
+  }, [fetchStoreData]);
 
   return (
     <>
@@ -57,16 +78,16 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
 
       {!!status ? (
         <>
-          {/* {responseTokenAccess && (
+          {authRefreshToken && (
             <>
               <Box>
                 <Text as="b" color={mainTextColor}>
                   {'Access Token'}
                 </Text>
               </Box>
-              <Flex marginBottom={4} gap={2} align="center" justify="center">
+              <Flex gap={2} align="center" marginBottom={4} justify="center">
                 <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-                  <Text color={'#e0d56d'}>{limitString(responseTokenAccess, 44)}</Text>
+                  <Text color={'#e0d56d'}>{limitString(accessToken, 44)}</Text>
                 </Box>
                 <Tooltip label="Copiado!" isOpen={showTooltip}>
                   <IconButton
@@ -81,7 +102,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                 </Tooltip>
               </Flex>
             </>
-          )} */}
+          )}
           <Box>
             <Text as="b" color={mainTextColor}>
               {'Refresh Token'}
@@ -89,7 +110,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
           </Box>
           <Flex gap={2} align="center" justify="center">
             <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-              <Text color={'#e0d56d'}>{limitString(responseTokenRefresh, 44)}</Text>
+              {loading ? <Text>Carregando...</Text> : <Text color={'#e0d56d'}>{limitString(refreshToken, 44)}</Text>}
             </Box>
             <Tooltip label="Copiado!" isOpen={showTooltip}>
               <IconButton
