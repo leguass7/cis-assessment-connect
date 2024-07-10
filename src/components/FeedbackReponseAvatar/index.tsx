@@ -18,7 +18,8 @@ type Props = {
 };
 
 export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showAccessTooltip, setShowAccessTooltip] = useState(false);
+  const [showRefreshTooltip, setShowRefreshTooltip] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshToken, setRefreshToken] = useState('');
   const [accessToken, setAccessToken] = useState('');
@@ -29,14 +30,16 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
 
-  const { onCopy } = useClipboard(refreshToken || '');
+  const { onCopy: copyRefreshToken } = useClipboard(refreshToken);
+  const { onCopy: copyAccessToken } = useClipboard(accessToken);
 
-  const handleCopyClick = () => {
-    onCopy();
+  const handleCopyClick = (copyFunction: () => void, setShowTooltip: React.Dispatch<React.SetStateAction<boolean>>) => {
+    copyFunction();
     setShowTooltip(true);
     setTimeout(() => setShowTooltip(false), 2000);
   };
-  const hanldeClickRefreshAccess = () => {
+
+  const handleClickRefreshAccess = () => {
     router.push({
       pathname: '/login',
       query: { accordion: 1 },
@@ -89,14 +92,14 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                 <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
                   <Text color={'#e0d56d'}>{limitString(accessToken, 44)}</Text>
                 </Box>
-                <Tooltip label="Copiado!" isOpen={showTooltip}>
+                <Tooltip label="Copiado!" isOpen={showAccessTooltip}>
                   <IconButton
                     size="md"
                     color={'white'}
                     icon={<FaCopy />}
                     aria-label="Copiar"
                     backgroundColor="#212ffc"
-                    onClick={handleCopyClick}
+                    onClick={() => handleCopyClick(copyAccessToken, setShowAccessTooltip)}
                     _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
                   />
                 </Tooltip>
@@ -112,20 +115,20 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
             <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
               {loading ? <Text>Carregando...</Text> : <Text color={'#e0d56d'}>{limitString(refreshToken, 44)}</Text>}
             </Box>
-            <Tooltip label="Copiado!" isOpen={showTooltip}>
+            <Tooltip label="Copiado!" isOpen={showRefreshTooltip}>
               <IconButton
                 size="md"
                 color={'white'}
                 icon={<FaCopy />}
                 aria-label="Copiar"
                 backgroundColor="#212ffc"
-                onClick={handleCopyClick}
+                onClick={() => handleCopyClick(copyRefreshToken, setShowRefreshTooltip)}
                 _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
               />
             </Tooltip>
           </Flex>
           <Box marginY={4}>
-            <AssessmentBtn width={'full'} click={hanldeClickRefreshAccess} title="Autenticação por RefreshToken" />
+            <AssessmentBtn width={'full'} click={handleClickRefreshAccess} title="Autenticação por RefreshToken" />
           </Box>
         </>
       ) : null}
