@@ -1,6 +1,7 @@
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 
+import { IResponseSendPassport, LangType } from '../inventory/inventory.dto';
 import type { GrantType } from './cis-assessment-auth.dto';
 import { payloadByGrantType } from './cis-assessment-auth.dto';
 import type { Authorization, ClientOptions, RequestAuthorization, RequestRefreshToken, ResponseCisAssessment } from './cis-assessment-client.dto';
@@ -155,8 +156,8 @@ export class CisAssessmentClient {
     return response?.data as ResponseCisAssessment;
   }
 
-  async sendInventoryPassport(passportId: number, payload: { name: string; email: string; language: string }): Promise<any> {
+  async sendInventoryPassport(passportId: number, payload: { name: string; email: string; language: LangType }): Promise<IResponseSendPassport> {
     const response = await axios.post(`/company/passport/${passportId}/inventory`, payload);
-    return response?.data as ResponseCisAssessment;
+    return response?.data;
   }
 }
