@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
-import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Grid, IconButton, Image, Stack, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { getStore } from '~/services/authLogin';
@@ -63,6 +63,12 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   useEffect(() => {
     fetchStoreData();
   }, [fetchStoreData]);
+
+  const handlerAccessRouter = () => {
+    router.push({
+      pathname: '/router-api',
+    });
+  };
 
   return (
     <>
@@ -127,9 +133,12 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
               />
             </Tooltip>
           </Flex>
-          <Box marginY={4}>
-            <AssessmentBtn width={'full'} click={handleClickRefreshAccess} title="Autenticação por RefreshToken" />
-          </Box>
+          <Stack gap={2} marginY={2}>
+            <Grid gap={2} templateColumns="1fr 1fr">
+              <AssessmentBtn showIcon={false} title="Autenticar RefreshToken" click={handleClickRefreshAccess} />
+              {accessToken && <AssessmentBtn width="full" showIcon={false} title="Rotas API" click={handlerAccessRouter} />}
+            </Grid>
+          </Stack>
         </>
       ) : null}
     </>
