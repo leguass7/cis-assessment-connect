@@ -11,9 +11,10 @@ interface Props {
   title?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   width?: string | number;
+  showIcon?: boolean;
 }
 
-export const AssessmentBtn = ({ click, size = 'lg', title = 'CisAssessment', width = 'none' }: Props): ReactElement => {
+export const AssessmentBtn = ({ click, showIcon = true, size = 'lg', title = 'CisAssessment', width = 'none' }: Props): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
 
   const bgColor = useColorModeValue('#212ffc', '#ffff');
@@ -33,7 +34,7 @@ export const AssessmentBtn = ({ click, size = 'lg', title = 'CisAssessment', wid
       color={isHovered ? hoverTextColor : textColor}
       background={isHovered ? hoverBgColor : bgColor}
       border={isHovered ? `1px solid ${hoverTextColor}` : `1px solid transparent`}
-      leftIcon={<img alt="Logo" width={16} src={isHovered ? hoverIconColor : iconColor} />}
+      leftIcon={showIcon ? <img alt="Logo" width={16} src={isHovered ? hoverIconColor : iconColor} /> : null}
       _hover={{
         background: hoverBgColor,
         border: `1px solid ${hoverTextColor}`,

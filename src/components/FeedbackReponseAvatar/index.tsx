@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
-import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Grid, IconButton, Image, Stack, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-// import { CisAssessmentClient } from '~/services/CisAssessmentClient';
+import { getStore } from '~/services/authLogin';
 
-import { useApiResponse } from '~/providers/ResponseApiProvider';
+import { useApiResponse } from '~/providers/AppProvider';
 
 import avatarSuccess from '../../../public/imgs/astro-cis.png';
 import avatarError from '../../../public/imgs/astro401.png';
@@ -18,37 +18,55 @@ type Props = {
 };
 
 export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
-  const { apiResponse } = useApiResponse();
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showAccessTooltip, setShowAccessTooltip] = useState(false);
+  const [showRefreshTooltip, setShowRefreshTooltip] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const { authRefreshToken } = useApiResponse();
   const router = useRouter();
 
   const mainTextColor = useColorModeValue('#3b3b3b', 'gray.200');
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
-  const responseTokenRefresh = apiResponse?.refreshToken;
-  // const responseTokenAccess = apiResponse?.accessToken;
 
-  // const client = new CisAssessmentClient({ development: true });
+  const { onCopy: copyRefreshToken } = useClipboard(refreshToken);
+  const { onCopy: copyAccessToken } = useClipboard(accessToken);
 
-  // const getRefreshToken = async () => {
-  //   const store = await client.getStore();
-  //   const refreshToken = store?.refreshToken || '';
-  //   return refreshToken;
-  // };
-
-  // const refreshToken = client.getStore()?.then(store => store?.refreshToken || '');
-
-  const { onCopy } = useClipboard(responseTokenRefresh || '');
-
-  const handleCopyClick = () => {
-    onCopy();
+  const handleCopyClick = (copyFunction: () => void, setShowTooltip: React.Dispatch<React.SetStateAction<boolean>>) => {
+    copyFunction();
     setShowTooltip(true);
     setTimeout(() => setShowTooltip(false), 2000);
   };
-  const hanldeClickRefreshAccess = () => {
+
+  const handleClickRefreshAccess = () => {
     router.push({
       pathname: '/login',
       query: { accordion: 1 },
+    });
+  };
+
+  const fetchStoreData = useCallback(async () => {
+    setLoading(true);
+    const storeData = await getStore();
+    setLoading(false);
+
+    if (storeData) {
+      setRefreshToken(storeData?.refreshToken);
+      setAccessToken(storeData?.accessToken);
+    } else {
+      setRefreshToken('');
+      setAccessToken('');
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStoreData();
+  }, [fetchStoreData]);
+
+  const handlerAccessRouter = () => {
+    router.push({
+      pathname: '/router-api',
     });
   };
 
@@ -69,31 +87,31 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
 
       {!!status ? (
         <>
-          {/* {responseTokenAccess && (
+          {authRefreshToken && (
             <>
               <Box>
                 <Text as="b" color={mainTextColor}>
                   {'Access Token'}
                 </Text>
               </Box>
-              <Flex marginBottom={4} gap={2} align="center" justify="center">
+              <Flex gap={2} align="center" marginBottom={4} justify="center">
                 <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-                  <Text color={'#e0d56d'}>{limitString(responseTokenAccess, 44)}</Text>
+                  <Text color={'#e0d56d'}>{limitString(accessToken, 44)}</Text>
                 </Box>
-                <Tooltip label="Copiado!" isOpen={showTooltip}>
+                <Tooltip label="Copiado!" isOpen={showAccessTooltip}>
                   <IconButton
                     size="md"
                     color={'white'}
                     icon={<FaCopy />}
                     aria-label="Copiar"
                     backgroundColor="#212ffc"
-                    onClick={handleCopyClick}
+                    onClick={() => handleCopyClick(copyAccessToken, setShowAccessTooltip)}
                     _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
                   />
                 </Tooltip>
               </Flex>
             </>
-          )} */}
+          )}
           <Box>
             <Text as="b" color={mainTextColor}>
               {'Refresh Token'}
@@ -101,23 +119,26 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
           </Box>
           <Flex gap={2} align="center" justify="center">
             <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-              <Text color={'#e0d56d'}>{limitString(responseTokenRefresh, 44)}</Text>
+              {loading ? <Text>Carregando...</Text> : <Text color={'#e0d56d'}>{limitString(refreshToken, 44)}</Text>}
             </Box>
-            <Tooltip label="Copiado!" isOpen={showTooltip}>
+            <Tooltip label="Copiado!" isOpen={showRefreshTooltip}>
               <IconButton
                 size="md"
                 color={'white'}
                 icon={<FaCopy />}
                 aria-label="Copiar"
                 backgroundColor="#212ffc"
-                onClick={handleCopyClick}
+                onClick={() => handleCopyClick(copyRefreshToken, setShowRefreshTooltip)}
                 _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
               />
             </Tooltip>
           </Flex>
-          <Box marginY={4}>
-            <AssessmentBtn width={'full'} click={hanldeClickRefreshAccess} title="Autenticação por RefreshToken" />
-          </Box>
+          <Stack gap={2} marginY={2}>
+            <Grid gap={2} templateColumns="1fr 1fr">
+              <AssessmentBtn showIcon={false} title="Autenticar RefreshToken" click={handleClickRefreshAccess} />
+              {accessToken && <AssessmentBtn width="full" showIcon={false} title="Rotas API" click={handlerAccessRouter} />}
+            </Grid>
+          </Stack>
         </>
       ) : null}
     </>
