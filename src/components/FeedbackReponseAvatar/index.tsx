@@ -135,7 +135,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
           </Flex>
           <Stack gap={2} marginY={2}>
             <Grid gap={2} templateColumns="1fr 1fr">
-              <AssessmentBtn showIcon={false} click={handleClickRefreshAccess} title="Autenticar RefreshToken" />
+              <AssessmentBtn showIcon={false} title="Autenticar RefreshToken" click={handleClickRefreshAccess} />
               {accessToken && <AssessmentBtn width="full" showIcon={false} title="Rotas API" click={handlerAccessRouter} />}
             </Grid>
           </Stack>
