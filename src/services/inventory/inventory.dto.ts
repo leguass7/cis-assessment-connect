@@ -1,4 +1,4 @@
-import type { IResponseApi } from '..';
+import type { IResponseApi, LangType } from '..';
 
 export type IResponseSendPassport = IResponseApi & {
   passportId: number;
@@ -11,4 +11,10 @@ export type IInventory = {
   email: string;
   answered: boolean;
   pending: boolean;
+};
+
+export type ICreateInventory = {
+  name: string;
+  email: string;
+  language: LangType | string;
 };

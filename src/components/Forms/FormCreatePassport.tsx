@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, FormControl, FormLabel, Input, InputGroup, Select, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input, InputGroup, Select, Stack, useColorModeValue } from '@chakra-ui/react';
 
-export const FormCreatePassport: React.FC = () => {
+import { createPassport } from '~/services/passport';
+
+import { useApiResponse } from '~/providers/AppProvider';
+
+type Props = {
+  onSuccess: (success: boolean, submit: boolean) => void;
+};
+
+export const FormCreatePassport: React.FC<Props> = ({ onSuccess }) => {
   const [name, setName] = useState('Api');
-  const [processObjective, setSelect1] = useState('');
-  const [typeReport, setTypeReport] = useState('Disc + tipos psicológicos + fatores');
+  const { setPassport } = useApiResponse();
+  const [finality, setFinality] = useState(null);
+  const [typeReport, setTypeReport] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [options1, setOptions1] = useState<string[]>([]);
-  const [options2, setOptions2] = useState<string[]>([]);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
@@ -17,54 +26,77 @@ export const FormCreatePassport: React.FC = () => {
   const buttonBg = useColorModeValue('#212ffc', '#4d59fa');
   const buttonHoverBg = useColorModeValue('#4d59fa', '#212ffc');
   const buttonTextColor = useColorModeValue('white', 'white');
-  const boxBg = useColorModeValue('white', 'gray.800');
   const textLabelColor = useColorModeValue('gray.600', 'gray.300');
 
-  useEffect(() => {
-    const fetchOptions = async () => {
-      const response1 = await new Promise<string[]>(resolve => setTimeout(() => resolve(['Pessoal', 'Global', 'Profissional']), 1000));
-      const response2 = await new Promise<string[]>(resolve =>
-        setTimeout(() => resolve(['Disc + tipos psicológicos + fatores', 'Opção 2.2', 'Opção 2.3']), 1000),
-      );
-      setOptions1(response1);
-      setOptions2(response2);
-    };
-
-    fetchOptions();
-  }, []);
+  const typeReportOptions = [
+    {
+      name: 'Disc + tipos psicológicos + fatores',
+      value: 1,
+    },
+    {
+      name: 'Disc',
+      value: 2,
+    },
+    {
+      name: 'Inteligências Múltiplas',
+      value: 3,
+    },
+    {
+      name: 'MiniMega Assessment',
+      value: 4,
+    },
+  ];
+  const finalityOptions = [
+    {
+      name: 'Pessoal',
+      value: 1,
+    },
+    {
+      name: 'Global',
+      value: 2,
+    },
+    {
+      name: 'Profissional',
+      value: 3,
+    },
+  ];
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
-  const handleSelect1Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelect1(event.target.value);
+  const handleFinalitySelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFinality(event.target.value);
   };
 
-  const handleSelect2Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTypeReport(event.target.value);
+  const handleTypeReportSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTypeReport(Number(event.target.value));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      alert(`Nome: ${name}\nSelect 1: ${processObjective}\nSelect 2: ${typeReport}`);
-    }, 1000);
+    const response = await createPassport(name, finality, typeReport);
+    setLoading(false);
+    setIsSubmitting(true);
+    if (response?.success) {
+      setIsSuccess(true);
+      setPassport(response?.passport);
+    } else {
+      setIsSuccess(false);
+    }
   };
 
+  useEffect(() => {
+    if (onSuccess) {
+      onSuccess(isSuccess, isSubmitting);
+    }
+  }, [isSubmitting, isSuccess, onSuccess]);
+
   return (
-    <Box
-      marginY={4}
-      p={{ base: 2, md: 8 }}
-      borderWidth={{ base: 0, md: 1 }}
-      boxShadow={{ base: 0, md: 'lg' }}
-      borderRadius={{ base: 0, md: 'xl' }}
-      bg={{ base: 'transparent', md: boxBg }}
-    >
+    <>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={6}>
+        <Stack spacing={8}>
           <FormControl id="name" isRequired>
             <FormLabel color={textLabelColor}>Nome</FormLabel>
             <InputGroup>
@@ -89,14 +121,14 @@ export const FormCreatePassport: React.FC = () => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl isRequired id="processObjective ">
+          <FormControl isRequired id="finality ">
             <FormLabel color={textLabelColor}>Finalidade do processo</FormLabel>
             <Select
               bg={formBg}
+              value={finality}
               borderRadius="lg"
-              value={processObjective}
-              onChange={handleSelect1Change}
               placeholder="Finalidade do processo"
+              onChange={handleFinalitySelectChange}
               _hover={{
                 backgroundColor: formHoverBg,
               }}
@@ -106,9 +138,9 @@ export const FormCreatePassport: React.FC = () => {
                 boxShadow: `0 0 0 1px ${buttonBg}`,
               }}
             >
-              {options1.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
+              {finalityOptions.map((option, index) => (
+                <option key={index} value={option?.value}>
+                  {option?.name}
                 </option>
               ))}
             </Select>
@@ -123,8 +155,8 @@ export const FormCreatePassport: React.FC = () => {
               borderRadius="lg"
               value={typeReport}
               cursor="not-allowed"
-              onChange={handleSelect2Change}
               placeholder="Tipo de Relatório"
+              onChange={handleTypeReportSelectChange}
               _hover={{
                 backgroundColor: formHoverBg,
               }}
@@ -134,9 +166,9 @@ export const FormCreatePassport: React.FC = () => {
                 boxShadow: `0 0 0 1px ${buttonBg}`,
               }}
             >
-              {options2.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
+              {typeReportOptions.map((option, index) => (
+                <option key={index} value={option?.value}>
+                  {option?.name}
                 </option>
               ))}
             </Select>
@@ -153,10 +185,10 @@ export const FormCreatePassport: React.FC = () => {
               bg: buttonHoverBg,
             }}
           >
-            Enviar
+            Criar
           </Button>
         </Stack>
       </form>
-    </Box>
+    </>
   );
 };

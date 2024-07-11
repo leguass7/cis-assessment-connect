@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
-import { Box, Flex, IconButton, Image, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Grid, IconButton, Image, Stack, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { getStore } from '~/services/authLogin';
@@ -133,17 +133,12 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
               />
             </Tooltip>
           </Flex>
-          <Flex gap={2}>
-            <Box marginY={4}>
-              <AssessmentBtn click={handleClickRefreshAccess} title="Autenticação por RefreshToken" />
-            </Box>
-
-            {accessToken ? (
-              <Box marginY={4}>
-                <AssessmentBtn width={'100%'} click={handlerAccessRouter} title="Rotas API" />
-              </Box>
-            ) : null}
-          </Flex>
+          <Stack gap={2} marginY={2}>
+            <Grid gap={2} templateColumns="1fr 1fr">
+              <AssessmentBtn showIcon={false} click={handleClickRefreshAccess} title="Autenticar RefreshToken" />
+              {accessToken && <AssessmentBtn width="full" showIcon={false} title="Rotas API" click={handlerAccessRouter} />}
+            </Grid>
+          </Stack>
         </>
       ) : null}
     </>

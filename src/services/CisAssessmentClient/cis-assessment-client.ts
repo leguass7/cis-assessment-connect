@@ -150,7 +150,7 @@ export class CisAssessmentClient {
     return response?.data;
   }
 
-  async createPassport(payload: Partial<ICreatePassport>): Promise<IResponseCreatePassport> {
+  async createPassport(payload: Partial<ICreatePassport>): Promise<IResponsePassport> {
     const response = await this.axios.post(`/company/passport`, payload);
     return response?.data;
   }
@@ -161,7 +161,7 @@ export class CisAssessmentClient {
   }
 
   async sendInventoryPassport(passportId: number, payload: { name: string; email: string; language: LangType }): Promise<IResponseSendPassport> {
-    const response = await axios.post(`/company/passport/${passportId}/inventory`, payload);
+    const response = await this.axios.post(`/company/passport/${passportId}/inventory`, payload);
     return response?.data;
   }
 }
