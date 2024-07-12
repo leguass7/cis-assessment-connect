@@ -13,7 +13,8 @@ export const Header: React.FC<Props> = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
 
-  const colorbtn = useColorModeValue('gray.100', 'gray.700');
+  const colorbtn = useColorModeValue('gray.200', 'gray.700');
+  const hoverColor = useColorModeValue('gray.300', 'gray.600');
 
   const handleAuthorizeClick = () => {
     router.push('/authorize');
@@ -34,7 +35,7 @@ export const Header: React.FC<Props> = () => {
             <Link href="/">
               <Image alt="Logo" src={logoCis.src} width={{ base: 300, md: 400 }} _hover={{ cursor: 'pointer' }} />
             </Link>
-            <Flex gap={2} width="100%" marginTop={{ base: 4, md: 0 }} justify={{ base: 'center', md: 'end' }}>
+            <Flex gap={2} width="100%" marginTop={{ base: 5, md: 0 }} justify={{ base: 'space-between', md: 'end' }}>
               {router.pathname !== '/' && (
                 <IconButton aria-label="Go back" icon={<FaArrowLeft />} onClick={handleBackClick} display={{ base: 'flex', md: 'none' }} />
               )}
@@ -43,6 +44,7 @@ export const Header: React.FC<Props> = () => {
                 background={colorbtn}
                 onClick={toggleColorMode}
                 aria-label="Toggle dark mode"
+                _hover={{ backgroundColor: hoverColor }}
                 icon={colorMode === 'light' ? <FaMoon /> : <FaSun />}
               />
             </Flex>

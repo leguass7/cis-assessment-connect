@@ -19,7 +19,7 @@ export const AssessmentBtn = ({ click, showIcon = true, size = 'lg', title = 'Ci
 
   const bgColor = useColorModeValue('cisBlue', 'gray.700');
   const textColor = useColorModeValue('#ffff', '#ffff');
-  const hoverBgColor = useColorModeValue('gray.50', 'gray.900');
+  const hoverBgColor = useColorModeValue('gray.50', 'gray.800');
   const hoverTextColor = useColorModeValue('cisBlue', '#f0f0f0');
   const hoverBorderColor = useColorModeValue('#212ffc', '#ffff');
 
