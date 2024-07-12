@@ -1,7 +1,7 @@
 import { FaUserAstronaut } from 'react-icons/fa';
 import { TbApiApp } from 'react-icons/tb';
 
-import { Box, SimpleGrid, Text, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 
 import { useAOSAnimation } from '~/hooks/aosAnimate';
 
@@ -11,7 +11,7 @@ import { PublicLayout } from '~/components/PublicLayout';
 interface Props {}
 
 const Home: React.FC<Props> = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const [isMobile] = useMediaQuery('(max-width: 500px)');
   const textColor = useColorModeValue('#313131', 'white');
   useAOSAnimation();
 

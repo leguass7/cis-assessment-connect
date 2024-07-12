@@ -120,7 +120,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                       icon={<FaCopy />}
                       aria-label="Copiar"
                       position="absolute"
-                      backgroundColor="#212ffc"
+                      backgroundColor="cisBlue"
                       transform="translateY(-50%)"
                       onClick={() => handleCopyClick(copyAccessToken, setShowAccessTooltip)}
                       _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
@@ -147,7 +147,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                   icon={<FaCopy />}
                   aria-label="Copiar"
                   position="absolute"
-                  backgroundColor="#212ffc"
+                  backgroundColor="cisBlue"
                   transform="translateY(-50%)"
                   onClick={() => handleCopyClick(copyRefreshToken, setShowRefreshTooltip)}
                   _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
@@ -162,7 +162,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                 width="full"
                 color={'white'}
                 isLoading={loading}
-                backgroundColor="#212ffc"
+                backgroundColor="cisBlue"
                 onClick={handleClickRefreshAccess}
                 fontSize={{ base: 'xs', md: 'md' }}
                 _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
@@ -173,7 +173,7 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                 <Button
                   width="full"
                   color={'white'}
-                  backgroundColor="#212ffc"
+                  backgroundColor="cisBlue"
                   onClick={handlerAccessRouter}
                   fontSize={{ base: 'sm', md: 'md' }}
                   _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}

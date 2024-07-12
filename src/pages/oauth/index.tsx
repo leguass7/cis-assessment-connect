@@ -28,7 +28,7 @@ const Oauth: React.FC<Props> = () => {
         ) : (
           <Box display={'flex'} alignItems={'center'} flexDirection={'column'} justifyContent={'center'}>
             <Box data-aos="fade-down">
-              <Text fontSize="5xl" lineHeight={1.1} fontWeight="bold">
+              <Text lineHeight={1.1} fontWeight="bold" fontSize={{ base: '4xl', md: '5xl' }}>
                 Você pode se autenticar por outros meios.
               </Text>
               <Box width={70} height={1.5} bg={'#fa5b52'} borderRadius="2xl"></Box>
