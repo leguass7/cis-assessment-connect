@@ -26,7 +26,7 @@ export const FormCreatePassport: React.FC<Props> = ({ onSuccess }) => {
   const buttonBg = useColorModeValue('cisBlue', '#4d59fa');
   const buttonHoverBg = useColorModeValue('#4d59fa', 'cisBlue');
   const buttonTextColor = useColorModeValue('white', 'white');
-  const textLabelColor = useColorModeValue('gray.600', 'gray.300');
+  const textLabelColor = useColorModeValue('gray.800', 'gray.300');
 
   const typeReportOptions = [
     {
