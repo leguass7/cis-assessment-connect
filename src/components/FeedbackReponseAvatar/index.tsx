@@ -1,7 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa';
 
-import { Box, Flex, Grid, IconButton, Image, Stack, Text, Tooltip, useClipboard, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  IconButton,
+  Image,
+  Stack,
+  Text,
+  Tooltip,
+  useBreakpointValue,
+  useClipboard,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { getStore } from '~/services/authLogin';
@@ -11,7 +24,6 @@ import { useApiResponse } from '~/providers/AppProvider';
 import avatarSuccess from '../../../public/imgs/astro-cis.png';
 import avatarError from '../../../public/imgs/astro401.png';
 import { limitString } from '../../helpers/string';
-import { AssessmentBtn } from '../AssessmentBtn/indext';
 
 type Props = {
   status?: boolean;
@@ -29,6 +41,8 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
   const mainTextColor = useColorModeValue('#3b3b3b', 'gray.200');
   const successColor = useColorModeValue('green.400', 'green.300');
   const errorColor = useColorModeValue('red.400', 'red.300');
+
+  const limitTokenText = useBreakpointValue({ base: 32, md: 44 });
 
   const { onCopy: copyRefreshToken } = useClipboard(refreshToken);
   const { onCopy: copyAccessToken } = useClipboard(accessToken);
@@ -95,20 +109,24 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
                 </Text>
               </Box>
               <Flex gap={2} align="center" marginBottom={4} justify="center">
-                <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-                  <Text color={'#e0d56d'}>{limitString(accessToken, 44)}</Text>
+                <Box padding={4} width={'100%'} borderRadius="lg" position="relative" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
+                  <Text color={'#e0d56d'}>{limitString(accessToken, limitTokenText)}</Text>
+                  <Tooltip placement="top" label="Copiado!" isOpen={showAccessTooltip}>
+                    <IconButton
+                      size="md"
+                      top="50%"
+                      right="10px"
+                      color={'white'}
+                      icon={<FaCopy />}
+                      aria-label="Copiar"
+                      position="absolute"
+                      backgroundColor="#212ffc"
+                      transform="translateY(-50%)"
+                      onClick={() => handleCopyClick(copyAccessToken, setShowAccessTooltip)}
+                      _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+                    />
+                  </Tooltip>
                 </Box>
-                <Tooltip label="Copiado!" isOpen={showAccessTooltip}>
-                  <IconButton
-                    size="md"
-                    color={'white'}
-                    icon={<FaCopy />}
-                    aria-label="Copiar"
-                    backgroundColor="#212ffc"
-                    onClick={() => handleCopyClick(copyAccessToken, setShowAccessTooltip)}
-                    _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
-                  />
-                </Tooltip>
               </Flex>
             </>
           )}
@@ -118,25 +136,51 @@ export const FeedbackReponseAvatar: React.FC<Props> = ({ status }) => {
             </Text>
           </Box>
           <Flex gap={2} align="center" justify="center">
-            <Box padding={2} width={'100%'} borderRadius="lg" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
-              {loading ? <Text>Carregando...</Text> : <Text color={'#e0d56d'}>{limitString(refreshToken, 44)}</Text>}
+            <Box padding={4} width={'100%'} borderRadius="lg" position="relative" backgroundColor="#282923" border={'solid 1px #eaeaea'}>
+              {loading ? <Text>Carregando...</Text> : <Text color={'#e0d56d'}>{limitString(refreshToken, limitTokenText)}</Text>}
+              <Tooltip placement="top" label="Copiado!" isOpen={showRefreshTooltip}>
+                <IconButton
+                  size="md"
+                  top="50%"
+                  right="10px"
+                  color={'white'}
+                  icon={<FaCopy />}
+                  aria-label="Copiar"
+                  position="absolute"
+                  backgroundColor="#212ffc"
+                  transform="translateY(-50%)"
+                  onClick={() => handleCopyClick(copyRefreshToken, setShowRefreshTooltip)}
+                  _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+                />
+              </Tooltip>
             </Box>
-            <Tooltip label="Copiado!" isOpen={showRefreshTooltip}>
-              <IconButton
-                size="md"
-                color={'white'}
-                icon={<FaCopy />}
-                aria-label="Copiar"
-                backgroundColor="#212ffc"
-                onClick={() => handleCopyClick(copyRefreshToken, setShowRefreshTooltip)}
-                _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
-              />
-            </Tooltip>
           </Flex>
+
           <Stack gap={2} marginY={2}>
             <Grid gap={2} templateColumns="1fr 1fr">
-              <AssessmentBtn showIcon={false} title="Autenticar RefreshToken" click={handleClickRefreshAccess} />
-              {accessToken && <AssessmentBtn width="full" showIcon={false} title="Rotas API" click={handlerAccessRouter} />}
+              <Button
+                width="full"
+                color={'white'}
+                isLoading={loading}
+                backgroundColor="#212ffc"
+                onClick={handleClickRefreshAccess}
+                fontSize={{ base: 'xs', md: 'md' }}
+                _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+              >
+                Autenticar RefreshToken
+              </Button>
+              {accessToken && (
+                <Button
+                  width="full"
+                  color={'white'}
+                  backgroundColor="#212ffc"
+                  onClick={handlerAccessRouter}
+                  fontSize={{ base: 'sm', md: 'md' }}
+                  _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+                >
+                  Rotas API
+                </Button>
+              )}
             </Grid>
           </Stack>
         </>
