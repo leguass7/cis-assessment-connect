@@ -42,9 +42,9 @@ const RouterApi = () => {
   const [successSendPassport, setSuccessSendPassport] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const buttonBg = useColorModeValue('#2b62e3', '#2b62e3');
+  const buttonBg = useColorModeValue('#2b62e3', 'blue.600');
   const bgCardColor = useColorModeValue('white', 'gray.800');
-  const creditTextColor = useColorModeValue('gray.700', 'gray.50');
+  const creditTextColor = useColorModeValue('gray.700', 'gray.700');
 
   const handlerShowCredit = async () => {
     setLoadingCredits(true);
@@ -94,18 +94,19 @@ const RouterApi = () => {
                 </Alert>
                 <Flex my={4} gap={2} align="center">
                   <Text fontSize={{ base: 'lg', md: '2xl' }}>Total de Créditos:</Text>
-                  <Text as="b" fontSize={'3xl'} color={creditTextColor}>
-                    {credits}
-                  </Text>
+                  <Box paddingX={2} rounded={'md'} bgColor={'#f0f0f0'}>
+                    <Text as="b" fontSize={'3xl'} color={creditTextColor}>
+                      {credits.toLocaleString('pt-BR')}
+                    </Text>
+                  </Box>
                 </Flex>
               </Stack>
             )}
             <Button
               size="lg"
               width="full"
-              bg={buttonBg}
               color={'white'}
-              backgroundColor="cisBlue"
+              backgroundColor={buttonBg}
               onClick={handlerShowCredit}
               _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
             >
@@ -130,11 +131,10 @@ const RouterApi = () => {
             <Button
               size="lg"
               width="full"
-              bg={buttonBg}
               marginTop={2}
               color={'white'}
               isDisabled={credits < 1}
-              backgroundColor="cisBlue"
+              backgroundColor={buttonBg}
               onClick={() => setShowSendFormPassport(true)}
               _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
             >
@@ -144,10 +144,9 @@ const RouterApi = () => {
           <Button
             size="lg"
             width="full"
-            bg={buttonBg}
             marginTop={2}
             color={'white'}
-            backgroundColor="cisBlue"
+            backgroundColor={buttonBg}
             onClick={() => setShowCreateFormPassport(true)}
             _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
           >
