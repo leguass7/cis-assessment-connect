@@ -41,7 +41,7 @@ const Login: React.FC<Props> = () => {
           <SkeletonLoader />
         ) : (
           <>
-            <Box mt={20} data-aos="fade-up">
+            <Box marginY={4} data-aos="fade-up" mt={{ base: 8, md: 20 }}>
               <Accordion
                 allowToggle
                 width="100%"
