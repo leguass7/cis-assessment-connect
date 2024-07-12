@@ -92,10 +92,10 @@ const RouterApi = () => {
                   <AlertIcon />
                   Consulte seus créditos
                 </Alert>
-                <Flex my={4} gap={2} align="center">
-                  <Text fontSize={{ base: 'lg', md: '2xl' }}>Total de Créditos:</Text>
-                  <Box paddingX={2} rounded={'md'} bgColor={'#f0f0f0'}>
-                    <Text as="b" fontSize={'3xl'} color={creditTextColor}>
+                <Flex my={4} direction={'column'}>
+                  <Box padding={4} rounded={'md'} width={'full'} bgColor={'#f3f3f3'}>
+                    <Text fontSize={{ base: 'lg', md: '1xl' }}>Total de Créditos:</Text>
+                    <Text as="b" fontSize={'5xl'} color={creditTextColor}>
                       {credits.toLocaleString('pt-BR')}
                     </Text>
                   </Box>
