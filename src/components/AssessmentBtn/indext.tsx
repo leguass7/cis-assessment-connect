@@ -9,7 +9,7 @@ import iconWhite from '../../../public/logo/icon-white.png';
 interface Props {
   click: () => void;
   title?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | { base: 'sm' | 'md' | 'lg' | 'xl'; md: 'sm' | 'md' | 'lg' | 'xl' };
   width?: string | number;
   showIcon?: boolean;
 }
@@ -17,11 +17,13 @@ interface Props {
 export const AssessmentBtn = ({ click, showIcon = true, size = 'lg', title = 'CisAssessment', width = 'none' }: Props): ReactElement => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const bgColor = useColorModeValue('#212ffc', '#ffff');
-  const textColor = useColorModeValue('#ffff', '#212ffc');
-  const hoverBgColor = useColorModeValue('#ffff', '#212ffc');
-  const hoverTextColor = useColorModeValue('#212ffc', '#ffff');
-  const iconColor = useColorModeValue(iconWhite.src, iconBlue.src);
+  const bgColor = useColorModeValue('cisBlue', 'gray.700');
+  const textColor = useColorModeValue('#ffff', '#ffff');
+  const hoverBgColor = useColorModeValue('gray.50', 'gray.900');
+  const hoverTextColor = useColorModeValue('cisBlue', '#f0f0f0');
+  const hoverBorderColor = useColorModeValue('#212ffc', '#ffff');
+
+  const iconColor = useColorModeValue(iconWhite.src, iconWhite.src);
   const hoverIconColor = useColorModeValue(iconBlue.src, iconWhite.src);
 
   return (
@@ -33,11 +35,11 @@ export const AssessmentBtn = ({ click, showIcon = true, size = 'lg', title = 'Ci
       onMouseLeave={() => setIsHovered(false)}
       color={isHovered ? hoverTextColor : textColor}
       background={isHovered ? hoverBgColor : bgColor}
-      border={isHovered ? `1px solid ${hoverTextColor}` : `1px solid transparent`}
+      border={`1px solid ${isHovered ? hoverBorderColor : 'transparent'}`}
       leftIcon={showIcon ? <img alt="Logo" width={16} src={isHovered ? hoverIconColor : iconColor} /> : null}
       _hover={{
         background: hoverBgColor,
-        border: `1px solid ${hoverTextColor}`,
+        border: `1px solid ${hoverBorderColor}`,
         color: hoverTextColor,
       }}
     >

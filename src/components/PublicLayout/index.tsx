@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Container, useColorModeValue } from '@chakra-ui/react';
 
-import Header from '~/components/Header';
+import { Header } from '~/components/Header';
 
 import bgDark from '../../../public/imgs/bg-dark.png';
 import bgDefault from '../../../public/imgs/bg-default.png';

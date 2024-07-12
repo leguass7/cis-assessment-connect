@@ -15,14 +15,14 @@ export const FormOauth = () => {
   return (
     <Stack spacing={6}>
       {!session && (
-        <Button size="lg" variant="solid" colorScheme="red" onClick={handleSignIn} leftIcon={<FaGoogle />}>
+        <Button variant="solid" colorScheme="red" onClick={handleSignIn} leftIcon={<FaGoogle />} size={{ base: 'md', md: 'lg' }}>
           Google
         </Button>
       )}
-      <Button size="lg" variant="solid" colorScheme="linkedin" leftIcon={<FaLinkedin />}>
+      <Button variant="solid" colorScheme="linkedin" leftIcon={<FaLinkedin />} size={{ base: 'md', md: 'lg' }}>
         LinkedIn
       </Button>
-      <AssessmentBtn click={handleSignIn} />
+      <AssessmentBtn click={handleSignIn} size={{ base: 'md', md: 'lg' }} />
     </Stack>
   );
 };

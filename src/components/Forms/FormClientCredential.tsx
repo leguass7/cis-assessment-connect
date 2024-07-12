@@ -15,7 +15,7 @@ export const FormClientCredentials: React.FC<Props> = ({ onChange }) => {
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
   const formFocusBg = useColorModeValue('white', 'gray.600');
   const placeholderColor = useColorModeValue('gray.400', 'gray.300');
-  const buttonBg = useColorModeValue('#212ffc', '#4d59fa');
+  const buttonBg = useColorModeValue('cisBlue', '#4d59fa');
   const boxBg = useColorModeValue('white', 'gray.800');
   const textLabelColor = useColorModeValue('gray.600', 'gray.300');
 

@@ -105,7 +105,7 @@ const RouterApi = () => {
               width="full"
               bg={buttonBg}
               color={'white'}
-              backgroundColor="#212ffc"
+              backgroundColor="cisBlue"
               onClick={handlerShowCredit}
               _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
             >
@@ -134,7 +134,7 @@ const RouterApi = () => {
               marginTop={2}
               color={'white'}
               isDisabled={credits < 1}
-              backgroundColor="#212ffc"
+              backgroundColor="cisBlue"
               onClick={() => setShowSendFormPassport(true)}
               _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
             >
@@ -147,7 +147,7 @@ const RouterApi = () => {
             bg={buttonBg}
             marginTop={2}
             color={'white'}
-            backgroundColor="#212ffc"
+            backgroundColor="cisBlue"
             onClick={() => setShowCreateFormPassport(true)}
             _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
           >
