@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { BsSendArrowUpFill } from 'react-icons/bs';
 import { HiDocumentPlus } from 'react-icons/hi2';
 import { IoIosRocket } from 'react-icons/io';
 
@@ -61,10 +60,13 @@ const RouterApi = () => {
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [passports, setPassports] = useState<PreparedPassport[]>([]);
 
-  const buttonBg = useColorModeValue('#2b62e3', 'blue.600');
+  const buttonBg = useColorModeValue('#2b62e3', 'cisBlue');
   const bgCardColor = useColorModeValue('white', 'gray.800');
   const creditBoxColor = useColorModeValue('gray.100', 'gray.900');
   const creditTextColor = useColorModeValue('gray.700', 'gray.200');
+  const boxTextColor = useColorModeValue('gray.700', 'gray.200');
+  const boxHoverBgColor = useColorModeValue('gray.100', 'gray.700');
+  const iconColor = useColorModeValue('#2158da', 'gray.50');
 
   const paginatePassports = useCallback(async () => {
     setShowSkeleton(true);
@@ -123,10 +125,12 @@ const RouterApi = () => {
                 </Stack>
               ) : (
                 <Stack>
-                  <Alert rounded="sm" status="info" variant={'left-accent'}>
-                    <AlertIcon />
-                    Consulte seus créditos
-                  </Alert>
+                  {credits <= 1 ? (
+                    <Alert rounded="sm" status="warning" variant={'left-accent'}>
+                      <AlertIcon />
+                      <AlertDescription fontSize="sm">Você precisa ter créditos para enviar um passaporte, consulte seus créditos</AlertDescription>
+                    </Alert>
+                  ) : null}
                   <Flex my={4} direction={'column'}>
                     <Box padding={4} rounded={'md'} width={'full'} bgColor={creditBoxColor}>
                       <Text fontSize={{ base: 'lg', md: '1xl' }}>Total de Créditos:</Text>
@@ -148,12 +152,6 @@ const RouterApi = () => {
                 Consultar Créditos
               </Button>
               <Box mt={1}>
-                {credits <= 1 ? (
-                  <Alert rounded="sm" status="warning" variant={'left-accent'}>
-                    <AlertIcon />
-                    <AlertDescription>Você precisa ter créditos para enviar um passaporte</AlertDescription>
-                  </Alert>
-                ) : null}
                 {successSendPassport && (
                   <Alert mb={2} rounded="sm" status="success" variant={'left-accent'}>
                     <AlertIcon />
@@ -172,11 +170,11 @@ const RouterApi = () => {
                     pointerEvents={credits < 1 ? 'none' : 'auto'}
                     cursor={credits < 1 ? 'not-allowed' : 'pointer'}
                     onClick={() => credits >= 1 && setShowSendFormPassport(true)}
-                    _hover={credits < 1 ? {} : { bgColor: 'gray.100', shadow: 'md', transition: '0.3s' }}
+                    _hover={credits < 1 ? {} : { bgColor: boxHoverBgColor, shadow: 'md', transition: '0.3s' }}
                   >
                     <Flex direction="column" alignItems="center" justifyContent="center">
-                      <Icon mb={2} boxSize={8} color={buttonBg} as={IoIosRocket} />
-                      <Text as="b" fontSize="lg" color="gray.700">
+                      <Icon mb={2} boxSize={8} as={IoIosRocket} color={credits < 1 ? 'gray.400' : iconColor} />
+                      <Text as="b" fontSize="lg" color={credits < 1 ? 'gray.400' : boxTextColor}>
                         Enviar Passaporte
                       </Text>
                     </Flex>
@@ -190,11 +188,11 @@ const RouterApi = () => {
                     textAlign="center"
                     bgColor={bgCardColor}
                     onClick={() => setShowCreateFormPassport(true)}
-                    _hover={{ bgColor: 'gray.100', shadow: 'md', transition: '0.3s' }}
+                    _hover={{ bgColor: boxHoverBgColor, shadow: 'md', transition: '0.3s' }}
                   >
                     <Flex direction="column" alignItems="center" justifyContent="center">
-                      <Icon mb={2} boxSize={8} color={buttonBg} as={HiDocumentPlus} />
-                      <Text as="b" fontSize="lg" color="gray.700">
+                      <Icon mb={2} boxSize={8} color={iconColor} as={HiDocumentPlus} />
+                      <Text as="b" fontSize="lg" color={boxTextColor}>
                         Criar Passaporte
                       </Text>
                     </Flex>

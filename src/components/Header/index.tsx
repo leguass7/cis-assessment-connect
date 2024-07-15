@@ -1,6 +1,7 @@
 import { FaArrowLeft, FaMoon, FaSun } from 'react-icons/fa';
+import { FaBookSkull } from 'react-icons/fa6';
 
-import { Box, Container, Flex, IconButton, Image, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, IconButton, Image, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -16,8 +17,14 @@ export const Header: React.FC<Props> = () => {
   const colorbtn = useColorModeValue('gray.200', 'gray.700');
   const hoverColor = useColorModeValue('gray.300', 'gray.600');
 
+  const docsButtonText = useColorModeValue('gray.700', 'gray.100');
+
   const handleAuthorizeClick = () => {
     router.push('/authorize');
+  };
+
+  const handlerClickGoDocs = () => {
+    router.push('/documentation');
   };
 
   const handleBackClick = () => {
@@ -40,6 +47,17 @@ export const Header: React.FC<Props> = () => {
                 <IconButton aria-label="Go back" icon={<FaArrowLeft />} onClick={handleBackClick} display={{ base: 'flex', md: 'none' }} />
               )}
               <AssessmentBtn size="md" title="Authorize" click={handleAuthorizeClick} />
+              <Button
+                size="md"
+                fontWeight="bold"
+                variant="outline"
+                textColor={docsButtonText}
+                onClick={handlerClickGoDocs}
+                backgroundColor="transparent"
+                leftIcon={<FaBookSkull fontSize="20px" />}
+              >
+                Docs
+              </Button>
               <IconButton
                 background={colorbtn}
                 onClick={toggleColorMode}
