@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { BsSendArrowUpFill } from 'react-icons/bs';
+import { HiDocumentPlus } from 'react-icons/hi2';
+import { IoIosRocket } from 'react-icons/io';
 
 import {
   Alert,
@@ -8,6 +11,7 @@ import {
   Button,
   Container,
   Flex,
+  Icon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,14 +28,27 @@ import {
 import 'aos/dist/aos.css';
 import { useAOSAnimation } from '~/hooks/aosAnimate';
 import { getCredits } from '~/services/credits';
+import { getPaginatePassport } from '~/services/passport';
+import type { IPassport } from '~/services/passport/passport.dto';
 
+import { AccordionTablePassports } from '~/components/AccordionTablePassports';
 import { CodeHighlight } from '~/components/CodeHighlight';
 import { codeStringError } from '~/components/CodeHighlight/constants';
 import { FormCreatePassport } from '~/components/Forms/FormCreatePassport';
 import { FormSendPassport } from '~/components/Forms/FormSendPassport';
 import { PublicLayout } from '~/components/PublicLayout';
+import { SkeletonLoader } from '~/components/SkeletonLoader';
 
 import { codeStringPost } from '../../components/CodeHighlight/constants';
+
+export type PreparedPassport = IPassport & {
+  answered?: number;
+  pending?: number;
+  countInventory?: number;
+  occupationArea?: {
+    name: string;
+  };
+};
 
 const RouterApi = () => {
   const [credits, setCredits] = useState(0);
@@ -41,16 +58,32 @@ const RouterApi = () => {
   const [successCreatePassport, setSuccessCreatePassport] = useState(false);
   const [successSendPassport, setSuccessSendPassport] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+  const [passports, setPassports] = useState<PreparedPassport[]>([]);
 
   const buttonBg = useColorModeValue('#2b62e3', 'blue.600');
   const bgCardColor = useColorModeValue('white', 'gray.800');
-  const creditTextColor = useColorModeValue('gray.700', 'gray.700');
+  const creditBoxColor = useColorModeValue('gray.100', 'gray.900');
+  const creditTextColor = useColorModeValue('gray.700', 'gray.200');
+
+  const paginatePassports = useCallback(async () => {
+    setShowSkeleton(true);
+    const response = await getPaginatePassport();
+    setShowSkeleton(false);
+    if (response?.success) {
+      setPassports(response?.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    paginatePassports();
+  }, [paginatePassports]);
 
   const handlerShowCredit = async () => {
     setLoadingCredits(true);
     const response = await getCredits();
     setLoadingCredits(false);
-    if (response?.success) {
+    if (response?.success || []) {
       setCredits(response?.summary?.credits);
     }
   };
@@ -67,6 +100,7 @@ const RouterApi = () => {
       onClose();
     }
   };
+
   const handlerChangeSendSuccess = (success: boolean) => {
     if (success) {
       setSuccessSendPassport(success);
@@ -77,81 +111,107 @@ const RouterApi = () => {
   useAOSAnimation();
 
   return (
-    <PublicLayout>
-      <Container mt={10} alignItems="center" justifyContent="center">
-        {(credits >= 0 || loadingCredits) && (
-          <Stack padding={8} marginY={12} rounded="xl" border={'solid 1px #eaeaea'} backgroundColor={bgCardColor}>
-            {loadingCredits ? (
-              <Stack mb={8} gap={4}>
-                <Skeleton width="100%" height="36px" />
-                <Skeleton height="36px" width={{ base: '100%', md: '300px' }} />
-              </Stack>
-            ) : (
-              <Stack>
-                <Alert rounded="sm" status="info" variant={'left-accent'}>
-                  <AlertIcon />
-                  Consulte seus créditos
-                </Alert>
-                <Flex my={4} direction={'column'}>
-                  <Box padding={4} rounded={'md'} width={'full'} bgColor={'#f3f3f3'}>
-                    <Text fontSize={{ base: 'lg', md: '1xl' }}>Total de Créditos:</Text>
-                    <Text as="b" fontSize={'5xl'} color={creditTextColor}>
-                      {credits.toLocaleString('pt-BR')}
-                    </Text>
+    <>
+      <PublicLayout>
+        <Container mt={10} alignItems="center" justifyContent="center">
+          {(credits >= 0 || loadingCredits) && (
+            <Stack padding={8} rounded="xl" marginTop={12} border={'solid 1px #eaeaea'} backgroundColor={bgCardColor}>
+              {loadingCredits ? (
+                <Stack mb={8} gap={4}>
+                  <Skeleton width="100%" height="36px" />
+                  <Skeleton height="36px" width={{ base: '100%', md: '300px' }} />
+                </Stack>
+              ) : (
+                <Stack>
+                  <Alert rounded="sm" status="info" variant={'left-accent'}>
+                    <AlertIcon />
+                    Consulte seus créditos
+                  </Alert>
+                  <Flex my={4} direction={'column'}>
+                    <Box padding={4} rounded={'md'} width={'full'} bgColor={creditBoxColor}>
+                      <Text fontSize={{ base: 'lg', md: '1xl' }}>Total de Créditos:</Text>
+                      <Text as="b" fontSize={'5xl'} color={creditTextColor}>
+                        {credits.toLocaleString('pt-BR')}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Stack>
+              )}
+              <Button
+                size="lg"
+                width="full"
+                color={'white'}
+                backgroundColor={buttonBg}
+                onClick={handlerShowCredit}
+                _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
+              >
+                Consultar Créditos
+              </Button>
+              <Box mt={1}>
+                {credits <= 1 ? (
+                  <Alert rounded="sm" status="warning" variant={'left-accent'}>
+                    <AlertIcon />
+                    <AlertDescription>Você precisa ter créditos para enviar um passaporte</AlertDescription>
+                  </Alert>
+                ) : null}
+                {successSendPassport && (
+                  <Alert mb={2} rounded="sm" status="success" variant={'left-accent'}>
+                    <AlertIcon />
+                    <AlertDescription>Passaporte enviado com sucesso</AlertDescription>
+                  </Alert>
+                )}
+                <Flex mt={2} gap={4}>
+                  <Box
+                    p={4}
+                    flex="1"
+                    borderWidth={1}
+                    borderRadius="lg"
+                    textAlign="center"
+                    bgColor={bgCardColor}
+                    opacity={credits < 1 ? 0.6 : 1}
+                    pointerEvents={credits < 1 ? 'none' : 'auto'}
+                    cursor={credits < 1 ? 'not-allowed' : 'pointer'}
+                    onClick={() => credits >= 1 && setShowSendFormPassport(true)}
+                    _hover={credits < 1 ? {} : { bgColor: 'gray.100', shadow: 'md', transition: '0.3s' }}
+                  >
+                    <Flex direction="column" alignItems="center" justifyContent="center">
+                      <Icon mb={2} boxSize={8} color={buttonBg} as={IoIosRocket} />
+                      <Text as="b" fontSize="lg" color="gray.700">
+                        Enviar Passaporte
+                      </Text>
+                    </Flex>
+                  </Box>
+                  <Box
+                    p={4}
+                    flex="1"
+                    borderWidth={1}
+                    cursor="pointer"
+                    borderRadius="lg"
+                    textAlign="center"
+                    bgColor={bgCardColor}
+                    onClick={() => setShowCreateFormPassport(true)}
+                    _hover={{ bgColor: 'gray.100', shadow: 'md', transition: '0.3s' }}
+                  >
+                    <Flex direction="column" alignItems="center" justifyContent="center">
+                      <Icon mb={2} boxSize={8} color={buttonBg} as={HiDocumentPlus} />
+                      <Text as="b" fontSize="lg" color="gray.700">
+                        Criar Passaporte
+                      </Text>
+                    </Flex>
                   </Box>
                 </Flex>
-              </Stack>
-            )}
-            <Button
-              size="lg"
-              width="full"
-              color={'white'}
-              backgroundColor={buttonBg}
-              onClick={handlerShowCredit}
-              _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
-            >
-              Consultar Créditos
-            </Button>
-          </Stack>
-        )}
-        <Stack gap={4} padding={8} marginY={12} rounded="xl" border={'solid 1px #eaeaea'} backgroundColor={bgCardColor}>
-          <Box>
-            {credits <= 1 ? (
-              <Alert rounded="sm" status="warning" variant={'left-accent'}>
-                <AlertIcon />
-                <AlertDescription>Você precisa ter créditos para enviar um passaport</AlertDescription>
-              </Alert>
-            ) : null}
-            {successSendPassport && (
-              <Alert mb={2} rounded="sm" status="success" variant={'left-accent'}>
-                <AlertIcon />
-                <AlertDescription>Passaporte enviado com sucesso</AlertDescription>
-              </Alert>
-            )}
-            <Button
-              size="lg"
-              width="full"
-              marginTop={2}
-              color={'white'}
-              isDisabled={credits < 1}
-              backgroundColor={buttonBg}
-              onClick={() => setShowSendFormPassport(true)}
-              _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
-            >
-              Enviar Passaporte
-            </Button>
-          </Box>
-          <Button
-            size="lg"
-            width="full"
-            marginTop={2}
-            color={'white'}
-            backgroundColor={buttonBg}
-            onClick={() => setShowCreateFormPassport(true)}
-            _hover={{ backgroundColor: '#4d59fa', rounded: 'lg', transition: '0.3s' }}
-          >
-            Criar Passport
-          </Button>
+              </Box>
+            </Stack>
+          )}
+        </Container>
+        <Stack width={'full'}>
+          {showSkeleton ? (
+            <SkeletonLoader />
+          ) : (
+            <Box width={'full'} marginBottom={8} mt={{ base: 8, md: 20 }}>
+              <AccordionTablePassports accordionData={passports} />
+            </Box>
+          )}
         </Stack>
         <Modal isCentered onClose={onClose} isOpen={showCreateFormPassport}>
           <ModalOverlay />
@@ -188,8 +248,8 @@ const RouterApi = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </Container>
-    </PublicLayout>
+      </PublicLayout>
+    </>
   );
 };
 

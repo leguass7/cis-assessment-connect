@@ -17,6 +17,15 @@ export type IPassport = {
   pending?: number;
   inventories?: IInventory[];
   isPrivate?: boolean;
+  parent: {
+    avatar: string;
+    companyName: string;
+    email: string;
+    gender: string;
+    id: number;
+    name: string;
+    storage: string;
+  };
 };
 
 export type ICreatePassport = {
@@ -34,4 +43,8 @@ export type IResponseCreatePassport = IResponseApi & {
 
 export type IResponsePassport = IResponseApi & {
   passport: IPassport;
+};
+
+export type IResponsePaginatePassport = IResponseApi & {
+  data: IPassport[];
 };
