@@ -60,7 +60,7 @@ const RouterApi = () => {
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [passports, setPassports] = useState<PreparedPassport[]>([]);
 
-  const buttonBg = useColorModeValue('#2b62e3', 'cisBlue');
+  const buttonBg = useColorModeValue('cisBlue', 'gray.700');
   const bgCardColor = useColorModeValue('white', 'gray.800');
   const creditBoxColor = useColorModeValue('gray.100', 'gray.900');
   const creditTextColor = useColorModeValue('gray.700', 'gray.200');
