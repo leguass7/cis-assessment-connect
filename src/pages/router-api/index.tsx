@@ -85,7 +85,7 @@ const RouterApi = () => {
     setLoadingCredits(true);
     const response = await getCredits();
     setLoadingCredits(false);
-    if (response?.success || []) {
+    if (response?.success) {
       setCredits(response?.summary?.credits);
     }
   };
