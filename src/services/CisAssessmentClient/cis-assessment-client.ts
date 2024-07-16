@@ -3,7 +3,7 @@ import axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import type { IResponseCreditSummary } from '../credits/credits.dto';
 import type { IResponseSendPassport } from '../inventory/inventory.dto';
-import type { ICreatePassport, IResponsePassport } from '../passport/passport.dto';
+import type { ICreatePassport, IResponsePaginatePassport, IResponsePassport } from '../passport/passport.dto';
 import type { GrantType } from './cis-assessment-auth.dto';
 import { payloadByGrantType } from './cis-assessment-auth.dto';
 import type { Authorization, ClientOptions, RequestAuthorization, RequestRefreshToken, ResponseCisAssessment } from './cis-assessment-client.dto';
@@ -157,6 +157,11 @@ export class CisAssessmentClient {
 
   async requestPassport(passportId: number): Promise<IResponsePassport> {
     const response = await this.axios.get(`/company/passport/${passportId}`);
+    return response?.data;
+  }
+
+  async paginatePassport(): Promise<IResponsePaginatePassport> {
+    const response = await this.axios.get(`/company/passport`, { params: { page: 1, size: 5 } });
     return response?.data;
   }
 

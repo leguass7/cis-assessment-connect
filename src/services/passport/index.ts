@@ -8,3 +8,7 @@ export async function createPassport(name: string, reportTypeId: number, occupat
 export async function getPassport(passportId: number) {
   return await client.requestPassport(passportId);
 }
+
+export async function getPaginatePassport() {
+  return await client.paginatePassport();
+}
