@@ -12,7 +12,7 @@ interface Props {}
 
 const Home: React.FC<Props> = () => {
   const [isMobile] = useMediaQuery('(max-width: 500px)');
-  const textColor = useColorModeValue('#313131', 'white');
+  const textColor = useColorModeValue('gray.700', 'gray.50');
   useAOSAnimation();
 
   return (
