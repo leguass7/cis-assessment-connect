@@ -24,7 +24,7 @@ export const Header: React.FC<Props> = () => {
   };
 
   const handlerClickGoDocs = () => {
-    router.push('/documentation');
+    window.open('https://back.aws.cisassessment.com.br/api/v1/docs-api/', '_blank');
   };
 
   const handleBackClick = () => {
