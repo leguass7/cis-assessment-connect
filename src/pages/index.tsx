@@ -28,7 +28,7 @@ const Home: React.FC<Props> = () => {
           {isMobile ? (
             <>
               <AccessCard title="Login" path="/login" icon={FaUserAstronaut} />
-              <AccessCard title="Oauth" path="/oauth" icon={TbApiApp} />
+              <AccessCard path="/" title="Oauth" icon={TbApiApp} />
             </>
           ) : (
             <>
@@ -36,7 +36,7 @@ const Home: React.FC<Props> = () => {
                 <AccessCard title="Login" path="/login" icon={FaUserAstronaut} />
               </Box>
               <Box data-aos="fade-left">
-                <AccessCard title="Oauth" path="/oauth" icon={TbApiApp} />
+                <AccessCard path="/" title="Oauth" icon={TbApiApp} />
               </Box>
             </>
           )}
