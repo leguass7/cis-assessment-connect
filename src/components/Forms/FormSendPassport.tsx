@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
 
 import {
   Alert,
@@ -19,6 +20,8 @@ import { sendInventoryPassport } from '~/services/inventory';
 
 import { useApiResponse } from '~/providers/AppProvider';
 
+import { DrawerInventoryPassport } from '../DrawerInventoryPassport';
+
 type Props = {
   onSuccess: (success: boolean) => void;
 };
@@ -32,6 +35,7 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
   const { passport } = useApiResponse();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
@@ -58,6 +62,14 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
     setPassportId(Number(event.target.value));
   };
 
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoad(true);
@@ -79,118 +91,135 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
   }, [isSuccess, onSuccess]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={6}>
-        {!isSuccess && isSubmitting ? (
-          <Alert rounded="sm" status="error" variant={'left-accent'}>
-            <AlertIcon />
-            <AlertDescription>Algo deu errado, tente novamente!</AlertDescription>
-          </Alert>
-        ) : null}
-        <FormControl id="email" isRequired>
-          <FormLabel color={textLabelColor}>Email</FormLabel>
-          <InputGroup>
-            <Input
-              bg={formBg}
-              type="email"
-              value={email}
-              borderRadius="lg"
-              onChange={handleEmailChange}
-              placeholder="Digite seu email"
-              _placeholder={{ color: placeholderColor }}
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-              _focus={{
-                backgroundColor: formFocusBg,
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-              }}
-            />
-          </InputGroup>
-        </FormControl>
-        <FormControl id="name" isRequired>
-          <FormLabel color={textLabelColor}>Nome</FormLabel>
-          <InputGroup>
-            <Input
-              bg={formBg}
-              type="text"
-              value={name}
-              borderRadius="lg"
-              onChange={handleNameChange}
-              placeholder="Digite seu nome"
-              _placeholder={{ color: placeholderColor }}
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-              _focus={{
-                backgroundColor: formFocusBg,
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-              }}
-            />
-          </InputGroup>
-        </FormControl>
-        <Grid gap={6} templateColumns="1fr 1fr">
-          <FormControl isRequired id="language">
-            <FormLabel color={textLabelColor}>Idioma</FormLabel>
-            <Select
-              bg={formBg}
-              value={language}
-              borderRadius="lg"
-              onChange={handleLanguageChange}
-              placeholder="Selecione o idioma"
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-              _focus={{
-                backgroundColor: formFocusBg,
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-              }}
-            >
-              <option value="pt-br">Português (Brasil)</option>
-              <option value="en">Inglês</option>
-              <option value="es">Espanhol</option>
-            </Select>
+    <>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={6}>
+          {!isSuccess && isSubmitting ? (
+            <Alert rounded="sm" status="error" variant={'left-accent'}>
+              <AlertIcon />
+              <AlertDescription>Algo deu errado, tente novamente!</AlertDescription>
+            </Alert>
+          ) : null}
+          <FormControl id="email" isRequired>
+            <FormLabel color={textLabelColor}>Email</FormLabel>
+            <InputGroup>
+              <Input
+                bg={formBg}
+                type="email"
+                value={email}
+                borderRadius="lg"
+                onChange={handleEmailChange}
+                placeholder="Digite seu email"
+                _placeholder={{ color: placeholderColor }}
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                }}
+              />
+            </InputGroup>
           </FormControl>
+          <FormControl id="name" isRequired>
+            <FormLabel color={textLabelColor}>Nome</FormLabel>
+            <InputGroup>
+              <Input
+                bg={formBg}
+                type="text"
+                value={name}
+                borderRadius="lg"
+                onChange={handleNameChange}
+                placeholder="Digite seu nome"
+                _placeholder={{ color: placeholderColor }}
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                }}
+              />
+            </InputGroup>
+          </FormControl>
+          <Grid gap={6} templateColumns="1fr 1fr">
+            <FormControl isRequired id="language">
+              <FormLabel color={textLabelColor}>Idioma</FormLabel>
+              <Select
+                bg={formBg}
+                value={language}
+                borderRadius="lg"
+                onChange={handleLanguageChange}
+                placeholder="Selecione o idioma"
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                }}
+              >
+                <option value="pt-br">Português (Brasil)</option>
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+              </Select>
+            </FormControl>
 
-          <FormControl isRequired id="passportNumber">
-            <FormLabel color={textLabelColor}>Passaporte</FormLabel>
-            <Input
-              bg={formBg}
-              type="number"
-              borderRadius="lg"
-              value={passportId}
-              placeholder="Passaporte"
-              onChange={handlerPassportIdChange}
-              _placeholder={{ color: placeholderColor }}
-              _hover={{
-                backgroundColor: formHoverBg,
-              }}
-              _focus={{
-                backgroundColor: formFocusBg,
-                borderColor: buttonBg,
-                boxShadow: `0 0 0 1px ${buttonBg}`,
-              }}
-            />
-          </FormControl>
-        </Grid>
-        <Button
-          mt={4}
-          size="md"
-          type="submit"
-          bg={buttonBg}
-          fontSize="md"
-          isLoading={load}
-          color={buttonTextColor}
-          _hover={{
-            bg: buttonHoverBg,
-          }}
-        >
-          Enviar
-        </Button>
-      </Stack>
-    </form>
+            <FormControl id="passportNumber">
+              <FormLabel>‎ </FormLabel>
+              <Button
+                variant="outline"
+                borderRadius="lg"
+                onClick={openDrawer}
+                leftIcon={<FiSearch />}
+                _hover={{ bg: 'gray.100' }}
+                _focus={{ boxShadow: 'outline' }}
+              >
+                Buscar Passaporte
+              </Button>
+            </FormControl>
+
+            {/* <FormControl isRequired id="passportNumber">
+              <FormLabel color={textLabelColor}>Selec</FormLabel>
+              <Input
+                bg={formBg}
+                type="number"
+                borderRadius="lg"
+                value={passportId}
+                placeholder="Passaporte"
+                onChange={handlerPassportIdChange}
+                _placeholder={{ color: placeholderColor }}
+                _hover={{
+                  backgroundColor: formHoverBg,
+                }}
+                _focus={{
+                  backgroundColor: formFocusBg,
+                  borderColor: buttonBg,
+                  boxShadow: `0 0 0 1px ${buttonBg}`,
+                }}
+              />
+            </FormControl> */}
+          </Grid>
+          <Button
+            mt={4}
+            size="md"
+            type="submit"
+            bg={buttonBg}
+            fontSize="md"
+            isLoading={load}
+            color={buttonTextColor}
+            _hover={{
+              bg: buttonHoverBg,
+            }}
+          >
+            Enviar
+          </Button>
+        </Stack>
+      </form>
+      <DrawerInventoryPassport isOpen={isDrawerOpen} onClose={closeDrawer} />
+    </>
   );
 };
