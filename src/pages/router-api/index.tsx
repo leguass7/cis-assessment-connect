@@ -132,7 +132,7 @@ const RouterApi = () => {
                     </Alert>
                   ) : null}
                   <Flex my={4} direction={'column'}>
-                    <Box padding={4} rounded={'md'} width={'full'} bgColor={creditBoxColor}>
+                    <Box padding={4} rounded={'xl'} width={'full'} bgColor={creditBoxColor}>
                       <Text fontSize={{ base: 'lg', md: '1xl' }}>Total de Créditos:</Text>
                       <Text as="b" fontSize={'5xl'} color={creditTextColor}>
                         {credits.toLocaleString('pt-BR')}
@@ -237,7 +237,7 @@ const RouterApi = () => {
             <ModalHeader>Enviar Passaporte</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormSendPassport onSuccess={handlerChangeSendSuccess} />
+              <FormSendPassport passports={passports} onSuccess={handlerChangeSendSuccess} />
             </ModalBody>
             <ModalFooter paddingY={2} paddingBottom={5}>
               <Button width={'full'} onClick={onClose}>

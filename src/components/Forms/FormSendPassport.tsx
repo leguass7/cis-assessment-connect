@@ -13,10 +13,13 @@ import {
   InputGroup,
   Select,
   Stack,
+  Text,
+  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 
 import { sendInventoryPassport } from '~/services/inventory';
+import type { IPassport } from '~/services/passport/passport.dto';
 
 import { useApiResponse } from '~/providers/AppProvider';
 
@@ -24,9 +27,10 @@ import { DrawerInventoryPassport } from '../DrawerInventoryPassport';
 
 type Props = {
   onSuccess: (success: boolean) => void;
+  passports: IPassport[];
 };
 
-export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
+export const FormSendPassport: React.FC<Props> = ({ onSuccess, passports }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -36,7 +40,7 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const { colorMode } = useColorMode();
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
   const formFocusBg = useColorModeValue('white', 'gray.600');
@@ -56,10 +60,6 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLanguage(event.target.value);
-  };
-
-  const handlerPassportIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassportId(Number(event.target.value));
   };
 
   const openDrawer = () => {
@@ -169,39 +169,18 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
             </FormControl>
 
             <FormControl id="passportNumber">
-              <FormLabel>‎ </FormLabel>
+              <FormLabel>{passportId ? <Text>{`Passaporte ID: ${passportId}`}</Text> : '‎'} </FormLabel>
               <Button
                 variant="outline"
                 borderRadius="lg"
                 onClick={openDrawer}
                 leftIcon={<FiSearch />}
-                _hover={{ bg: 'gray.100' }}
                 _focus={{ boxShadow: 'outline' }}
+                _hover={{ bg: colorMode === 'dark' ? 'gray.600' : 'gray.50  ' }}
               >
                 Buscar Passaporte
               </Button>
             </FormControl>
-
-            {/* <FormControl isRequired id="passportNumber">
-              <FormLabel color={textLabelColor}>Selec</FormLabel>
-              <Input
-                bg={formBg}
-                type="number"
-                borderRadius="lg"
-                value={passportId}
-                placeholder="Passaporte"
-                onChange={handlerPassportIdChange}
-                _placeholder={{ color: placeholderColor }}
-                _hover={{
-                  backgroundColor: formHoverBg,
-                }}
-                _focus={{
-                  backgroundColor: formFocusBg,
-                  borderColor: buttonBg,
-                  boxShadow: `0 0 0 1px ${buttonBg}`,
-                }}
-              />
-            </FormControl> */}
           </Grid>
           <Button
             mt={4}
@@ -219,7 +198,15 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess }) => {
           </Button>
         </Stack>
       </form>
-      <DrawerInventoryPassport isOpen={isDrawerOpen} onClose={closeDrawer} />
+      <DrawerInventoryPassport
+        passports={passports}
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        onChange={(passportId: number) => {
+          setPassportId(passportId);
+          closeDrawer();
+        }}
+      />
     </>
   );
 };

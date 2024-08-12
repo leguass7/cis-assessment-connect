@@ -1,22 +1,34 @@
 import React from 'react';
 
-import { Box, Drawer, DrawerContent, DrawerOverlay, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, DrawerOverlay, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
 
 export const DrawerComponent = ({ children, isOpen, onClose }) => {
-  const drawerHeight = useBreakpointValue({ base: '100vh', sm: '50vh' });
+  // const drawerHeight = useBreakpointValue({ base: '60%', md: '80%' });
+  const drawerMaxWidth = useBreakpointValue({ base: '100%', md: '400px' });
+  const bgColorByDarkMode = useColorModeValue('white', 'gray.800');
 
   return (
-    <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
+    <Drawer isOpen={isOpen} onClose={onClose} placement={'top'}>
       <DrawerOverlay />
       <DrawerContent
-        overflowY="hidden"
-        height={drawerHeight}
+        height={'50%'}
+        overflowY="auto"
+        maxWidth={drawerMaxWidth}
         bgGradient="linear(135deg, #yourThemeColor 60%, #darkenedThemeColor 100%)"
         _dark={{
           bgGradient: 'linear(135deg, #darkThemeColor 60%, #evenDarkerThemeColor 100%)',
         }}
       >
-        <Box maxH="100%" height="100%" display="flex" position="relative" flexDirection="column" justifyContent="center">
+        <Box
+          maxH="100%"
+          height="100%"
+          display="flex"
+          position="relative"
+          flexDirection="column"
+          justifyContent="center"
+          bgColor={bgColorByDarkMode}
+          padding={{ base: 4, md: 8 }}
+        >
           {children}
         </Box>
       </DrawerContent>
