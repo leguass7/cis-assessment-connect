@@ -4,6 +4,11 @@ export type IResponseSendPassport = IResponseApi & {
   passportId: number;
 };
 
+export type IPaginateParams = {
+  page?: number;
+  size?: number;
+};
+
 export type IInventory = {
   passportId: number;
   id: number;

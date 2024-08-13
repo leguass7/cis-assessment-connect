@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiCircle, FiSearch } from 'react-icons/fi';
 
 import { Box, Divider, Flex, Icon, Input, InputGroup, InputLeftElement, Text, useColorModeValue } from '@chakra-ui/react';
 
+import { getPaginatePassport } from '~/services/passport';
 import type { IPassport } from '~/services/passport/passport.dto';
 
 import { DrawerComponent } from './DrawerComponent';
@@ -10,20 +11,34 @@ import { DrawerComponent } from './DrawerComponent';
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  passports: IPassport[];
   onChange: (passportId: number) => void;
 };
 
-export const DrawerInventoryPassport: React.FC<Props> = ({ isOpen, onChange, onClose, passports }) => {
+export const DrawerInventoryPassport: React.FC<Props> = ({ isOpen, onChange, onClose }) => {
   const [selectedPassportId, setSelectedPassportId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showSkeleton, setShowSkeleton] = useState(false);
+  const [listPassports, setListPassports] = useState<IPassport[]>([]);
+
+  const filteredPassports = listPassports.filter(passport => passport.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  const paginatePassports = useCallback(async () => {
+    setShowSkeleton(true);
+    const response = await getPaginatePassport({ page: 1, size: 30 });
+    setShowSkeleton(false);
+    if (response?.success) {
+      setListPassports(response?.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    paginatePassports();
+  }, [paginatePassports]);
 
   const handlePassportSelect = (passportId: number) => {
     setSelectedPassportId(passportId);
     onChange(passportId);
   };
-
-  const filteredPassports = passports.filter(passport => passport.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const searchBarBg = useColorModeValue('white', 'gray.800');
   const inputPlaceholderColor = useColorModeValue('gray.400', 'gray.500');
@@ -53,27 +68,31 @@ export const DrawerInventoryPassport: React.FC<Props> = ({ isOpen, onChange, onC
         </Box>
 
         <Box mt={10} paddingX={8} paddingY={4} background={searchBarBg}>
-          {filteredPassports.map((passport, index) => {
-            return (
-              <>
-                <Box cursor="pointer" key={passport.id} onClick={() => handlePassportSelect(passport?.id)}>
-                  <Flex py={2} align="center">
-                    <Icon
-                      mr={4}
-                      boxSize={6}
-                      as={selectedPassportId === passport.id ? FiCheckCircle : FiCircle}
-                      color={selectedPassportId === passport.id ? 'green.500' : 'gray.500'}
-                    />
-                    <Box>
-                      <Text fontWeight="bold">{passport.name}</Text>
-                      <Text color="gray.500">ID: {passport.id}</Text>
+          {filteredPassports.length > 0 ? (
+            <>
+              {filteredPassports?.map((passport, index) => {
+                return (
+                  <>
+                    <Box cursor="pointer" key={passport.id} onClick={() => handlePassportSelect(passport?.id)}>
+                      <Flex py={2} align="center">
+                        <Icon
+                          mr={4}
+                          boxSize={6}
+                          as={selectedPassportId === passport.id ? FiCheckCircle : FiCircle}
+                          color={selectedPassportId === passport.id ? 'green.500' : 'gray.500'}
+                        />
+                        <Box>
+                          <Text fontWeight="bold">{passport?.name}</Text>
+                          <Text color="gray.500">ID: {passport?.id}</Text>
+                        </Box>
+                      </Flex>
+                      {index < filteredPassports.length - 1 && <Divider borderColor={borderColorByDarkMode} />}
                     </Box>
-                  </Flex>
-                  {index < filteredPassports.length - 1 && <Divider borderColor={borderColorByDarkMode} />}
-                </Box>
-              </>
-            );
-          })}
+                  </>
+                );
+              })}
+            </>
+          ) : null}
         </Box>
       </Box>
     </DrawerComponent>

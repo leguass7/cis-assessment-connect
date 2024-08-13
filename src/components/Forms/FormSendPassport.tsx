@@ -19,27 +19,23 @@ import {
 } from '@chakra-ui/react';
 
 import { sendInventoryPassport } from '~/services/inventory';
-import type { IPassport } from '~/services/passport/passport.dto';
 
 import { useApiResponse } from '~/providers/AppProvider';
 
-import { DrawerInventoryPassport } from '../DrawerInventoryPassport';
-
 type Props = {
   onSuccess: (success: boolean) => void;
-  passports: IPassport[];
+  passportId: number;
+  onClick: () => void;
 };
 
-export const FormSendPassport: React.FC<Props> = ({ onSuccess, passports }) => {
+export const FormSendPassport: React.FC<Props> = ({ onClick, onSuccess, passportId }) => {
   const [load, setLoad] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [passportId, setPassportId] = useState(null);
   const [language, setLanguage] = useState('pt-br');
   const { passport } = useApiResponse();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { colorMode } = useColorMode();
   const formBg = useColorModeValue('gray.50', 'gray.700');
   const formHoverBg = useColorModeValue('gray.100', 'gray.600');
@@ -60,14 +56,6 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess, passports }) => {
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLanguage(event.target.value);
-  };
-
-  const openDrawer = () => {
-    setIsDrawerOpen(true);
-  };
-
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -173,7 +161,7 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess, passports }) => {
               <Button
                 variant="outline"
                 borderRadius="lg"
-                onClick={openDrawer}
+                onClick={onClick}
                 leftIcon={<FiSearch />}
                 _focus={{ boxShadow: 'outline' }}
                 _hover={{ bg: colorMode === 'dark' ? 'gray.600' : 'gray.50  ' }}
@@ -198,15 +186,6 @@ export const FormSendPassport: React.FC<Props> = ({ onSuccess, passports }) => {
           </Button>
         </Stack>
       </form>
-      <DrawerInventoryPassport
-        passports={passports}
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        onChange={(passportId: number) => {
-          setPassportId(passportId);
-          closeDrawer();
-        }}
-      />
     </>
   );
 };

@@ -33,6 +33,7 @@ import type { IPassport } from '~/services/passport/passport.dto';
 import { AccordionTablePassports } from '~/components/AccordionTablePassports';
 import { CodeHighlight } from '~/components/CodeHighlight';
 import { codeStringError } from '~/components/CodeHighlight/constants';
+import { DrawerInventoryPassport } from '~/components/DrawerInventoryPassport';
 import { FormCreatePassport } from '~/components/Forms/FormCreatePassport';
 import { FormSendPassport } from '~/components/Forms/FormSendPassport';
 import { PublicLayout } from '~/components/PublicLayout';
@@ -59,6 +60,8 @@ const RouterApi = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [passports, setPassports] = useState<PreparedPassport[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [pasportId, setPasportId] = useState<number | null>(null);
 
   const buttonBg = useColorModeValue('cisBlue', 'gray.700');
   const bgCardColor = useColorModeValue('white', 'gray.800');
@@ -70,7 +73,7 @@ const RouterApi = () => {
 
   const paginatePassports = useCallback(async () => {
     setShowSkeleton(true);
-    const response = await getPaginatePassport();
+    const response = await getPaginatePassport({ page: 1, size: 10 });
     setShowSkeleton(false);
     if (response?.success) {
       setPassports(response?.data);
@@ -108,6 +111,14 @@ const RouterApi = () => {
       setSuccessSendPassport(success);
       onClose();
     }
+  };
+
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
   };
 
   useAOSAnimation();
@@ -237,7 +248,7 @@ const RouterApi = () => {
             <ModalHeader>Enviar Passaporte</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormSendPassport passports={passports} onSuccess={handlerChangeSendSuccess} />
+              <FormSendPassport onClick={openDrawer} passportId={pasportId} onSuccess={handlerChangeSendSuccess} />
             </ModalBody>
             <ModalFooter paddingY={2} paddingBottom={5}>
               <Button width={'full'} onClick={onClose}>
@@ -246,6 +257,14 @@ const RouterApi = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+        <DrawerInventoryPassport
+          isOpen={isDrawerOpen}
+          onClose={closeDrawer}
+          onChange={(passportId: number) => {
+            setPasportId(passportId);
+            closeDrawer();
+          }}
+        />
       </PublicLayout>
     </>
   );

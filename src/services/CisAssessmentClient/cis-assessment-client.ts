@@ -2,7 +2,7 @@ import type { InternalAxiosRequestConfig } from 'axios';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import type { IResponseCreditSummary } from '../credits/credits.dto';
-import type { IResponseSendPassport } from '../inventory/inventory.dto';
+import type { IPaginateParams, IResponseSendPassport } from '../inventory/inventory.dto';
 import type { ICreatePassport, IResponsePaginatePassport, IResponsePassport } from '../passport/passport.dto';
 import type { GrantType } from './cis-assessment-auth.dto';
 import { payloadByGrantType } from './cis-assessment-auth.dto';
@@ -160,8 +160,8 @@ export class CisAssessmentClient {
     return response?.data;
   }
 
-  async paginatePassport(): Promise<IResponsePaginatePassport> {
-    const response = await this.axios.get(`/company/passport`, { params: { page: 1, size: 5 } });
+  async paginatePassport({ page = 1, size = 10 }: IPaginateParams = {}): Promise<IResponsePaginatePassport> {
+    const response = await this.axios.get(`/company/passport`, { params: { page, size } });
     return response?.data;
   }
 
