@@ -42,7 +42,6 @@ export const FormPassword: React.FC<Props> = ({ onChange }) => {
     setLoad(true);
     const response = await authAuthentication(email, password, 'password');
     setLoad(false);
-
     if (response?.success) {
       setAuthPassword(true);
       await setStore({

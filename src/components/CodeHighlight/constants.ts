@@ -45,14 +45,14 @@ export const passwordGrantPayload = `
   "grantType": "password",
   "username": "string",
   "password": "string",
-  "responseType": "refreshToken"  
+  "responseType": "refreshToken"
 }
 `;
 
 export const refreshTokenGrantPayload = `
 {
   "grantType": "refreshToken",
-  "refreshToken": "string"  
+  "refreshToken": "string"
 }
 `;
 
