@@ -1,0 +1,942 @@
+{
+	"info": {
+		"_postman_id": "d5557e0b-4387-4834-af96-f55b79864d14",
+		"name": "docs-api",
+		"description": "Documentação CIS-Assessment-API\n\nInformações pertinentes:\n\n- Funcionalidades relacionadas a envio de email e outras soluções de mensagens estão desabilitadas pro servidor de sandbox.\n    \n- No servidor de sandbox você é incubido de 1000 créditos para teste ao criar uma chave de homologação no seu sistema.\n    \n- A equipe de devs do CisAssessment está à disposição para auxiliar em qualquer coisa. Se necessário pode contatar o suporte [contato@cisassessment.com.br](https://mailto:contato@cisassessment.com.br) com o assunto CISASSESSMENT-API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37770756",
+		"_collection_link": "https://cisassessment-7112.postman.co/workspace/CisAssessment-Workspace~9e5fd61f-c3ec-44c9-8ba5-1d4cc0e27d96/collection/37770756-d5557e0b-4387-4834-af96-f55b79864d14?action=share&source=collection_link&creator=37770756"
+	},
+	"item": [
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "client_id",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "client_secret",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/9.3.1"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"grantType\": \"password\",\n    \"username\": \"email@conta.com\",\n    \"password\": \"senha\", \n    \"responseType\": \"refreshToken\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/oauth/authorize",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"authorize"
+							]
+						},
+						"description": "GrantType\n\n- \"password\": Usado se você é o dono da conta, passe o email e senha padrão e será autenticado\n    \n- \"ClientCredentials\": Se você recebeu o clientId e clientSecret do usuário você deve usar eles como parametro para o login\n    \n\nResponseType\n\n- \"refreshToken\": Retorna também um token de atualização que pode ser usado para refazer um token de acesso\n    \n- \"accessToken\": Retorno padrão onde retorna apenas um token de acesso"
+					},
+					"response": []
+				},
+				{
+					"name": "clientCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/9.3.1"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"clientId\": \"DEV_IDLYwDDieAu9iF46Kv6xARCQ\",\n\t\"clientSecret\": \"DEV_ID051b36f01f39401c884fcf0bce263044\",\n\t\"grantType\": \"clientCredentials\",\n    \"responseType\": \"refreshToken\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/oauth/authorize",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"authorize"
+							]
+						},
+						"description": "GrantType\n\n- \"ClientCredentials\": Se você recebeu o clientId e clientSecret do usuário você deve usar eles como parametro para o login\n    \n\nResponseType\n\n- \"refreshToken\": Retorna também um token de atualização que pode ser usado para refazer um token de acesso\n    \n- \"accessToken\": Retorno padrão onde retorna apenas um token de acesso"
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/9.3.1"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/oauth/refreshToken?token={{refreshToken}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"refreshToken"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{refreshToken}}"
+								}
+							]
+						},
+						"description": "Um Get onde se passa o refreshToken e é retornado um accessToken e um outro refreshToken.\n\nAo utilizar um refreshToken o mesmo perde a validade e deve-se usar o que foi retornado na requisição para voltar a fazer a chamada"
+					},
+					"response": []
+				}
+			],
+			"description": "Nosso modelo de autenticação baseado no OAuth 2.0",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Faz o parse do body da resposta como JSON\r",
+							"let responseBody = pm.response.json();\r",
+							"\r",
+							"const refreshToken = responseBody?.refreshToken;\r",
+							"const token = responseBody?.accessToken;\r",
+							"\r",
+							"// Verifica se 'refreshToken' existe no corpo da resposta e se tem um comprimento válido\r",
+							"if (refreshToken && !!refreshToken.length) {\r",
+							"    // Define a variável de ambiente 'refreshToken' com o valor do token\r",
+							"    pm.collectionVariables.set('refreshToken', refreshToken);\r",
+							"    console.log(\"Refresh token atualizado:\", refreshToken);\r",
+							"}\r",
+							"\r",
+							"if (token && !!token.length){\r",
+							"    pm.collectionVariables.set('token', token);\r",
+							"    console.log(\"token atualizado:\", responseBody.refreshToken);\r",
+							"}\r",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "passport (Campanha)",
+					"item": [
+						{
+							"name": "Inventory",
+							"item": [
+								{
+									"name": "paginate",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/company/passport/1/inventory?order=desc&orderby=created&size=1&search=text",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"1",
+												"inventory"
+											],
+											"query": [
+												{
+													"key": "order",
+													"value": "desc"
+												},
+												{
+													"key": "orderby",
+													"value": "created"
+												},
+												{
+													"key": "size",
+													"value": "1"
+												},
+												{
+													"key": "search",
+													"value": "text"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "one",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/company/passport/5/inventory/2",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"5",
+												"inventory",
+												"2"
+											]
+										},
+										"description": "GET BY ID de campanha"
+									},
+									"response": []
+								},
+								{
+									"name": "resend",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/company/passport/4/inventory/1/resend",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"4",
+												"inventory",
+												"1",
+												"resend"
+											]
+										},
+										"description": "Reenvia por email o link para resposta"
+									},
+									"response": []
+								},
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Leandro\",\n\t\"email\": \"leandro.sbrissa@hotmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/company/passport/5/inventory",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"5",
+												"inventory"
+											]
+										},
+										"description": "Cria um inventario\n\nlanguage: ('pt-br' | 'en' | 'es'),\n\nname: string,\n\nemail: string"
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"language\": \"pt_BR\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/company/passport/105545/inventory/1461968",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"105545",
+												"inventory",
+												"1461968"
+											]
+										},
+										"description": "Altera valores de um inventario  \nvalores disponiveis:\n\nlanguage: ('pt-br' | 'en' | 'es'),"
+									},
+									"response": []
+								},
+								{
+									"name": "get by person",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": []
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"followRedirects": true,
+										"disableUrlEncoding": false,
+										"disableCookies": false
+									},
+									"request": {
+										"auth": {
+											"type": "inherit"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/company/passport/inventory/1001",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"company",
+												"passport",
+												"inventory",
+												"1001"
+											]
+										},
+										"description": "Rota para listar inventarios pelo id do cliente:  \nRetorna os inventarios enviados pelo usuario autenticado ao cliente passado pelo param"
+									},
+									"response": []
+								}
+							],
+							"description": "Inventario são os questionarios usados no nosso sistema. Está sempre relacionado a uma campanha e a uma pessoa"
+						},
+						{
+							"name": "paginate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/company/passport?fetchId=0&page=1&size=12&orderby=id&order=desc&search=titulo",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"passport"
+									],
+									"query": [
+										{
+											"key": "fetchId",
+											"value": "0"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "12"
+										},
+										{
+											"key": "orderby",
+											"value": "id"
+										},
+										{
+											"key": "order",
+											"value": "desc"
+										},
+										{
+											"key": "search",
+											"value": "titulo"
+										}
+									]
+								},
+								"description": "Paginação de campanhas"
+							},
+							"response": []
+						},
+						{
+							"name": "one",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "inherit"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/company/passport/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"passport",
+										"1"
+									]
+								},
+								"description": "GET BY ID de campanha"
+							},
+							"response": []
+						},
+						{
+							"name": "remove",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": []
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "inherit"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/company/passport/274",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"passport",
+										"274"
+									]
+								},
+								"description": "Deleta uma campanha vazia"
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Teste Editado, correção (79700)\",\n\t\"occupationAreaId\": 19\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/company/passport/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"passport",
+										"3"
+									]
+								},
+								"description": "Altera valores de uma campanha:  \nValores possiveis\n\nname: string\n\noccupationAreaId : { GLOBAL = 18, PERSONAL = 19, PROFESSIONAL = 20}\n\ncanDownloadReport: boolean"
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Editado (testes 44)\",\n\t\"reportTypeId\": 5,\n    \"occupationAreaId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/company/passport",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"passport"
+									]
+								},
+								"description": "Cria uma campanha:\n\nname: string\n\noccupationAreaId : { GLOBAL = 18, PERSONAL = 19, PROFESSIONAL = 20}\n\ncanDownloadReport: boolean\n\nreportTypeId: number => ver valores em /report-type"
+							},
+							"response": []
+						},
+						{
+							"name": "report-type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report-type",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report-type"
+									]
+								},
+								"description": "Valores para a criação de campanha\n\ndetermina o tipo de relatório a ser criado"
+							},
+							"response": []
+						}
+					],
+					"description": "Campanha é uma pasta de inventarios. É aqui onde eles serão guardados e é passado como parametro para todas chamadas de inventario por questão de segurança."
+				},
+				{
+					"name": "person",
+					"item": [
+						{
+							"name": "paginate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/company/person",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"person"
+									]
+								},
+								"description": "Pagina seus clientes | usuarios de inventarios"
+							},
+							"response": []
+						},
+						{
+							"name": "get one",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/company/person/970922",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"company",
+										"person",
+										"970922"
+									]
+								},
+								"description": "Get By Id de um cliente"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3339/api/v1"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
