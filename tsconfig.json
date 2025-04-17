@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ],
+      "@server-side/*": [
+        "src/components/server-side/*"
+      ],
+      "@layouts/*": [
+        "src/components/app/layouts/*"
+      ],
+      "@admin/*": [
+        "src/components/app/admin/*"
+      ],
+      "@company/*": [
+        "src/components/app/company/*"
+      ],
+      "@partner/*": [
+        "src/components/app/partner/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "package.json",
+    "src/hooks/aosAnimatetsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
